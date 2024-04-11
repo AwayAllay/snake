@@ -10,7 +10,7 @@ public class GameFrame extends JFrame {
         frame.setTitle("Snake");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
-        frame.setSize(2000, 2000);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLayout(null);
         frame.addKeyListener(new KeyListener());
         frame.setVisible(true);
