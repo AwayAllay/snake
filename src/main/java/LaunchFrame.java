@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,19 +11,16 @@ public class LaunchFrame implements ActionListener {
 
     private final JButton button;
     private final JFrame frame;
-
-    private Timer timer;
-
-    private JLabel head;
     private JLabel letter;
     private ImageIcon image;
     private JPanel panel;
+    private SnakeHead head;
+    private List<Boost> boosts = new ArrayList<>();
+    private List<SnakeTail> tails = new ArrayList<>();
     public LaunchFrame(){
 
         frame = new JFrame("Launch game");
-        timer = new Timer();
-
-        letter = new JLabel("SNAKE");
+        letter = new JLabel();
         letter.setBounds(145, 100, 250, 60);
         letter.setVisible(true);
         letter.setFont(new Font("Arial", Font.BOLD, 60));
@@ -42,8 +41,7 @@ public class LaunchFrame implements ActionListener {
         panel.add(button);
         panel.add(letter);
 
-        head = new SnakeHead(125, -10, 10, 10);
-        head.setVisible(true);
+        head = new SnakeHead(-10, 300, 10, 10);
         frame.add(head);
 
 
@@ -59,66 +57,128 @@ public class LaunchFrame implements ActionListener {
 
     }
 
+/** Starts to play the animation for the launcher intro*/
     private void playIntroAnimation() {
-
-        //250/ 4 = 62,5
         drawText();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                SnakeTail tailpiece = new SnakeTail(head.getX(), head.getY(), 10, 10);
-                panel.add(tailpiece);
-                runDown();
-            }
-        }, 3500, 200);
+        drawApples();
+        snakeCrawl();
     }
 
-    private void drawText() { //FIXME
-        String word = "SNAKE";
-        int wordWidht = word.length() * 50;
-        int xOffset = (frame.getWidth() - wordWidht) / 2;
 
-        for (int i = 0; i < word.length(); i++) {
-            Timer timer1 = new Timer();
-            timer1.scheduleAtFixedRate(new TimerTask() {
+    private void snakeCrawl() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
 
-                int i = 0;
-                @Override
-                public void run() {
-                    if (i < word.length()) {
-                        i++;
-                        JLabel letter = new JLabel(String.valueOf(word.charAt(i)));
-                        letter.setFont(new Font("Arial", Font.BOLD, 24));
-                        letter.setBounds(xOffset + i * 50, 200, 50, 50); // Positionierung der Buchstaben
-                        frame.add(letter);
-                    }else {
-                        cancel();
-                    }
+            int counter = 0;
+            @Override
+            public void run() {
+
+                if (counter < 50) {
+
+                    testEaten();
+
+                    SnakeTail tailpiece = new SnakeTail(head.getX(), head.getY(), 10, 10);
+                    panel.add(tailpiece);
+                    runRight();
+                    tails.add(tailpiece);
+                    counter++;
+
+                } else {
+                    deleteSnake();
+                    cancel();
                 }
-            }, 3000, 200);
-            //JLabel letter = new JLabel(String.valueOf(word.charAt(i)));
-            //letter.setFont(new Font("Arial", Font.BOLD, 24));
-            //letter.setBounds(xOffset + i * 50, 200, 50, 50); // Positionierung der Buchstaben
-            //frame.add(letter);
+            }
+        }, 10000, 200);
+    }
+
+    private void deleteSnake() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            int i = 0;
+            @Override
+            public void run() {
+                if (i < tails.size()) {
+                    panel.remove(tails.get(i));
+                    panel.revalidate();
+                    panel.repaint();
+                    i++;
+                }else {
+                    tails.clear();
+                    cancel();
+                }
+            }
+        }, 0, 200);
+    }
+
+
+    private void testEaten() {
+        for (Component component : panel.getComponents()) {
+
+            if (component instanceof Boost){
+
+                JLabel label = (Boost) component;
+
+                if (component.getX() == head.getX()){
+                    panel.remove(label);
+                    panel.revalidate();
+                    panel.repaint();
+                    break;
+                }
+            }
         }
     }
 
-    private void runUp(){
-        head.setLocation(head.getX(), head.getY() - 10);
+
+    private void drawApples() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int x = 40;
+            int boostcount = 0;
+            @Override
+            public void run() {
+                if (boostcount < 11) {
+                    Boost boost = new Boost(x, 300, 10, 10, null);
+                    panel.add(boost);
+                    boosts.add(boost);
+                    x += 40;
+                    boostcount++;
+                    panel.revalidate();
+                    panel.repaint();
+                }else {
+                    cancel();
+                }
+            }
+        }, 4000, 400);
+
     }
-    private void runLeft(){
-        head.setLocation(head.getX() - 10, head.getY());
+
+
+    private void drawText() {
+        String word = "SNAKE";
+        Timer wordTimer = new Timer();
+        wordTimer.scheduleAtFixedRate(new TimerTask() {
+            int index = 0;
+            @Override
+            public void run() {
+                if (index < 5) {
+                    letter.setText(letter.getText() + word.charAt(index));
+                    index++;
+                }else {
+                    cancel();
+                }
+            }
+        }, 1500, 400);
     }
-    private void runDown(){
-        head.setLocation(head.getX(), head.getY() + 10);
-    }
+
+
     private void runRight(){
         head.setLocation(head.getX() + 10, head.getY());
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == button) {
             new GameFrame();
             frame.dispose();
