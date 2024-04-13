@@ -1,18 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
-public class GameFrame extends JFrame {
+public abstract class GameFrame extends JFrame {
 
-    JFrame frame;
-    ImageIcon image;
+    private JFrame frame;
+    private ImageIcon image;
+    private JPanel panel;
 
-    public GameFrame(){
+    public GameFrame() {
         frame = new JFrame();
+        panel = new JPanel();
+
+        initializeFrame();
+    }
+
+    private void initializeFrame() {
         try {
-            image = new ImageIcon(getClass().getResource("Snake.png"));
+            image = new ImageIcon(Objects.requireNonNull(getClass().getResource("Snake.png")));
             frame.setIconImage(image.getImage());
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Image not found");
         }
         frame.setTitle("Snake");
@@ -21,6 +29,8 @@ public class GameFrame extends JFrame {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLayout(null);
         frame.addKeyListener(new KeyListener());
+
+        frame.add(panel);
         frame.setVisible(true);
     }
 

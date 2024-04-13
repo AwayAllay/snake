@@ -9,6 +9,7 @@ import java.util.Timer;
 public class LaunchFrame implements ActionListener {
 
     private final JButton button;
+    private final JButton settingsButton;
     private final JFrame frame;
     private final JLabel letter;
     private final JPanel panel;
@@ -38,7 +39,13 @@ public class LaunchFrame implements ActionListener {
         button.setFocusable(false);
         button.addActionListener(this);
 
+        settingsButton = new JButton("Settings");
+        settingsButton.setBounds(125, 400, 250, 60);
+        settingsButton.setFocusable(false);
+        settingsButton.addActionListener(this);
+
         panel.add(button);
+        panel.add(settingsButton);
         panel.add(letter);
 
         head = new SnakeHead(-10, 300, 10, 10);
@@ -212,9 +219,19 @@ public class LaunchFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button) {
-            new GameFrame();
+
+        if (e.getSource() instanceof JButton klickedButton) {
+
+            if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
+                //TODO GameFrame
+                new LaunchFrame();
+            } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
+                new SettingsFrame();
+            }
             frame.dispose();
+
+        }else {
+            System.out.println("Sth went wrong");
         }
     }
 }
