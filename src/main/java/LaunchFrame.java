@@ -17,7 +17,8 @@ public class LaunchFrame implements ActionListener {
     private SnakeHead head;
     private List<Boost> boosts = new ArrayList<>();
     private List<SnakeTail> tails = new ArrayList<>();
-    public LaunchFrame(){
+
+    public LaunchFrame() {
 
         frame = new JFrame("Launch game");
         letter = new JLabel();
@@ -29,13 +30,13 @@ public class LaunchFrame implements ActionListener {
             image = new ImageIcon(getClass().getResource("Snake.png"));
             frame.setIconImage(image.getImage());
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Image not found");
         }
 
         panel = new JPanel(null);
         button = new JButton("Play game!");
-        button.setBounds(125, 500,250, 60);
+        button.setBounds(125, 500, 250, 60);
         button.setFocusable(false);
         button.addActionListener(this);
         panel.add(button);
@@ -57,7 +58,9 @@ public class LaunchFrame implements ActionListener {
 
     }
 
-/** Starts to play the animation for the launcher intro*/
+    /**
+     * Starts to play the animation for the launcher intro
+     */
     private void playIntroAnimation() {
         drawText();
         drawApples();
@@ -65,11 +68,14 @@ public class LaunchFrame implements ActionListener {
     }
 
 
+    /**
+     * Lets the LauncherFrameSnake crawl across the Frame
+     */
     private void snakeCrawl() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-
             int counter = 0;
+
             @Override
             public void run() {
 
@@ -91,11 +97,15 @@ public class LaunchFrame implements ActionListener {
         }, 10000, 200);
     }
 
+    /**
+     * Starts to remove the Snake from the Frame
+     */
     private void deleteSnake() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
             int i = 0;
+
             @Override
             public void run() {
                 if (i < tails.size()) {
@@ -103,7 +113,7 @@ public class LaunchFrame implements ActionListener {
                     panel.revalidate();
                     panel.repaint();
                     i++;
-                }else {
+                } else {
                     tails.clear();
                     cancel();
                 }
@@ -112,14 +122,17 @@ public class LaunchFrame implements ActionListener {
     }
 
 
+    /**
+     * Looks if a boost gets eaten by the Sneak Head, and removes it if so
+     */
     private void testEaten() {
         for (Component component : panel.getComponents()) {
 
-            if (component instanceof Boost){
+            if (component instanceof Boost) {
 
                 JLabel label = (Boost) component;
 
-                if (component.getX() == head.getX()){
+                if (component.getX() == head.getX()) {
                     panel.remove(label);
                     panel.revalidate();
                     panel.repaint();
@@ -130,11 +143,16 @@ public class LaunchFrame implements ActionListener {
     }
 
 
+    /**
+     * Secondly called by the playIntroAnimation Method, and draws a few boosts
+     * across the LaunchFrame
+     */
     private void drawApples() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             int x = 40;
             int boostcount = 0;
+
             @Override
             public void run() {
                 if (boostcount < 11) {
@@ -145,7 +163,7 @@ public class LaunchFrame implements ActionListener {
                     boostcount++;
                     panel.revalidate();
                     panel.repaint();
-                }else {
+                } else {
                     cancel();
                 }
             }
@@ -154,17 +172,21 @@ public class LaunchFrame implements ActionListener {
     }
 
 
+    /**
+     * Firstly called by the playIntroAnimation Method, and lets the Word SNAKE appear char by char
+     */
     private void drawText() {
         String word = "SNAKE";
         Timer wordTimer = new Timer();
         wordTimer.scheduleAtFixedRate(new TimerTask() {
             int index = 0;
+
             @Override
             public void run() {
                 if (index < 5) {
                     letter.setText(letter.getText() + word.charAt(index));
                     index++;
-                }else {
+                } else {
                     cancel();
                 }
             }
@@ -172,11 +194,17 @@ public class LaunchFrame implements ActionListener {
     }
 
 
-    private void runRight(){
+    /**
+     * Moves the head int positive x direction
+     */
+    private void runRight() {
         head.setLocation(head.getX() + 10, head.getY());
     }
 
 
+    /**
+     * Looks for the button to be clicked and calls the main Game Frame
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
