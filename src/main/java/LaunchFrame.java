@@ -2,61 +2,67 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class LaunchFrame implements ActionListener {
 
     private final JButton button;
     private final JFrame frame;
-    private JLabel letter;
-    private ImageIcon image;
-    private JPanel panel;
-    private SnakeHead head;
-    private List<Boost> boosts = new ArrayList<>();
-    private List<SnakeTail> tails = new ArrayList<>();
+    private final JLabel letter;
+    private final JPanel panel;
+    private final SnakeHead head;
+    private final List<SnakeTail> tails = new ArrayList<>();
 
     public LaunchFrame() {
 
         frame = new JFrame("Launch game");
+
         letter = new JLabel();
         letter.setBounds(145, 100, 250, 60);
         letter.setVisible(true);
         letter.setFont(new Font("Arial", Font.BOLD, 60));
 
         try {
-            image = new ImageIcon(getClass().getResource("Snake.png"));
+            ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("Snake.png")));
             frame.setIconImage(image.getImage());
-
         } catch (NullPointerException e) {
             System.out.println("Image not found");
         }
 
         panel = new JPanel(null);
+
         button = new JButton("Play game!");
         button.setBounds(125, 500, 250, 60);
         button.setFocusable(false);
         button.addActionListener(this);
+
         panel.add(button);
         panel.add(letter);
 
         head = new SnakeHead(-10, 300, 10, 10);
-        frame.add(head);
 
+        frame.add(head);
+        frame.add(panel);
+
+        prepareLaunchFrame();
+        playIntroAnimation();
+    }
+
+    /**Prepares the main frame*/
+    private void prepareLaunchFrame(){
 
         frame.setSize(500, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setAlwaysOnTop(true);
         frame.setResizable(false);
-        frame.add(panel);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        playIntroAnimation();
-
     }
+
+
 
     /**
      * Starts to play the animation for the launcher intro
@@ -158,7 +164,6 @@ public class LaunchFrame implements ActionListener {
                 if (boostcount < 11) {
                     Boost boost = new Boost(x, 300, 10, 10, null);
                     panel.add(boost);
-                    boosts.add(boost);
                     x += 40;
                     boostcount++;
                     panel.revalidate();

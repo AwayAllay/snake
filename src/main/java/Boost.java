@@ -13,8 +13,4 @@ public class Boost extends JLabel {
         setVisible(true);
     }
 
-    public void setColor(Color pcolor){
-        setBackground(pcolor);
-    }
-
 }
