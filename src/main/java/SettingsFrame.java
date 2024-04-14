@@ -6,36 +6,38 @@ import java.util.Objects;
 public class SettingsFrame extends JFrame implements ActionListener {
 
     private final JFrame frame;
-    private final JButton difficulty;
 
-    private final JPanel panel;
+    private String mode;
 
-    private final JButton back;
-
-    private final JButton cosmetic;
-
-    public SettingsFrame(){
+    public SettingsFrame() {
 
         frame = new JFrame("Settings");
         prepareLaunchFrame();
 
-        panel = new JPanel();
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
 
-        difficulty = new JButton("Difficulty");
+        JButton difficulty = new JButton("Difficulty");
         difficulty.setFocusable(false);
-        difficulty.setBounds(125, 400, 250, 60);
+        difficulty.setBounds(125, 230, 250, 60);
         difficulty.addActionListener(this);
         panel.add(difficulty);
 
-        cosmetic = new JButton("Cosmetics");
+        JButton gamerules = new JButton("Game-rules");
+        gamerules.setFocusable(false);
+        gamerules.setBounds(125, 115, 250, 60);
+        gamerules.addActionListener(this);
+        panel.add(gamerules);
+
+        JButton cosmetic = new JButton("Cosmetics");
         cosmetic.setFocusable(false);
-        cosmetic.setBounds(125, 400, 250, 60);
+        cosmetic.setBounds(125, 345, 250, 60);
         cosmetic.addActionListener(this);
         panel.add(cosmetic);
 
-        back = new JButton("Back");
+        JButton back = new JButton("Back");
         back.setFocusable(false);
-        back.setBounds(125, 400, 250, 60);
+        back.setBounds(125, 460, 250, 60);
         back.addActionListener(this);
         panel.add(back);
 
@@ -43,7 +45,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
     }
 
-    private void prepareLaunchFrame(){
+    private void prepareLaunchFrame() {
 
         frame.setSize(500, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,22 +62,51 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
     }
 
+    /**Listener for the different buttons*/
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() instanceof JButton button){
+        if (e.getSource() instanceof JButton button) {
 
-            if (button.getText().equalsIgnoreCase("Difficulty")){
-
+            if (button.getText().equalsIgnoreCase("Difficulty")) {
+                frame.dispose();
+                setDifficulty();
             } else if (button.getText().equalsIgnoreCase("Cosmetics")) {
-
+                frame.dispose();
+                new Cosmetics();
             } else if (button.getText().equalsIgnoreCase("Back")) {
+                frame.dispose();
                 new LaunchFrame();
+            } else if (button.getText().equalsIgnoreCase("Game-rules")) {
+                frame.dispose();
+                new GameRuleFrame();
             }
-
-            frame.dispose();
-
         }
 
+    }
+
+    /**Gets an input difficulty as String and puts it, if valid, in Lowercase as value for the String mode*/
+    private void setDifficulty() {
+
+        String choice = JOptionPane.showInputDialog("Select Difficulty: \n <Noob, Beginner, Adult, Master, God>");
+
+        if (choice != null) {
+            if (choice.equalsIgnoreCase("Noob")
+                    || choice.equalsIgnoreCase("Beginner")
+                    || choice.equalsIgnoreCase("Adult")
+                    || choice.equalsIgnoreCase("Master")
+                    || choice.equalsIgnoreCase("God")) {
+                mode = choice.toLowerCase();
+                System.out.println(mode);
+            } else {
+                JOptionPane.showMessageDialog(null, "That is NOT a selectable difficulty!", "Not a difficulty!", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        new SettingsFrame();
+    }
+
+    /**Gets the mode in lowercase String*/
+    public String getMode() {
+        return mode;
     }
 }

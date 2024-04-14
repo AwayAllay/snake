@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-//import java.util.Objects;
+import java.util.Objects;
 
 public class Boost extends JLabel {
 
@@ -8,9 +8,9 @@ public class Boost extends JLabel {
 
         if (color == null) color = new Color(180, 0, 0);
 
-       /* try {
+        /*try {
             ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("Boost.png")));
-            Image scaledIcon = icon.getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+            Image scaledIcon = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             ImageIcon finalIcon = new ImageIcon(scaledIcon);
             setIcon(finalIcon);
         }catch (NullPointerException e){
