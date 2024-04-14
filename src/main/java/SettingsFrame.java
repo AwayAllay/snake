@@ -73,7 +73,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
                 setDifficulty();
             } else if (button.getText().equalsIgnoreCase("Cosmetics")) {
                 frame.dispose();
-                new Cosmetics();
+                new Skins();
             } else if (button.getText().equalsIgnoreCase("Back")) {
                 frame.dispose();
                 new LaunchFrame();
