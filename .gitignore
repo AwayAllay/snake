@@ -27,6 +27,7 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+snake.properties
 
 ### NetBeans ###
 /nbproject/private/

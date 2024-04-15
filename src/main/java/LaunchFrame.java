@@ -16,7 +16,11 @@ public class LaunchFrame implements ActionListener {
     private final SnakeHead head;
     private final List<SnakeTail> tails = new ArrayList<>();
 
-    public LaunchFrame() {
+    private final Settings settings;
+
+    public LaunchFrame(Settings settings) {
+
+        this.settings = settings;
 
         frame = new JFrame("Launch game");
 
@@ -224,9 +228,9 @@ public class LaunchFrame implements ActionListener {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 //TODO GameFrame
-                new LaunchFrame();
+                new LaunchFrame(new SettingsManager().load());
             } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
-                new SettingsFrame();
+                new SettingsFrame(settings);
             }
             frame.dispose();
 

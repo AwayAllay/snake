@@ -8,7 +8,11 @@ public class SettingsFrame extends JFrame implements ActionListener {
     /**The displayed frame*/
     private final JFrame frame;
 
-    public SettingsFrame() {
+    private final Settings settings;
+
+    public SettingsFrame(Settings settings) {
+
+        this.settings = settings;
 
         frame = new JFrame("Settings");
         prepareLaunchFrame();
@@ -73,10 +77,10 @@ public class SettingsFrame extends JFrame implements ActionListener {
                 setDifficulty();
             } else if (button.getText().equalsIgnoreCase("Cosmetics")) {
                 frame.dispose();
-                new Skins();
+                new Skins(settings);
             } else if (button.getText().equalsIgnoreCase("Back")) {
                 frame.dispose();
-                new LaunchFrame();
+                new LaunchFrame(new SettingsManager().load());
             } else if (button.getText().equalsIgnoreCase("Game-rules")) {
                 frame.dispose();
                 new GameRuleFrame();
@@ -88,7 +92,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
     /**Gets an input difficulty as String and puts it, if valid, in Lowercase as value for the String mode*/
     private void setDifficulty() {
 
-        String choice = JOptionPane.showInputDialog("Select Difficulty: \n <Noob, Beginner, Adult, Master, God> \n current mode: " + Main.getMode());
+        String choice = JOptionPane.showInputDialog("Select Difficulty: \n <Noob, Beginner, Adult, Master, God> \n current mode: " + settings.getMode());
         String mode;
 
         if (choice != null) {
@@ -98,12 +102,13 @@ public class SettingsFrame extends JFrame implements ActionListener {
                     || choice.equalsIgnoreCase("Master")
                     || choice.equalsIgnoreCase("God")) {
                 mode = choice.toLowerCase();
-                Main.setMode(mode);
+                settings.setMode(mode);
                 System.out.println(mode);
+                new SettingsManager().save(settings);
             } else {
                 JOptionPane.showMessageDialog(null, "That is NOT a selectable difficulty!", "Not a difficulty!", JOptionPane.WARNING_MESSAGE);
             }
         }
-        new SettingsFrame();
+        new SettingsFrame(settings);
     }
 }

@@ -15,8 +15,12 @@ public class Skins implements ActionListener {
 
     /**The list of the Snaketails used to display the skins*/
     private final List<SnakeTail> tails = new ArrayList<>();
+    
+    private final Settings settings;
 
-    public Skins() {
+    public Skins(Settings settings) {
+        
+        this.settings = settings;
 
         frame = new JFrame("Skins");
         JPanel panel = new JPanel(null);
@@ -63,7 +67,7 @@ public class Skins implements ActionListener {
 
         frame.add(panel);
 
-        setSkinUsedSkin(Main.getSkin());
+        setSkinUsedSkin(settings.getSkin());
 
     }
 
@@ -110,16 +114,16 @@ public class Skins implements ActionListener {
         if (e.getSource() instanceof JButton button) {
 
             if (button.getText().equalsIgnoreCase("Next")) {
-                nextSkin(Main.getSkin());
+                nextSkin(settings.getSkin());
             } else if (button.getText().equalsIgnoreCase("Last")) {
-                lastSkin(Main.getSkin());
+                lastSkin(settings.getSkin());
             } else if (button.getText().equalsIgnoreCase("Select skin")) {
-                new SettingsManager().save();
-                System.out.println(Main.getSkin());
+                new SettingsManager().save(settings);
+                System.out.println(settings.getSkin());
 
             } else {
                 frame.dispose();
-                new SettingsFrame();
+                new SettingsFrame(settings);
             }
 
 
@@ -132,35 +136,35 @@ public class Skins implements ActionListener {
 
         switch (pactual) {
             case "default" -> {
-                Main.setSkin("gray");
+                settings.setSkin("gray");
                 changeSkinColor(new Color(96, 96, 96), new Color(32, 32, 32));
             }
             case "blue" -> {
-                Main.setSkin("default");
+                settings.setSkin("default");
                 changeSkinColor(new Color(0, 204, 0), new Color(0, 102, 0));
             }
             case "brown" -> {
-                Main.setSkin("blue");
+                settings.setSkin("blue");
                 changeSkinColor(new Color(0, 255, 255), new Color(0, 102, 102));
             }
             case "black" -> {
-                Main.setSkin("brown");
+                settings.setSkin("brown");
                 changeSkinColor(new Color(95, 48, 0), new Color(176, 88, 0));
             }
             case "red" -> {
-                Main.setSkin("black");
+                settings.setSkin("black");
                 changeSkinColor(new Color(0, 0, 0), new Color(200, 200, 200));
             }
             case "gold" -> {
-                Main.setSkin("red");
+                settings.setSkin("red");
                 changeSkinColor(new Color(204, 0, 0), new Color(55, 0, 0));
             }
             case "purple" -> {
-                Main.setSkin("gold");
+                settings.setSkin("gold");
                 changeSkinColor(new Color(255, 255, 0), new Color(153, 153, 0));
             }
             case "gray" -> {
-                Main.setSkin("purple");
+                settings.setSkin("purple");
                 changeSkinColor(new Color(204, 0, 102), new Color(102, 0, 51));
             }
         }
@@ -175,35 +179,35 @@ public class Skins implements ActionListener {
 
         switch (pactual) {
             case "default" -> {
-                Main.setSkin("blue");
+                settings.setSkin("blue");
                 changeSkinColor(new Color(0, 255, 255), new Color(0, 102, 102));
             }
             case "blue" -> {
-                Main.setSkin("brown");
+                settings.setSkin("brown");
                 changeSkinColor(new Color(95, 48, 0), new Color(176, 88, 0));
             }
             case "brown" -> {
-                Main.setSkin("black");
+                settings.setSkin("black");
                 changeSkinColor(new Color(0, 0, 0), new Color(200, 200, 200));
             }
             case "black" -> {
-                Main.setSkin("red");
+                settings.setSkin("red");
                 changeSkinColor(new Color(204, 0, 0), new Color(55, 0, 0));
             }
             case "red" -> {
-                Main.setSkin("gold");
+                settings.setSkin("gold");
                 changeSkinColor(new Color(255, 255, 0), new Color(153, 153, 0));
             }
             case "gold" -> {
-                Main.setSkin("purple");
+                settings.setSkin("purple");
                 changeSkinColor(new Color(204, 0, 102), new Color(102, 0, 51));
             }
             case "purple" -> {
-                Main.setSkin("gray");
+                settings.setSkin("gray");
                 changeSkinColor(new Color(96, 96, 96), new Color(32, 32, 32));
             }
             case "gray" -> {
-                Main.setSkin("default");
+                settings.setSkin("default");
                 changeSkinColor(new Color(0, 204, 0), new Color(0, 102, 0));
             }
         }
