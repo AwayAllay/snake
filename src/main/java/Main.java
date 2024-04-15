@@ -1,25 +1,27 @@
 public class Main {
 
-    private static String skin = "default";
-    private static String mode = "noob";
+    private static Settings settings = new Settings();
     public static void main(String[] args) {
+
+        settings = new SettingsManager().load();
+
         new LaunchFrame();
 
     }
 
     public static String getMode() {
-        return mode;
+        return settings.getMode();
     }
 
     public static void setMode(String mode) {
-        Main.mode = mode;
+        settings.setMode(mode);
     }
 
     public static String getSkin() {
-        return skin;
+        return settings.getSkin();
     }
 
     public static void setSkin(String skin) {
-        Main.skin = skin;
+        settings.setSkin(skin);
     }
 }

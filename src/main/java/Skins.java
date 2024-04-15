@@ -114,7 +114,7 @@ public class Skins implements ActionListener {
             } else if (button.getText().equalsIgnoreCase("Last")) {
                 lastSkin(Main.getSkin());
             } else if (button.getText().equalsIgnoreCase("Select skin")) {
-                //TODO write skin in Saves
+                new SettingsManager().save();
                 System.out.println(Main.getSkin());
 
             } else {
