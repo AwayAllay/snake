@@ -53,6 +53,7 @@ public class LaunchFrame implements ActionListener {
         panel.add(letter);
 
         head = new SnakeHead(-10, 300, 10, 10);
+        head.setBackground(settings.getSkin().headColor);
 
         frame.add(head);
         frame.add(panel);
@@ -104,6 +105,7 @@ public class LaunchFrame implements ActionListener {
                     panel.add(tailpiece);
                     runRight();
                     tails.add(tailpiece);
+                    tailpiece.setBackground(settings.getSkin().tailColor);
                     counter++;
 
                 } else {

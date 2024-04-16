@@ -75,6 +75,7 @@ public class Cosmetics implements ActionListener {
 
         setSkinUsedSkin(settings.getSkin());
 
+
     }
 
     /**
@@ -85,7 +86,7 @@ public class Cosmetics implements ActionListener {
 
         switch (pUsedSkin) {
             case DEFAULT, BROWN, BLACK, BLUE, RED, GOLD, PURPLE, GRAY ->
-                    changeSkinColor(pUsedSkin.headColor, pUsedSkin.tailColor);
+                    changeSkinColor(pUsedSkin.tailColor, pUsedSkin.headColor);
         }
     }
 
@@ -125,9 +126,9 @@ public class Cosmetics implements ActionListener {
                 if (isUnlocked(settings.getSkin())) {
                     new SettingsManager().save(settings);
                 }else {
-                    frame.dispose();
-                    JOptionPane.showMessageDialog(null, "Skin not unlocked", "Unlock skin at level " + sendUnlockMessage(settings.getSkin()), JOptionPane.WARNING_MESSAGE);
-                    new Cosmetics(settings);
+                    frame.setVisible(false);
+                    JOptionPane.showMessageDialog(null, ("Unlock skin at level " + sendUnlockMessage(settings.getSkin())), "Skin not unlocked", JOptionPane.WARNING_MESSAGE);
+                    frame.setVisible(true);
                 }
                 System.out.println(settings.getSkin());
 
@@ -188,80 +189,80 @@ public class Cosmetics implements ActionListener {
                 if (settings.getUnlockedLevel() > 29) {
                     //Ab lvl 30
                     settings.setSkin(Skins.GRAY);
-                    changeSkinColor(Skins.GRAY.headColor, Skins.GRAY.tailColor);
+                    changeSkinColor(Skins.GRAY.tailColor, Skins.GRAY.headColor);
                 } else {
                     settings.setSkin(Skins.GRAY);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BLUE -> {
                 if (settings.getUnlockedLevel() > 0) {
                     //Immer
                     settings.setSkin(Skins.DEFAULT);
-                    changeSkinColor(Skins.DEFAULT.headColor, Skins.DEFAULT.tailColor);
+                    changeSkinColor(Skins.DEFAULT.tailColor, Skins.DEFAULT.headColor);
                 } else {
                     settings.setSkin(Skins.DEFAULT);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BROWN -> {
                 if (settings.getUnlockedLevel() > 2) {
                     //Ab lvl 3
                     settings.setSkin(Skins.BLUE);
-                    changeSkinColor(Skins.BLUE.headColor, Skins.BLUE.tailColor);
+                    changeSkinColor(Skins.BLUE.tailColor, Skins.BLUE.headColor);
                 } else {
                     settings.setSkin(Skins.BLUE);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BLACK -> {
                 if (settings.getUnlockedLevel() > 4) {
                     //Ab lvl 5
                     settings.setSkin(Skins.BROWN);
-                    changeSkinColor(Skins.BROWN.headColor, Skins.BROWN.tailColor);
+                    changeSkinColor(Skins.BROWN.tailColor, Skins.BROWN.headColor);
                 } else {
                     settings.setSkin(Skins.BROWN);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case RED -> {
                 if (settings.getUnlockedLevel() > 9) {
                     //Ab lvl 10
                     settings.setSkin(Skins.BLACK);
-                    changeSkinColor(Skins.BLACK.headColor, Skins.BLACK.tailColor);
+                    changeSkinColor(Skins.BLACK.tailColor, Skins.BLACK.headColor);
                 } else {
                     settings.setSkin(Skins.BLACK);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case GOLD -> {
                 if (settings.getUnlockedLevel() > 14) {
                     //Ab lvl 15
                     settings.setSkin(Skins.RED);
-                    changeSkinColor(Skins.RED.headColor, Skins.RED.tailColor);
+                    changeSkinColor(Skins.RED.tailColor, Skins.RED.headColor);
                 } else {
                     settings.setSkin(Skins.RED);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case PURPLE -> {
                 if (settings.getUnlockedLevel() > 19) {
                     //Ab lvl 20
                     settings.setSkin(Skins.GOLD);
-                    changeSkinColor(Skins.GOLD.headColor, Skins.GOLD.tailColor);
+                    changeSkinColor(Skins.GOLD.tailColor, Skins.GOLD.headColor);
                 } else {
                     settings.setSkin(Skins.GOLD);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case GRAY -> {
                 if (settings.getUnlockedLevel() > 24) {
                     //Ab lvl 25
                     settings.setSkin(Skins.PURPLE);
-                    changeSkinColor(Skins.PURPLE.headColor, Skins.PURPLE.tailColor);
+                    changeSkinColor(Skins.PURPLE.tailColor, Skins.PURPLE.headColor);
                 } else {
                     settings.setSkin(Skins.PURPLE);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
         }
@@ -281,80 +282,80 @@ public class Cosmetics implements ActionListener {
                 if (settings.getUnlockedLevel() > 2) {
                     //Ab lvl 3
                     settings.setSkin(Skins.BLUE);
-                    changeSkinColor(Skins.BLUE.headColor, Skins.BLUE.tailColor);
+                    changeSkinColor(Skins.BLUE.tailColor, Skins.BLUE.headColor);
                 } else {
                     settings.setSkin(Skins.BLUE);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BLUE -> {
                 if (settings.getUnlockedLevel() > 4) {
                     //Ab lvl 5
                     settings.setSkin(Skins.BROWN);
-                    changeSkinColor(Skins.BROWN.headColor, Skins.BROWN.tailColor);
+                    changeSkinColor(Skins.BROWN.tailColor, Skins.BROWN.headColor);
                 } else {
                     settings.setSkin(Skins.BROWN);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BROWN -> {
                 if (settings.getUnlockedLevel() > 9) {
                     //Ab lvl 10
                     settings.setSkin(Skins.BLACK);
-                    changeSkinColor(Skins.BLACK.headColor, Skins.BLACK.tailColor);
+                    changeSkinColor(Skins.BLACK.tailColor, Skins.BLACK.headColor);
                 } else {
                     settings.setSkin(Skins.BLACK);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case BLACK -> {
                 if (settings.getUnlockedLevel() > 14) {
                     //Ab lvl 15
                     settings.setSkin(Skins.RED);
-                    changeSkinColor(Skins.RED.headColor, Skins.RED.tailColor);
+                    changeSkinColor(Skins.RED.tailColor, Skins.RED.headColor);
                 } else {
                     settings.setSkin(Skins.RED);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case RED -> {
                 if (settings.getUnlockedLevel() > 19) {
                     //Ab lvl 20
                     settings.setSkin(Skins.GOLD);
-                    changeSkinColor(Skins.GOLD.headColor, Skins.GOLD.tailColor);
+                    changeSkinColor(Skins.GOLD.tailColor, Skins.GOLD.headColor);
                 } else {
                     settings.setSkin(Skins.GOLD);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case GOLD -> {
                 if (settings.getUnlockedLevel() > 24) {
                     //Ab lvl 25
                     settings.setSkin(Skins.PURPLE);
-                    changeSkinColor(Skins.PURPLE.headColor, Skins.PURPLE.tailColor);
+                    changeSkinColor(Skins.PURPLE.tailColor, Skins.PURPLE.headColor);
                 } else {
                     settings.setSkin(Skins.PURPLE);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case PURPLE -> {
                 if (settings.getUnlockedLevel() > 29) {
                     //Ab lvl 30
                     settings.setSkin(Skins.GRAY);
-                    changeSkinColor(Skins.GRAY.headColor, Skins.GRAY.tailColor);
+                    changeSkinColor(Skins.GRAY.tailColor, Skins.GRAY.headColor);
                 } else {
                     settings.setSkin(Skins.GRAY);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
             case GRAY -> {
                 if (settings.getUnlockedLevel() > 0) {
                     //Immer
                     settings.setSkin(Skins.DEFAULT);
-                    changeSkinColor(Skins.DEFAULT.headColor, Skins.DEFAULT.tailColor);
+                    changeSkinColor(Skins.DEFAULT.tailColor, Skins.DEFAULT.headColor);
                 } else {
                     settings.setSkin(Skins.DEFAULT);
-                    changeSkinColor(Skins.NOT_UNLOCKED.headColor, Skins.NOT_UNLOCKED.tailColor);
+                    changeSkinColor(Skins.NOT_UNLOCKED.tailColor, Skins.NOT_UNLOCKED.headColor);
                 }
             }
         }
@@ -363,12 +364,12 @@ public class Cosmetics implements ActionListener {
     /**
      * Changes the color of the skin depending on what color is given
      */
-    private void changeSkinColor(final Color pColor, final Color pHead) {
+    private void changeSkinColor(final Color pTail, final Color pHead) {
 
         head.setBackground(pHead);
 
         for (SnakeTail tail : tails) {
-            tail.setBackground(pColor);
+            tail.setBackground(pTail);
         }
 
     }
