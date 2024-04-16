@@ -77,7 +77,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
                 setDifficulty();
             } else if (button.getText().equalsIgnoreCase("Cosmetics")) {
                 frame.dispose();
-                new Skins(settings);
+                new Cosmetics(settings);
             } else if (button.getText().equalsIgnoreCase("Back")) {
                 frame.dispose();
                 new LaunchFrame(new SettingsManager().load());
@@ -92,7 +92,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
     /**Gets an input difficulty as String and puts it, if valid, in Lowercase as value for the String mode*/
     private void setDifficulty() {
 
-        String choice = JOptionPane.showInputDialog("Select Difficulty: \n <Noob, Beginner, Adult, Master, God> \n current mode: " + settings.getMode());
+        String choice = JOptionPane.showInputDialog("Select Difficulty: \n <"+ Modes.NOOB + ", " + Modes.BEGINNER + ", " + Modes.ADULT + ", " + Modes.MASTER + ", " + Modes.GOD +"> \n current mode: " + settings.getMode());
         String mode;
 
         if (choice != null) {
@@ -101,9 +101,9 @@ public class SettingsFrame extends JFrame implements ActionListener {
                     || choice.equalsIgnoreCase("Adult")
                     || choice.equalsIgnoreCase("Master")
                     || choice.equalsIgnoreCase("God")) {
-                mode = choice.toLowerCase();
-                settings.setMode(mode);
-                System.out.println(mode);
+                mode = choice.toUpperCase();
+                settings.setMode(Modes.valueOf(mode));
+                System.out.println(settings.getMode());
                 new SettingsManager().save(settings);
             } else {
                 JOptionPane.showMessageDialog(null, "That is NOT a selectable difficulty!", "Not a difficulty!", JOptionPane.WARNING_MESSAGE);

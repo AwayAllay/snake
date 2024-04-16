@@ -23,28 +23,32 @@ public class SettingsManager {
         }
 
 
-
         Settings settings = new Settings();
 
-        String skin = properties.getProperty("skin");
-        String mode = properties.getProperty("mode");
+        Skins skin = Skins.valueOf(properties.getProperty("skin"));
+        Modes mode = Modes.valueOf(properties.getProperty("mode"));
+        int unlockedLevel = Integer.valueOf(properties.getProperty("unlockedLevel"));
 
-        if (skin != null){
+        if (skin != null) {
             settings.setSkin(skin);
         }
-        if (mode != null){
+        if (mode != null) {
             settings.setMode(mode);
+        }
+        if (unlockedLevel != 0){
+            settings.setUnlockedLevel(unlockedLevel);
         }
 
         return settings;
     }
 
-    public void save(final Settings pSettings){
+    public void save(final Settings pSettings) {
 
         Properties properties = new Properties();
 
-        properties.setProperty("skin", pSettings.getSkin());
-        properties.setProperty("mode", pSettings.getMode());
+        properties.setProperty("skin", String.valueOf(pSettings.getSkin()));
+        properties.setProperty("mode", String.valueOf(pSettings.getMode()));
+        properties.setProperty("unlockedLevel", String.valueOf(pSettings.getUnlockedLevel()));
 
         try {
             properties.store(new FileOutputStream(FILE_NAME), "The set settings of the user.");

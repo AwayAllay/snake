@@ -1,21 +1,30 @@
 public class Settings {
 
-    private String skin = "default";
-    private String mode = "noob";
+    private Skins skin = Skins.DEFAULT;
+    private Modes mode = Modes.NOOB;
+    private int unlockedLevel = 10;
 
-    public String getSkin() {
+    public Skins getSkin() {
         return skin;
     }
 
-    public void setSkin(String skin) {
+    public void setSkin(final Skins skin) {
         this.skin = skin;
     }
 
-    public String getMode() {
+    public Modes getMode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void setMode(final Modes mode) {
         this.mode = mode;
+    }
+
+    public int getUnlockedLevel() {
+        return unlockedLevel;
+    }
+
+    public void setUnlockedLevel(int unlockedLevel) {
+        this.unlockedLevel = unlockedLevel;
     }
 }
