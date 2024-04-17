@@ -229,8 +229,7 @@ public class LaunchFrame implements ActionListener {
         if (e.getSource() instanceof JButton klickedButton) {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
-                //TODO GameFrame
-                new LaunchFrame(new SettingsManager().load());
+                new LevelEins();
             } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
                 new SettingsFrame(settings);
             }

@@ -5,7 +5,7 @@ import java.util.List;
 public class KeyListener implements java.awt.event.KeyListener {
 
     /**0 == North, 1 == East, 2 == South, 3 == West*/
-    private int movingDirection = 1;
+    private MovingDirections direction = MovingDirections.RIGHT;
 
     private List<SnakeTail> snakeTails = new LinkedList<>();
 
@@ -30,19 +30,19 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //W
             case 87:
-                movingDirection = 0;
+                direction = MovingDirections.UP;
                 break;
             //A
             case 65:
-                movingDirection = 3;
+                direction = MovingDirections.LEFT;
                 break;
             //S
             case 83:
-                movingDirection = 2;
+                direction = MovingDirections.DOWN;
                 break;
             //D
             case 68:
-                movingDirection = 1;
+               direction = MovingDirections.RIGHT;
                 break;
             //Esc
             case 27:
