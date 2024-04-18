@@ -15,6 +15,8 @@ public abstract class GameFrame extends JFrame {
     
     private final JLabel timer;
 
+    private final Timer setTimeTimer;
+
     public GameFrame() {
         frame = new JFrame();
 
@@ -33,7 +35,7 @@ public abstract class GameFrame extends JFrame {
         level.setOpaque(true);
         level.setFont(new Font("Ariral", Font.BOLD, 50));
         
-        timer = new JLabel();
+        timer = new JLabel("00:00:00");
         timer.setBounds(100, 5, 202, 50);
         timer.setBackground(Color.WHITE);
         timer.setOpaque(true);
@@ -43,6 +45,8 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(timer);
 
         initializeFrame();
+
+        setTimeTimer = new Timer();
     }
 
     private void initializeFrame() {
@@ -106,17 +110,19 @@ public abstract class GameFrame extends JFrame {
 
         timer.setText(string);
 
+
     }
 
     public void startTimer(final int pTime){
+       setTimeTimer.schedule(new TimerTask() {
 
-        Timer setTimeTimer = new Timer();
-        setTimeTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                setTime(pTime + 1);
-            }
-        }, 0, 1000);
+           int time = pTime;
+           @Override
+           public void run() {
+               setTime(time);
+               time++;
+           }
+       }, 0, 1000);
     }
 
     public JPanel getPanel(){

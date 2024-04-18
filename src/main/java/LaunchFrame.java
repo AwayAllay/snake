@@ -229,11 +229,12 @@ public class LaunchFrame implements ActionListener {
         if (e.getSource() instanceof JButton klickedButton) {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
+                frame.dispose();
                 new LevelEins();
             } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
+                frame.dispose();
                 new SettingsFrame(settings);
             }
-            frame.dispose();
 
         }else {
             System.out.println("Sth went wrong");
