@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,29 +18,45 @@ public abstract class GameFrame extends JFrame {
 
     private final Timer setTimeTimer;
 
+    private final JLabel tail;
+
+    private final List<SnakeTail> tails = new KeyListener().getSnakeTails();
+
     public GameFrame() {
         frame = new JFrame();
 
+        tails.clear();
+
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(null);
 
+        //The bar above the game field
         actionBar = new JPanel();
         actionBar.setBackground((new Color(96, 96,96)));
         actionBar.setPreferredSize(new Dimension(frame.getWidth(), 60));
         actionBar.setLayout(null);
 
+        //The displayed level
         level = new JLabel("LEVEL 0");
         level.setBounds(949, 5, 203, 50);
         level.setBackground(Color.WHITE);
         level.setOpaque(true);
         level.setFont(new Font("Ariral", Font.BOLD, 50));
-        
+
+        //Timer-Label for the game-timer
         timer = new JLabel("00:00:00");
         timer.setBounds(100, 5, 202, 50);
         timer.setBackground(Color.WHITE);
         timer.setOpaque(true);
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
+
+        //
+        tail = new SnakeTail(1040, 595, 10, 10);
+        tail.setBounds(1040,595,10,10);
+        tail.setBackground(new Settings().getSkin().tailColor);
+        tail.setOpaque(true);
+        tails.add((SnakeTail) tail);
 
         actionBar.add(level);
         actionBar.add(timer);
@@ -65,7 +82,11 @@ public abstract class GameFrame extends JFrame {
         frame.setLayout(new BorderLayout());
         frame.addKeyListener(new KeyListener());
 
+        actionBar.setBounds(0, 0, frame.getWidth(), 60);
+
         panel.add(actionBar, BorderLayout.NORTH);
+        panel.add(tail);
+
         frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
