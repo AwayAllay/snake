@@ -25,10 +25,10 @@ public abstract class GameFrame extends JFrame {
 
     private final List<SnakeTail> tails = new LinkedList<>();
 
-    public GameFrame() {
+    public GameFrame(final Settings settings) {
         frame = new JFrame();
 
-        this.settings = null; //TODO get the fucking settings from any Clas!!!!!!!!!!!!
+        this.settings = settings; //TODO get the fucking settings from any Clas!!!!!!!!!!!!
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -56,13 +56,13 @@ public abstract class GameFrame extends JFrame {
 
         //SnakeTail
         tail = new SnakeTail(1030, 590, 20, 20);
-        tail.setBackground(new Settings().getSkin().tailColor);
+        tail.setBackground(settings.getSkin().tailColor);
         tail.setOpaque(true);
         tails.add((SnakeTail) tail);
 
         //SnakeHead
         head = new SnakeHead(1050 ,590, 20, 20);
-        head.setBackground(new Settings().getSkin().headColor);
+        head.setBackground(settings.getSkin().headColor);
         head.setOpaque(true);
 
         actionBar.add(level);
@@ -87,7 +87,7 @@ public abstract class GameFrame extends JFrame {
         frame.setSize(2100, 1200);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.addKeyListener(new KeyListener(head, panel));
+        frame.addKeyListener(new KeyListener(head, panel, settings));
 
         actionBar.setBounds(0, 0, frame.getWidth(), 60);
 

@@ -11,7 +11,10 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private final JPanel panel;
 
-    public KeyListener(JLabel head, JPanel panel) {
+    private final Settings settings;
+
+    public KeyListener(JLabel head, JPanel panel, Settings settings) {
+        this.settings = settings;
         this.head = head;
         this.panel = panel;
     }
@@ -82,8 +85,6 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private int getSpeed() {
-
-        Settings settings = new Settings();
 
         switch (settings.getMode()){
 
