@@ -3,5 +3,5 @@ public enum Modes {
     BEGINNER,
     ADULT,
     MASTER,
-    GOD;
+    GOD
 }

@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class SnakeTail extends JLabel{
     public SnakeTail( int px, int py, int pwidht, int pheight){

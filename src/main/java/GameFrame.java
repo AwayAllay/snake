@@ -21,10 +21,14 @@ public abstract class GameFrame extends JFrame {
     
     private final JLabel head;
 
+    private final Settings settings;
+
     private final List<SnakeTail> tails = new LinkedList<>();
 
     public GameFrame() {
         frame = new JFrame();
+
+        this.settings = null; //TODO get the fucking settings from any Clas!!!!!!!!!!!!
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -148,10 +152,6 @@ public abstract class GameFrame extends JFrame {
                time++;
            }
        }, 0, 1000);
-    }
-
-    public JPanel getPanel(){
-        return panel;
     }
 
 }

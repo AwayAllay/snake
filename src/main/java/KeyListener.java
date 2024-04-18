@@ -31,34 +31,29 @@ public class KeyListener implements java.awt.event.KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
 
             //W
-            case 87:
-                direction = MovingDirections.UP;
-                break;
+            case 87 -> direction = MovingDirections.UP;
+
             //A
-            case 65:
-                direction = MovingDirections.LEFT;
-                break;
+            case 65 -> direction = MovingDirections.LEFT;
+
             //S
-            case 83:
-                direction = MovingDirections.DOWN;
-                break;
+            case 83 -> direction = MovingDirections.DOWN;
+
             //D
-            case 68:
-               direction = MovingDirections.RIGHT;
-                break;
+            case 68 -> direction = MovingDirections.RIGHT;
+
             //Esc
-            case 27:
-                openPauseMenu();
-                break;
+            case 27 -> openPauseMenu();
+
             //Space
-            case 32:
+            case 32 -> {
                 do {
                     moveSnake();
-                }while (false);
-                break;
+                } while (false);
+            }
         }
     }
 
@@ -76,21 +71,11 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void moveAction() {
-        switch (direction){
-
-            case UP:
-                head.setLocation(head.getX(), head.getY() - 20);
-                break;
-            case RIGHT:
-                head.setLocation(head.getX() + 20, head.getY());
-                break;
-            case DOWN:
-                head.setLocation(head.getX(), head.getY() + 20);
-                break;
-            case LEFT:
-                head.setLocation(head.getX() - 20, head.getY());
-                break;
-
+        switch (direction) {
+            case UP -> head.setLocation(head.getX(), head.getY() - 20);
+            case RIGHT -> head.setLocation(head.getX() + 20, head.getY());
+            case DOWN -> head.setLocation(head.getX(), head.getY() + 20);
+            case LEFT -> head.setLocation(head.getX() - 20, head.getY());
         }
         panel.revalidate();
         panel.repaint();
@@ -98,45 +83,36 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private int getSpeed() {
 
-        int speed;
         Settings settings = new Settings();
 
         switch (settings.getMode()){
 
             case BEGINNER -> {
                 System.out.println("B");
-                return speed = 160;
+                return 160;
             }
             case ADULT -> {
                 System.out.println("A");
-                return speed = 150;
+                return 150;
             }
             case MASTER -> {
                 System.out.println("M");
-                return speed = 130;
+                return 130;
             }
             case GOD -> {
                 System.out.println("G");
-                return speed = 110;
+                return 110;
             }
             default -> {
                 System.out.println("N");
-                return speed = 200;
+                return 200;
             }
 
         }
     }
 
-    private void openPauseMenu() {
-
-    }
+    private void openPauseMenu() {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    public MovingDirections getDirection() {
-        return direction;
-    }
+    public void keyReleased(KeyEvent e) {}
 }

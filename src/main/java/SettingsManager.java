@@ -27,7 +27,7 @@ public class SettingsManager {
 
         Skins skin = Skins.valueOf(properties.getProperty("skin"));
         Modes mode = Modes.valueOf(properties.getProperty("mode"));
-        int unlockedLevel = Integer.valueOf(properties.getProperty("unlockedLevel"));
+        int unlockedLevel = Integer.parseInt(properties.getProperty("unlockedLevel"));
 
         if (skin != null) {
             settings.setSkin(skin);

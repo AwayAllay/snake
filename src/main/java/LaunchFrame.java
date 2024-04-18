@@ -8,8 +8,6 @@ import java.util.Timer;
 
 public class LaunchFrame implements ActionListener {
 
-    private final JButton button;
-    private final JButton settingsButton;
     private final JFrame frame;
     private final JLabel letter;
     private final JPanel panel;
@@ -38,12 +36,12 @@ public class LaunchFrame implements ActionListener {
 
         panel = new JPanel(null);
 
-        button = new JButton("Play game!");
+        JButton button = new JButton("Play game!");
         button.setBounds(125, 500, 250, 60);
         button.setFocusable(false);
         button.addActionListener(this);
 
-        settingsButton = new JButton("Settings");
+        JButton settingsButton = new JButton("Settings");
         settingsButton.setBounds(125, 400, 250, 60);
         settingsButton.setFocusable(false);
         settingsButton.addActionListener(this);
@@ -240,4 +238,5 @@ public class LaunchFrame implements ActionListener {
             System.out.println("Sth went wrong");
         }
     }
+
 }

@@ -4,7 +4,6 @@ public class LevelEins extends GameFrame{
 
         setLevel("LEVEL 1");
         startTimer(1);
-
-
     }
+
 }
