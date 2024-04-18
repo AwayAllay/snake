@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,8 +19,7 @@ public class SettingsManager {
             return new Settings();
 
         } catch (IOException e) {
-            System.out.println("BLABLA");
-            //TODO siehe unten DATEI NICHT LESBAR
+            JOptionPane.showMessageDialog(null, "File not found or not readable!", "ERROR", JOptionPane.WARNING_MESSAGE);
         }
 
 
@@ -54,7 +54,7 @@ public class SettingsManager {
             properties.store(new FileOutputStream(FILE_NAME), "The set settings of the user.");
         } catch (IOException e) {
             System.out.println("Sth went wrong");
-            //TODO Handel this
+            JOptionPane.showMessageDialog(null, "File not found or not readable!", "ERROR", JOptionPane.WARNING_MESSAGE);
         }
 
     }

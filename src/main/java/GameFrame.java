@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public abstract class GameFrame extends JFrame {
 
@@ -19,13 +18,13 @@ public abstract class GameFrame extends JFrame {
     private final Timer setTimeTimer;
 
     private final JLabel tail;
+    
+    private final JLabel head;
 
-    private final List<SnakeTail> tails = new KeyListener().getSnakeTails();
+    private final List<SnakeTail> tails = new LinkedList<>();
 
     public GameFrame() {
         frame = new JFrame();
-
-        tails.clear();
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -51,12 +50,16 @@ public abstract class GameFrame extends JFrame {
         timer.setOpaque(true);
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
 
-        //
-        tail = new SnakeTail(1040, 595, 10, 10);
-        tail.setBounds(1040,595,10,10);
+        //SnakeTail
+        tail = new SnakeTail(1030, 590, 20, 20);
         tail.setBackground(new Settings().getSkin().tailColor);
         tail.setOpaque(true);
         tails.add((SnakeTail) tail);
+
+        //SnakeHead
+        head = new SnakeHead(1050 ,590, 20, 20);
+        head.setBackground(new Settings().getSkin().headColor);
+        head.setOpaque(true);
 
         actionBar.add(level);
         actionBar.add(timer);
@@ -80,12 +83,13 @@ public abstract class GameFrame extends JFrame {
         frame.setSize(2100, 1200);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.addKeyListener(new KeyListener());
+        frame.addKeyListener(new KeyListener(head, panel));
 
         actionBar.setBounds(0, 0, frame.getWidth(), 60);
 
         panel.add(actionBar, BorderLayout.NORTH);
         panel.add(tail);
+        panel.add(head);
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);

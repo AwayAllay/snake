@@ -12,7 +12,7 @@ public class GameRuleFrame {
 
         JPanel panel = new JPanel();
 
-        //TODO
+        //TODO ADD RULES
 
         prepareLaunchFrame();
         frame.add(panel);
