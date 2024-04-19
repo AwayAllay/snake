@@ -27,6 +27,8 @@ public abstract class GameFrame extends JFrame {
 
     private final List<SnakeTail> tails = new LinkedList<>();
 
+    private final List<String> coords = new ArrayList<>();
+
     public GameFrame(final Settings settings) {
         frame = new JFrame();
 
@@ -57,13 +59,13 @@ public abstract class GameFrame extends JFrame {
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
 
         //SnakeTail
-        tail = new SnakeTail(1030, 590, 20, 20);
+        tail = new SnakeTail(1020, 580, 20, 20);
         tail.setBackground(settings.getSkin().tailColor);
         tail.setOpaque(true);
         tails.add((SnakeTail) tail);
 
         //SnakeHead
-        head = new SnakeHead(1050 ,590, 20, 20);
+        head = new SnakeHead(1040 ,580, 20, 20);
         head.setBackground(settings.getSkin().headColor);
         head.setOpaque(true);
 
@@ -150,6 +152,7 @@ public abstract class GameFrame extends JFrame {
         Scanner scanner = null;
         int x = 0;
         int y = 60;
+        String coord = "";
 
         try {
             scanner = new Scanner(file);
@@ -181,9 +184,13 @@ public abstract class GameFrame extends JFrame {
                 }else if (c == 'X'){
                     label.setBounds(x, y, 20, 20);
                     panel.add(label);
+                    coord = coord + x;
+                    coord = coord + ",";
+                    coord = coord + y;
+                    coords.add(coord);
                     x+= 20;
                 }
-
+                coord = "";
             }
             x = 0;
             y +=20;
@@ -200,4 +207,7 @@ public abstract class GameFrame extends JFrame {
        }, 0, 1000);
     }
 
+    public List<String> getCoords() {
+        return coords;
+    }
 }

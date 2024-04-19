@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,7 +13,6 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final JPanel panel;
 
     private final Settings settings;
-
     public KeyListener(JLabel head, JPanel panel, Settings settings) {
         this.settings = settings;
         this.head = head;

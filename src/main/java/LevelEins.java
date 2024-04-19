@@ -6,6 +6,9 @@ public class LevelEins extends GameFrame{
         translateLevel("level1.txt");
         setLevel("LEVEL 1");
         startTimer(1);
+        for (String s : getCoords()) {
+            System.out.println(s);
+        }
     }
 
 }
