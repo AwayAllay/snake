@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -84,7 +86,7 @@ public abstract class GameFrame extends JFrame {
         frame.setTitle("Snake");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
-        frame.setSize(2100, 1200);
+        frame.setSize(2096, 1198);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
         frame.addKeyListener(new KeyListener(head, panel, settings));
@@ -141,11 +143,55 @@ public abstract class GameFrame extends JFrame {
 
 
     }
+    public void translateLevel(final String fileName){
+        //105 Zeichen in X Richtung
+        //57 in Y Richtung
+        File file = new File(fileName);
+        Scanner scanner = null;
+        int x = 0;
+        int y = 60;
 
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
+        List<String> lines = new ArrayList<>();
+        List<char[]> lineChars = new ArrayList<>();
+
+
+        while (scanner.hasNext()) {
+            lines.add(scanner.nextLine());
+        }
+
+        for (String line : lines) {
+            lineChars.add(line.toCharArray());
+        }
+
+        for (char[] charArry : lineChars) {
+            for (char c : charArry) {
+
+                JLabel label = new JLabel();
+                label.setBackground(Color.ORANGE);
+                label.setOpaque(true);
+
+                if (c == '0'){
+                    x += 20;
+                }else if (c == 'X'){
+                    label.setBounds(x, y, 20, 20);
+                    panel.add(label);
+                    x+= 20;
+                }
+
+            }
+            x = 0;
+            y +=20;
+        }
+    }
     public void startTimer(final int pTime){
        setTimeTimer.schedule(new TimerTask() {
-
-           int time = pTime;
+           private int time = pTime;
            @Override
            public void run() {
                setTime(time);

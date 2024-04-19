@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class SettingsFrame extends JFrame implements ActionListener {
@@ -89,11 +92,21 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
     }
 
-    /**Gets an input difficulty as String and puts it, if valid, in Lowercase as value for the String mode*/
+    /**Gets an input difficulty as String*/
     private void setDifficulty() {
 
         String choice = JOptionPane.showInputDialog("Select Difficulty: \n <"+ Modes.NOOB + ", " + Modes.BEGINNER + ", " + Modes.ADULT + ", " + Modes.MASTER + ", " + Modes.GOD +"> \n current mode: " + settings.getMode());
         String mode;
+
+        //TODO spätere Optimierung
+        /*String[] choices = Arrays.stream(Modes.values()).map(Enum::toString).toList().toArray(new String[0]);
+
+        List<String> a = new ArrayList<>();
+        for (Modes moood : Modes.values()) {
+            a.add(moood.toString());
+        }
+        String[] my_choices = a.toArray(new String[0]);
+        JComboBox<String> comboBox = new JComboBox<>(choices);*/
 
         if (choice != null) {
             if (choice.equalsIgnoreCase("Noob")
