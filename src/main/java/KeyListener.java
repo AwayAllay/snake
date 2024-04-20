@@ -13,8 +13,13 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private final Settings settings;
     private  boolean startMoving = true;
-    public KeyListener(JLabel head, JPanel panel, Settings settings) {
+
+    private final JFrame gameFrame;
+
+    private Timer timer;
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame) {
         this.settings = settings;
+        this.gameFrame = gameFrame;
         this.head = head;
         this.panel = panel;
     }
@@ -62,7 +67,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void moveSnake(){
-        Timer timer = new Timer();
+        timer = new Timer();
 
         int speed = getSpeed();
 
@@ -81,12 +86,22 @@ public class KeyListener implements java.awt.event.KeyListener {
             case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
-        testGameOver(head.getX(), head.getY());
+        if (testIfDied(head.getX(), head.getY())){
+            gameFrame.dispose();
+            new LaunchFrame(settings);
+        }
         panel.revalidate();
         panel.repaint();
     }
 
-    private void testGameOver(final int x,final int y) {
+    private boolean testIfDied(int x, int y) {
+
+        /*if (obstacles[x][y]){
+            return true;
+        }else {
+            return false;
+        }*/
+        return false;
     }
 
     private int getSpeed() {
@@ -117,8 +132,23 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    private void openPauseMenu() {}
+    private void pauseTimer(){
+        if (timer != null){
+            timer.cancel();
+        }
+    }
+
+    private void openPauseMenu() {
+        pauseTimer();
+        new PauseFrame(settings, this, gameFrame);
+        //TODO Pause Timer for time
+    }
+
+    public void resumeTimer(){
+        moveSnake();
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {}
+
 }

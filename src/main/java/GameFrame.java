@@ -10,39 +10,28 @@ public abstract class GameFrame extends JFrame {
 
     private final JFrame frame;
     private final JPanel panel;
-
     private final JPanel actionBar;
-
     private final JLabel level;
-    
     private final JLabel timer;
-
     private final Timer setTimeTimer;
-
     private final JLabel tail;
-    
     private final JLabel head;
-
     private final Settings settings;
-
     private final List<SnakeTail> tails = new LinkedList<>();
-
     public static final int FRAME_WIDTH_PX = 2096; 
-    public static final int FRAME_HEIGHT_PX = 1198; 
-
+    public static final int FRAME_HEIGHT_PX = 1198;
     public static final int FIELD_WIDTH_PX = 20;
     public static final int FIELD_HEIGHT_PX = 20;
 
     /**FRAME_WIDTH_PX / FIELD_WIDTH_PX but with some fixes for the actual frame width*/
     public static final int NUM_FIELDS_HORIZ = 104;
     public static final int NUM_FIELDS_VERT = 55;
-
     private boolean[][] obstacles;
 
     public GameFrame(final Settings settings) {
         frame = new JFrame();
 
-        this.settings = settings; //TODO get the fucking settings from any Clas!!!!!!!!!!!!
+        this.settings = settings;
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -101,7 +90,7 @@ public abstract class GameFrame extends JFrame {
         frame.setSize(FRAME_WIDTH_PX, FRAME_HEIGHT_PX);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.addKeyListener(new KeyListener(head, panel, settings));
+        frame.addKeyListener(new KeyListener(head, panel, settings, frame));
 
         actionBar.setBounds(0, 0, frame.getWidth(), 60);
 
@@ -217,7 +206,6 @@ public abstract class GameFrame extends JFrame {
        }, 0, 1000);
     }
 
-    public boolean[][] getObstacles() {
-        return obstacles;
-    }
+    public  abstract boolean[][] getObstacles();
+
 }
