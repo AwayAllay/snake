@@ -27,8 +27,6 @@ public abstract class GameFrame extends JFrame {
 
     private final List<SnakeTail> tails = new LinkedList<>();
 
-    private final List<String> coords = new ArrayList<>();
-
     public static final int FRAME_WIDTH_PX = 2096; 
     public static final int FRAME_HEIGHT_PX = 1198; 
 
@@ -38,6 +36,8 @@ public abstract class GameFrame extends JFrame {
     /**FRAME_WIDTH_PX / FIELD_WIDTH_PX but with some fixes for the actual frame width*/
     public static final int NUM_FIELDS_HORIZ = 104;
     public static final int NUM_FIELDS_VERT = 55;
+
+    private boolean[][] obstacles;
 
     public GameFrame(final Settings settings) {
         frame = new JFrame();
@@ -155,14 +155,16 @@ public abstract class GameFrame extends JFrame {
 
 
     }
-    public void translateLevel(final String fileName){
+    public boolean[][] translateLevel(final String fileName){
         //105 Zeichen in X Richtung
         //57 in Y Richtung
+
+        boolean[][] result = new boolean[NUM_FIELDS_HORIZ][NUM_FIELDS_VERT];
+
         File file = new File(fileName);
         Scanner scanner = null;
         int x = 0;
         int y = 60;
-        String coord = "";
 
         try {
             scanner = new Scanner(file);
@@ -189,22 +191,20 @@ public abstract class GameFrame extends JFrame {
                 label.setBackground(Color.ORANGE);
                 label.setOpaque(true);
 
-                if (c == '0'){
+                if (c == ' '){
                     x += FIELD_WIDTH_PX;
                 }else if (c == 'X'){
                     label.setBounds(x, y, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
                     panel.add(label);
-                    coord = coord + x;
-                    coord = coord + ",";
-                    coord = coord + y;
-                    coords.add(coord);
+                    result[x /  FIELD_WIDTH_PX][(y - 60) / FIELD_HEIGHT_PX] = true;
                     x += FIELD_WIDTH_PX;
                 }
-                coord = "";
             }
             x = 0;
             y += FIELD_HEIGHT_PX;
         }
+        obstacles = result;
+        return result;
     }
     public void startTimer(final int pTime){
        setTimeTimer.schedule(new TimerTask() {
@@ -217,7 +217,7 @@ public abstract class GameFrame extends JFrame {
        }, 0, 1000);
     }
 
-    public List<String> getCoords() {
-        return coords;
+    public boolean[][] getObstacles() {
+        return obstacles;
     }
 }
