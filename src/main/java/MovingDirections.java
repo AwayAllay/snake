@@ -5,5 +5,4 @@ public enum MovingDirections {
     UP,
     DOWN
 
-
 }

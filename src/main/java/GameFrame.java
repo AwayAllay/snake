@@ -29,6 +29,16 @@ public abstract class GameFrame extends JFrame {
 
     private final List<String> coords = new ArrayList<>();
 
+    public static final int FRAME_WIDTH_PX = 2096; 
+    public static final int FRAME_HEIGHT_PX = 1198; 
+
+    public static final int FIELD_WIDTH_PX = 20;
+    public static final int FIELD_HEIGHT_PX = 20;
+
+    /**FRAME_WIDTH_PX / FIELD_WIDTH_PX but with some fixes for the actual frame width*/
+    public static final int NUM_FIELDS_HORIZ = 104;
+    public static final int NUM_FIELDS_VERT = 55;
+
     public GameFrame(final Settings settings) {
         frame = new JFrame();
 
@@ -59,14 +69,14 @@ public abstract class GameFrame extends JFrame {
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
 
         //SnakeTail
-        tail = new SnakeTail(1020, 580, 20, 20);
-        tail.setBackground(settings.getSkin().tailColor);
+        tail = new SnakeTail(1020, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail.setBackground(settings.getSkin().getTailColor());
         tail.setOpaque(true);
         tails.add((SnakeTail) tail);
 
         //SnakeHead
-        head = new SnakeHead(1040 ,580, 20, 20);
-        head.setBackground(settings.getSkin().headColor);
+        head = new SnakeHead(1040 ,580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
+        head.setBackground(settings.getSkin().getHeadColor());
         head.setOpaque(true);
 
         actionBar.add(level);
@@ -88,7 +98,7 @@ public abstract class GameFrame extends JFrame {
         frame.setTitle("Snake");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
-        frame.setSize(2096, 1198);
+        frame.setSize(FRAME_WIDTH_PX, FRAME_HEIGHT_PX);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
         frame.addKeyListener(new KeyListener(head, panel, settings));
@@ -180,20 +190,20 @@ public abstract class GameFrame extends JFrame {
                 label.setOpaque(true);
 
                 if (c == '0'){
-                    x += 20;
+                    x += FIELD_WIDTH_PX;
                 }else if (c == 'X'){
-                    label.setBounds(x, y, 20, 20);
+                    label.setBounds(x, y, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
                     panel.add(label);
                     coord = coord + x;
                     coord = coord + ",";
                     coord = coord + y;
                     coords.add(coord);
-                    x+= 20;
+                    x += FIELD_WIDTH_PX;
                 }
                 coord = "";
             }
             x = 0;
-            y +=20;
+            y += FIELD_HEIGHT_PX;
         }
     }
     public void startTimer(final int pTime){

@@ -13,6 +13,8 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final JPanel panel;
 
     private final Settings settings;
+
+    private  boolean startMoving = true;
     public KeyListener(JLabel head, JPanel panel, Settings settings) {
         this.settings = settings;
         this.head = head;
@@ -53,9 +55,10 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //Space
             case 32 -> {
-                do {
+                if (startMoving){
                     moveSnake();
-                } while (false);
+                    startMoving = false;
+                }
             }
         }
     }
@@ -73,12 +76,13 @@ public class KeyListener implements java.awt.event.KeyListener {
         }, 0, speed);
     }
 
+    //(X, Y) -> x,y
     private void moveAction() {
         switch (direction) {
-            case UP -> head.setLocation(head.getX(), head.getY() - 20);
-            case RIGHT -> head.setLocation(head.getX() + 20, head.getY());
-            case DOWN -> head.setLocation(head.getX(), head.getY() + 20);
-            case LEFT -> head.setLocation(head.getX() - 20, head.getY());
+            case UP -> head.setLocation(head.getX(), head.getY() - GameFrame.FIELD_HEIGHT_PX);
+            case RIGHT -> head.setLocation(head.getX() + GameFrame.FIELD_WIDTH_PX, head.getY());
+            case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
+            case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
         panel.revalidate();
         panel.repaint();

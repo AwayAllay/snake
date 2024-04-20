@@ -12,11 +12,19 @@ public enum Skins {
     NOT_UNLOCKED(new Color(0, 0, 0), new Color(0, 0, 0));
 
 
-    public final Color tailColor;
-    public final Color headColor;
+    private final Color tailColor;
+    private final Color headColor;
 
     Skins(final Color tailColor, final Color headColor) {
         this.tailColor = tailColor;
         this.headColor = headColor;
+    }
+
+    public Color getTailColor() {
+        return tailColor;
+    }
+
+    public Color getHeadColor() {
+        return headColor;
     }
 }
