@@ -51,7 +51,28 @@ public abstract class GameFrame extends JFrame {
         level.setBackground(Color.WHITE);
         level.setOpaque(true);
         level.setFont(new Font("Ariral", Font.BOLD, 50));
+        
+        //The displayed lives
+        JLabel lives = new JLabel("lives: " + gameStuff.getLives() + "/5");
+        lives.setBounds(519, 5, 213, 50);
+        lives.setBackground(Color.WHITE);
+        lives.setOpaque(true);
+        lives.setFont(new Font("Ariral", Font.BOLD, 50));
 
+        //The displayed points
+        JLabel points = new JLabel(String.valueOf(gameStuff.getPoints()));
+        points.setBounds(1794, 5, 202, 50);
+        points.setBackground(Color.WHITE);
+        points.setOpaque(true);
+        points.setFont(new Font("Ariral", Font.BOLD, 50));
+
+        //The displayed amount of keys
+        JLabel keys = new JLabel("keys: " + gameStuff.getKeyAmount() + "/5");
+        keys.setBounds(1379, 5, 213, 50);
+        keys.setBackground(Color.WHITE);
+        keys.setOpaque(true);
+        keys.setFont(new Font("Ariral", Font.BOLD, 50));
+        
         //Timer-Label for the game-timer
         timer = new JLabel("00:00:00");
         timer.setBounds(100, 5, 202, 50);
@@ -70,6 +91,9 @@ public abstract class GameFrame extends JFrame {
         head.setBackground(settings.getSkin().getHeadColor());
         head.setOpaque(true);
 
+        actionBar.add(keys);
+        actionBar.add(points);
+        actionBar.add(lives);
         actionBar.add(level);
         actionBar.add(timer);
 

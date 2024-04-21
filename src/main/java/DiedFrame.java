@@ -1,7 +1,10 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class DiedFrame {
+public class DiedFrame implements ActionListener {
 
     private final Settings settings;
     private final GameStuff gameStuff;
@@ -14,6 +17,33 @@ public class DiedFrame {
 
         frame = new JFrame("You died");
         prepareFrame();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setVisible(true);
+
+        JButton back = new JButton("Launcher");
+        back.setFocusable(false);
+        back.setBounds(125, 460, 250, 60);
+        back.addActionListener(this);
+        panel.add(back);
+
+        JButton retry = new JButton("Retry");
+        back.setFocusable(false);
+        back.setBounds(125, 345, 250, 60);
+        back.addActionListener(this);
+        panel.add(back);
+
+        JLabel letters = new JLabel("YOU DIED");
+        letters.setBounds(145, 100, 250, 60);
+        letters.setVisible(true);
+        letters.setFont(new Font("Arial", Font.BOLD, 60));
+
+        panel.add(letters);
+        panel.add(retry);
+        panel.add(back);
+        frame.add(panel);
+
     }
     private void prepareFrame() {
 
@@ -28,8 +58,30 @@ public class DiedFrame {
         frame.setAlwaysOnTop(true);
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.setLayout(null);
         frame.setLocationRelativeTo(null);
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() instanceof JButton button){
+            if (button.getText().equalsIgnoreCase("Retry")){
+                frame.dispose();
+                prepareRetry();
+                new LevelEins(settings, gameStuff);
+            }else {
+                frame.dispose();
+                new LaunchFrame(settings, gameStuff);
+            }
+        }
+
+    }
+
+    private void prepareRetry() {
+        gameStuff.setCurrentLevel(Levels.LEVEL1);
+        gameStuff.setLives(5);
+        gameStuff.setKeyAmount(0);
+    }
 }

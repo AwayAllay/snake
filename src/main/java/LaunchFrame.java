@@ -147,9 +147,9 @@ public class LaunchFrame implements ActionListener {
     private void testEaten() {
         for (Component component : panel.getComponents()) {
 
-            if (component instanceof Boost) {
+            if (component instanceof DisplayedLaunchBoost) {
 
-                JLabel label = (Boost) component;
+                JLabel label = (DisplayedLaunchBoost) component;
 
                 if (component.getX() == head.getX()) {
                     panel.remove(label);
@@ -175,8 +175,8 @@ public class LaunchFrame implements ActionListener {
             @Override
             public void run() {
                 if (boostcount < 11) {
-                    Boost boost = new Boost(x, 300, 10, 10, null);
-                    panel.add(boost);
+                    DisplayedLaunchBoost displayedLaunchBoost = new DisplayedLaunchBoost(x, 300, 10, 10, null);
+                    panel.add(displayedLaunchBoost);
                     x += 40;
                     boostcount++;
                     panel.revalidate();

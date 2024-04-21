@@ -17,7 +17,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private boolean startMoving = true;
     private final GameStuff gameStuff;
     private final JFrame gameFrame;
-
+    private boolean timerStartedOnce;
     private Timer timer;
 
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
@@ -26,6 +26,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.gameFrame = gameFrame;
         this.head = head;
         this.panel = panel;
+        timerStartedOnce = false;
     }
 
     /**
@@ -73,6 +74,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void moveSnake() {
         timer = new Timer();
+        timerStartedOnce = true;
 
         int speed = getSpeed();
 
@@ -91,7 +93,8 @@ public class KeyListener implements java.awt.event.KeyListener {
             case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
-        testIfDied(head.getX(), head.getY());
+        Position position = new Position(head.getX(), head.getY());
+        testIfDied(position.getFieldX(), position.getFieldY());
         panel.revalidate();
         panel.repaint();
     }
@@ -104,13 +107,13 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
 
-        if (obstacles[x / GameFrame.FIELD_WIDTH_PX][(y - 60) / GameFrame.FIELD_HEIGHT_PX]){
+        //TODO ARRAYSINDESOUTOFBOUNDSEXCEPTION
+        if (obstacles[x][y]) {
+            pauseTimer();
             gameStuff.setLives(gameStuff.getLives() - 1);
-            if (gameStuff.getLives() > 0){
-                pauseTimer();
+            if (gameStuff.getLives() > 0) {
                 respawn();
-            }else {
-                pauseTimer();
+            } else {
                 died();
             }
         }
@@ -121,7 +124,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private boolean[][] getObstacles(final Levels level) {
-        switch (level){
+        switch (level) {
 
             case LEVEL1 -> {
                 return LevelEins.getObstacles();
@@ -138,23 +141,18 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (settings.getMode()) {
 
             case BEGINNER -> {
-                System.out.println("B");
                 return 160;
             }
             case ADULT -> {
-                System.out.println("A");
                 return 150;
             }
             case MASTER -> {
-                System.out.println("M");
                 return 130;
             }
             case GOD -> {
-                System.out.println("G");
                 return 110;
             }
             default -> {
-                System.out.println("N");
                 return 200;
             }
 
@@ -174,7 +172,9 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     public void resumeTimer() {
-        moveSnake();
+        if (timerStartedOnce){
+            moveSnake();
+        }
     }
 
     @Override

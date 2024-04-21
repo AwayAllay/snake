@@ -2,13 +2,14 @@ public class GameStuff {
 
     private Levels currentLevel;
     private int lives;
-
+    private int points;
     private int keyAmount;
 
-    public GameStuff(){
-        currentLevel  = Levels.LEVEL1;
+    public GameStuff() {
+        currentLevel = Levels.LEVEL1;
         lives = 5;
         keyAmount = 0;
+        points = 0;
     }
 
 
@@ -34,5 +35,13 @@ public class GameStuff {
 
     public void setKeyAmount(int keyAmount) {
         this.keyAmount = keyAmount;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
