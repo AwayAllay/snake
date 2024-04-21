@@ -5,33 +5,38 @@ import java.util.TimerTask;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
-    /**0 == North, 1 == East, 2 == South, 3 == West*/
+    /**
+     * 0 == North, 1 == East, 2 == South, 3 == West
+     */
     private MovingDirections direction = MovingDirections.RIGHT;
     private final JLabel head;
 
     private final JPanel panel;
 
     private final Settings settings;
-    private  boolean startMoving = true;
-
+    private boolean startMoving = true;
+    private final GameStuff gameStuff;
     private final JFrame gameFrame;
 
     private Timer timer;
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame) {
+
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
+        this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
         this.head = head;
         this.panel = panel;
     }
 
-    /** Keys:
+    /**
+     * Keys:
      * W 87;
      * A 65;
      * S 83;
      * D 68;
      * Leertaste 32;
      * Esc 27;
-    */
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -58,7 +63,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //Space
             case 32 -> {
-                if (startMoving){
+                if (startMoving) {
                     moveSnake();
                     startMoving = false;
                 }
@@ -66,7 +71,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    private void moveSnake(){
+    private void moveSnake() {
         timer = new Timer();
 
         int speed = getSpeed();
@@ -86,27 +91,51 @@ public class KeyListener implements java.awt.event.KeyListener {
             case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
-        if (testIfDied(head.getX(), head.getY())){
-            gameFrame.dispose();
-            new LaunchFrame(settings);
-        }
+        testIfDied(head.getX(), head.getY());
         panel.revalidate();
         panel.repaint();
     }
 
-    private boolean testIfDied(int x, int y) {
+    private void died() {
+        new DiedFrame(settings, gameStuff);
+    }
 
-        /*if (obstacles[x][y]){
-            return true;
-        }else {
-            return false;
-        }*/
-        return false;
+    private void testIfDied(int x, int y) {
+
+        boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
+
+        if (obstacles[x / GameFrame.FIELD_WIDTH_PX][(y - 60) / GameFrame.FIELD_HEIGHT_PX]){
+            gameStuff.setLives(gameStuff.getLives() - 1);
+            if (gameStuff.getLives() > 0){
+                pauseTimer();
+                respawn();
+            }else {
+                pauseTimer();
+                died();
+            }
+        }
+    }
+
+    private void respawn() {
+        resumeTimer();
+    }
+
+    private boolean[][] getObstacles(final Levels level) {
+        switch (level){
+
+            case LEVEL1 -> {
+                return LevelEins.getObstacles();
+            }
+            default -> {
+                System.out.println("Bla");
+                return LevelEins.getObstacles();
+            }
+        }
     }
 
     private int getSpeed() {
 
-        switch (settings.getMode()){
+        switch (settings.getMode()) {
 
             case BEGINNER -> {
                 System.out.println("B");
@@ -132,23 +161,24 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    private void pauseTimer(){
-        if (timer != null){
+    private void pauseTimer() {
+        if (timer != null) {
             timer.cancel();
         }
     }
 
     private void openPauseMenu() {
         pauseTimer();
-        new PauseFrame(settings, this, gameFrame);
+        new PauseFrame(settings, this, gameFrame, gameStuff);
         //TODO Pause Timer for time
     }
 
-    public void resumeTimer(){
+    public void resumeTimer() {
         moveSnake();
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
 
 }

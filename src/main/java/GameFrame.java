@@ -18,6 +18,7 @@ public abstract class GameFrame extends JFrame {
     private final JLabel head;
     private final Settings settings;
     private final List<SnakeTail> tails = new LinkedList<>();
+    private final GameStuff gameStuff;
     public static final int FRAME_WIDTH_PX = 2096; 
     public static final int FRAME_HEIGHT_PX = 1198;
     public static final int FIELD_WIDTH_PX = 20;
@@ -28,10 +29,11 @@ public abstract class GameFrame extends JFrame {
     public static final int NUM_FIELDS_VERT = 55;
     private boolean[][] obstacles;
 
-    public GameFrame(final Settings settings) {
+    public GameFrame(final Settings settings, final GameStuff gameStuff) {
         frame = new JFrame();
 
         this.settings = settings;
+        this.gameStuff = gameStuff;
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -90,7 +92,7 @@ public abstract class GameFrame extends JFrame {
         frame.setSize(FRAME_WIDTH_PX, FRAME_HEIGHT_PX);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.addKeyListener(new KeyListener(head, panel, settings, frame));
+        frame.addKeyListener(new KeyListener(head, panel, settings, frame, gameStuff));
 
         actionBar.setBounds(0, 0, frame.getWidth(), 60);
 
@@ -205,7 +207,5 @@ public abstract class GameFrame extends JFrame {
            }
        }, 0, 1000);
     }
-
-    public  abstract boolean[][] getObstacles();
 
 }

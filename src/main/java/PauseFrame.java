@@ -6,17 +6,20 @@ import java.util.Objects;
 
 public class PauseFrame extends JFrame implements ActionListener {
 
-    /**The displayed frame*/
+    /**
+     * The displayed frame
+     */
     private final JFrame frame;
 
     private final Settings settings;
 
     private final KeyListener keyListener;
-
+    private final GameStuff gameStuff;
     private final JFrame gameFrame;
 
-    public PauseFrame(Settings settings, KeyListener keyListener, JFrame gameFrame) {
+    public PauseFrame(Settings settings, KeyListener keyListener, JFrame gameFrame, GameStuff gameStuff) {
 
+        this.gameStuff = gameStuff;
         this.settings = settings;
         this.keyListener = keyListener;
         this.gameFrame = gameFrame;
@@ -50,7 +53,9 @@ public class PauseFrame extends JFrame implements ActionListener {
 
     }
 
-    /**Prepares the frame(Sets size, image, etc)*/
+    /**
+     * Prepares the frame(Sets size, image, etc)
+     */
     private void prepareLaunchFrame() {
 
         frame.setSize(500, 700);
@@ -67,16 +72,17 @@ public class PauseFrame extends JFrame implements ActionListener {
         frame.setLocationRelativeTo(null);
 
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() instanceof JButton button){
+        if (e.getSource() instanceof JButton button) {
 
-            if (button.getText().equalsIgnoreCase("Launcher")){
+            if (button.getText().equalsIgnoreCase("Launcher")) {
                 frame.dispose();
                 gameFrame.dispose();
-                new LaunchFrame(settings);
-            }else {
+                new LaunchFrame(settings, gameStuff);
+            } else {
                 frame.dispose();
                 keyListener.resumeTimer();
             }

@@ -1,10 +1,14 @@
 public class LevelEins extends GameFrame{
 
-    private final boolean[][] obstacles;
+    private static boolean[][] obstacles;
+    private final GameStuff gameStuff;
 
-    public LevelEins(final Settings settings){
+    public LevelEins(final Settings settings, final GameStuff gameStuff){
 
-        super(settings);
+        super(settings, gameStuff);
+
+        this.gameStuff = gameStuff;
+
         obstacles = translateLevel("level1.txt");
         setLevel("LEVEL 1");
         startTimer(1);
@@ -21,9 +25,7 @@ public class LevelEins extends GameFrame{
         }
         System.out.flush();
     }
-
-    @Override
-    public boolean[][] getObstacles() {
+    public static boolean[][] getObstacles() {
         return obstacles;
     }
 }

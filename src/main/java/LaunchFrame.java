@@ -13,12 +13,13 @@ public class LaunchFrame implements ActionListener {
     private final JPanel panel;
     private final SnakeHead head;
     private final List<SnakeTail> tails = new ArrayList<>();
-
+    private final GameStuff gameStuff;
     private final Settings settings;
 
-    public LaunchFrame(Settings settings) {
+    public LaunchFrame(final Settings settings, final GameStuff gameStuff) {
 
         this.settings = settings;
+        this.gameStuff = gameStuff;
 
         frame = new JFrame("Launch game");
 
@@ -60,8 +61,10 @@ public class LaunchFrame implements ActionListener {
         playIntroAnimation();
     }
 
-    /**Prepares the main frame*/
-    private void prepareLaunchFrame(){
+    /**
+     * Prepares the main frame
+     */
+    private void prepareLaunchFrame() {
 
         frame.setSize(500, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +74,6 @@ public class LaunchFrame implements ActionListener {
         frame.setLocationRelativeTo(null);
 
     }
-
 
 
     /**
@@ -228,13 +230,13 @@ public class LaunchFrame implements ActionListener {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 frame.dispose();
-                new LevelEins(settings);
+                new LevelEins(settings, gameStuff);
             } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
                 frame.dispose();
-                new SettingsFrame(settings);
+                new SettingsFrame(settings, gameStuff);
             }
 
-        }else {
+        } else {
             System.out.println("Sth went wrong");
         }
     }

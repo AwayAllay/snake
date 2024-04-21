@@ -21,12 +21,14 @@ public class Cosmetics implements ActionListener {
      * The list of the Snaketails used to display the skins
      */
     private final List<SnakeTail> tails = new ArrayList<>();
+    private final GameStuff gameStuff;
 
     private final Settings settings;
 
-    public Cosmetics(Settings settings) {
+    public Cosmetics(final Settings settings, final GameStuff gameStuff) {
 
         this.settings = settings;
+        this.gameStuff = gameStuff;
 
         frame = new JFrame("Skins");
         JPanel panel = new JPanel(null);
@@ -134,7 +136,7 @@ public class Cosmetics implements ActionListener {
 
             } else {
                 frame.dispose();
-                new SettingsFrame(settings);
+                new SettingsFrame(settings, gameStuff);
             }
 
         }
