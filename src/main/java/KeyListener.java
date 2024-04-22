@@ -21,6 +21,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private boolean startMoving = true;
     private boolean timerStartedOnce;
 
+    /**Constructor*/
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
         this.gameStuff = gameStuff;
         this.settings = settings;
@@ -30,8 +31,18 @@ public class KeyListener implements java.awt.event.KeyListener {
         timerStartedOnce = false;
     }
 
-    private void increaseSnakeLenght(){
+    /**Increases the snakes length by the given int in SnakeTails.
+     * Does this by adding a tail to the position of the last snake in the tails list.*/
+    private void increaseSnakeLenght(int timesToIncrease){
 
+        for (int i = 0; i < timesToIncrease; i++) {
+
+            SnakeTail tailToAdd = new SnakeTail(tails.get(tails.size() - 1).getX(), tails.get(tails.size() - 1).getY(), GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+            tailToAdd.setBackground(settings.getSkin().getTailColor());
+            tailToAdd.setOpaque(true);
+            panel.add(tailToAdd);
+            tails.add(tailToAdd);
+        }
     }
 
     /**
@@ -47,6 +58,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
+    /**Implemented method which looks what key was pressed*/
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -74,9 +86,15 @@ public class KeyListener implements java.awt.event.KeyListener {
                     startMoving = false;
                 }
             }
+
+            //Enter only for TESTINGS!!!
+            case 10 ->{
+                increaseSnakeLenght(1);
+            }
         }
     }
 
+    /**This starts the timer which will depending on the mode call moveAction() from 110-200 milliseconds*/
     private void moveSnake() {
         timer = new Timer();
         timerStartedOnce = true;
@@ -108,6 +126,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.repaint();
     }
 
+    /**Moves all the tails in the tails list to the position of the next tail*/
     private void moveTails() {
 
         int moveToX = head.getX();
@@ -122,10 +141,15 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
+    /**Method that is called when the player died*/
     private void died() {
         new DiedFrame(settings, gameStuff);
     }
 
+    /**This method will decide whether the player died or respawns or just normally moved.
+     * By getting all the fields from the .txt file for the level, this will put them in a 2-dimensional
+     * Array, which will then look up the field with the coordinates of the snake.
+     * Also looks if the head position equals a position of the snake itself.*/
     private void testIfDied(int x, int y) {
 
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
@@ -142,6 +166,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
+    /**Method that looks if the snake hits itself with its head*/
     private boolean snakeHitItself() {
 
         for (SnakeTail tail: tails) {
@@ -158,6 +183,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         resumeTimer();
     }
 
+    /**This will get the 2-dimentional Array depending on the level*/
     private boolean[][] getObstacles(final Levels level) {
         switch (level) {
 
@@ -171,6 +197,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
+    /**Sets the speed for the timer moving the snake depending on what mode is selected*/
     private int getSpeed() {
 
         switch (settings.getMode()) {
@@ -194,18 +221,21 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
+    /**This will pause the timer which moves the snake, causing the snake to stop*/
     private void pauseTimer() {
         if (timer != null) {
             timer.cancel();
         }
     }
 
+    /**Opens the pause menu for the player when the Esc button is pressed*/
     private void openPauseMenu() {
         pauseTimer();
         new PauseFrame(settings, this, gameFrame, gameStuff);
         //TODO Pause Timer for time
     }
 
+    /**This will start the timer again if the timer was paused by the menu*/
     public void resumeTimer() {
         if (timerStartedOnce){
             moveSnake();
@@ -220,6 +250,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         return tails;
     }
 
+    /**Method which allows other classes to add tails to the tails list*/
     public void addTail(final SnakeTail pTail){
         tails.add(pTail);
     }
