@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
@@ -20,6 +18,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final List<SnakeTail> tails = new LinkedList<>();
     private boolean startMoving = true;
     private boolean timerStartedOnce;
+    private IngameBoost currentBoost;
 
     /**Constructor*/
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
@@ -29,11 +28,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.head = head;
         this.panel = panel;
         timerStartedOnce = false;
+        currentBoost = IngameBoost.REGULAR_BOOST;
     }
 
     /**Increases the snakes length by the given int in SnakeTails.
      * Does this by adding a tail to the position of the last snake in the tails list.*/
-    private void increaseSnakeLenght(int timesToIncrease){
+    private void increaseSnakeLength(int timesToIncrease){
 
         for (int i = 0; i < timesToIncrease; i++) {
 
@@ -89,7 +89,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //Enter only for TESTINGS!!!
             case 10 ->{
-                increaseSnakeLenght(1);
+                increaseSnakeLength(1);
             }
         }
     }
@@ -109,6 +109,50 @@ public class KeyListener implements java.awt.event.KeyListener {
         }, 0, speed);
     }
 
+    private void spawnBoost(){
+
+        int randomNumber = new Random().nextInt(100) + 1;
+
+        //TODO Passt das so? So bald wie möglich!!
+
+        if (randomNumber <= 5){
+            currentBoost = IngameBoost.KEY_BOOST;
+        } else if (randomNumber > 5 && randomNumber <= 35) {
+            currentBoost = IngameBoost.REGULAR_BOOST;
+        } else if (randomNumber > 35 && randomNumber <= 50) {
+            currentBoost = IngameBoost.NICE_BOOST;
+        } else if (randomNumber > 50 && randomNumber <= 53) {
+            currentBoost = IngameBoost.MYTHICAL_BOOST;
+        } else if (randomNumber > 53 && randomNumber <= 60) {
+            currentBoost = IngameBoost.BAD_BOOST;
+        } else if (randomNumber > 60 && randomNumber <= 70) {
+            currentBoost = IngameBoost.HEALTH_BOOST;
+        } else if (randomNumber > 70 && randomNumber <= 85) {
+            currentBoost = IngameBoost.GOOD_BOOST;
+        } else if (randomNumber > 85 && randomNumber <= 86) {
+            currentBoost = IngameBoost.GOD_BOOST;
+        }else {
+            currentBoost = IngameBoost.LOSER_BOOST;
+        }
+
+
+    }
+
+    private void eatBoost(){
+
+        gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
+        gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
+        increaseSnakeLength(currentBoost.getLengthBoost());
+        gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
+
+
+
+        panel.revalidate();
+        panel.repaint();
+
+        spawnBoost();
+    }
+
     private void moveAction() {
 
         moveTails();
@@ -122,6 +166,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         //Position position = new Position(head.getX(), head.getY());
         //testIfDied(position.getFieldX(), position.getFieldY());
+        if (head.getLocation().equals())
         panel.revalidate();
         panel.repaint();
     }
