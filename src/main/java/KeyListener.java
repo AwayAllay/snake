@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,16 +11,15 @@ public class KeyListener implements java.awt.event.KeyListener {
      * 0 == North, 1 == East, 2 == South, 3 == West
      */
     private MovingDirections direction = MovingDirections.RIGHT;
-    private final JLabel head;
-
-    private final JPanel panel;
-
-    private final Settings settings;
-    private boolean startMoving = true;
-    private final GameStuff gameStuff;
-    private final JFrame gameFrame;
-    private boolean timerStartedOnce;
     private Timer timer;
+    private final JLabel head;
+    private final JFrame gameFrame;
+    private final JPanel panel;
+    private final Settings settings;
+    private final GameStuff gameStuff;
+    private final List<SnakeTail> tails = new LinkedList<>();
+    private boolean startMoving = true;
+    private boolean timerStartedOnce;
 
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
         this.gameStuff = gameStuff;
@@ -27,6 +28,10 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.head = head;
         this.panel = panel;
         timerStartedOnce = false;
+    }
+
+    private void increaseSnakeLenght(){
+
     }
 
     /**
@@ -87,16 +92,34 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void moveAction() {
+
+        moveTails();
+
         switch (direction) {
             case UP -> head.setLocation(head.getX(), head.getY() - GameFrame.FIELD_HEIGHT_PX);
             case RIGHT -> head.setLocation(head.getX() + GameFrame.FIELD_WIDTH_PX, head.getY());
             case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
-        Position position = new Position(head.getX(), head.getY());
-        testIfDied(position.getFieldX(), position.getFieldY());
+
+        //Position position = new Position(head.getX(), head.getY());
+        //testIfDied(position.getFieldX(), position.getFieldY());
         panel.revalidate();
         panel.repaint();
+    }
+
+    private void moveTails() {
+
+        int moveToX = head.getX();
+        int moveToY = head.getY();
+
+        for (SnakeTail tail : tails) {
+            int tailX = tail.getX();
+            int tailY = tail.getY();
+            tail.setLocation(moveToX, moveToY);
+            moveToX = tailX;
+            moveToY = tailY;
+        }
     }
 
     private void died() {
@@ -108,7 +131,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
 
         //TODO ARRAYSINDESOUTOFBOUNDSEXCEPTION
-        if (obstacles[x][y]) {
+        if (obstacles[x][y] || snakeHitItself()) {
             pauseTimer();
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
@@ -117,6 +140,18 @@ public class KeyListener implements java.awt.event.KeyListener {
                 died();
             }
         }
+    }
+
+    private boolean snakeHitItself() {
+
+        for (SnakeTail tail: tails) {
+
+            if (head.getLocation() == tail.getLocation()){
+                return true;
+            }
+
+        }
+        return false;
     }
 
     private void respawn() {
@@ -179,6 +214,14 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    public List<SnakeTail> getTails() {
+        return tails;
+    }
+
+    public void addTail(final SnakeTail pTail){
+        tails.add(pTail);
     }
 
 }

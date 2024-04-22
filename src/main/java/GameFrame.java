@@ -14,10 +14,12 @@ public abstract class GameFrame extends JFrame {
     private final JLabel level;
     private final JLabel timer;
     private final Timer setTimeTimer;
-    private final JLabel tail;
+    private final JLabel tail1;
+    private final JLabel tail2;
+    private final JLabel tail3;
     private final JLabel head;
+    private final KeyListener keyListener;
     private final Settings settings;
-    private final List<SnakeTail> tails = new LinkedList<>();
     private final GameStuff gameStuff;
     public static final int FRAME_WIDTH_PX = 2096; 
     public static final int FRAME_HEIGHT_PX = 1198;
@@ -34,6 +36,7 @@ public abstract class GameFrame extends JFrame {
 
         this.settings = settings;
         this.gameStuff = gameStuff;
+
 
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -81,21 +84,36 @@ public abstract class GameFrame extends JFrame {
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
 
         //SnakeTail
-        tail = new SnakeTail(1020, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
-        tail.setBackground(settings.getSkin().getTailColor());
-        tail.setOpaque(true);
-        tails.add((SnakeTail) tail);
+        tail1 = new SnakeTail(1040, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail1.setBackground(settings.getSkin().getTailColor());
+        tail1.setOpaque(true);
+
+        //SnakeTail2
+        tail2 = new SnakeTail(1020, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail2.setBackground(settings.getSkin().getTailColor());
+        tail2.setOpaque(true);
+
+        //SnakeTail3
+        tail3 = new SnakeTail(1000, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail3.setBackground(settings.getSkin().getTailColor());
+        tail3.setOpaque(true);
 
         //SnakeHead
-        head = new SnakeHead(1040 ,580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
+        head = new SnakeHead(1060 ,580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
         head.setBackground(settings.getSkin().getHeadColor());
         head.setOpaque(true);
 
+        //Adds the labels to the action-Bar panel
         actionBar.add(keys);
         actionBar.add(points);
         actionBar.add(lives);
         actionBar.add(level);
         actionBar.add(timer);
+
+        keyListener = new KeyListener(head, panel, settings, frame, gameStuff);
+        keyListener.addTail((SnakeTail) tail1);
+        keyListener.addTail((SnakeTail) tail2);
+        keyListener.addTail((SnakeTail) tail3);
 
         initializeFrame();
 
@@ -116,12 +134,14 @@ public abstract class GameFrame extends JFrame {
         frame.setSize(FRAME_WIDTH_PX, FRAME_HEIGHT_PX);
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.addKeyListener(new KeyListener(head, panel, settings, frame, gameStuff));
+        frame.addKeyListener(keyListener);
 
         actionBar.setBounds(0, 0, frame.getWidth(), 60);
 
         panel.add(actionBar, BorderLayout.NORTH);
-        panel.add(tail);
+        panel.add(tail1);
+        panel.add(tail2);
+        panel.add(tail3);
         panel.add(head);
 
         frame.add(panel, BorderLayout.CENTER);

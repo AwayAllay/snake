@@ -2,7 +2,7 @@ public class Settings {
 
     private Skins skin = Skins.DEFAULT;
     private Modes mode = Modes.NOOB;
-    private int unlockedLevel = 20;
+    private int unlockedLevel = 50;
 
     public Skins getSkin() {
         return skin;

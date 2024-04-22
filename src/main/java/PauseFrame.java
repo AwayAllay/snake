@@ -79,9 +79,17 @@ public class PauseFrame extends JFrame implements ActionListener {
         if (e.getSource() instanceof JButton button) {
 
             if (button.getText().equalsIgnoreCase("Launcher")) {
-                frame.dispose();
-                gameFrame.dispose();
-                new LaunchFrame(settings, gameStuff);
+                frame.setVisible(false);
+                gameFrame.setVisible(false);
+                int answer = JOptionPane.showConfirmDialog(null, "Leaving will take you to the launcher. Your stats WILL NOT BE SAVED!", "Sure?", JOptionPane.YES_NO_OPTION);
+                if (answer == 0) {
+                    frame.dispose();
+                    gameFrame.dispose();
+                    new LaunchFrame(settings, gameStuff);
+                }else {
+                    frame.setVisible(true);
+                    gameFrame.setVisible(true);
+                }
             } else {
                 frame.dispose();
                 keyListener.resumeTimer();
