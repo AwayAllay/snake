@@ -206,7 +206,6 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
-        //Position position = new Position(head.getX(), head.getY());
         testIfDied(head.getX() /  GameFrame.FIELD_WIDTH_PX,(head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
         if (head.getLocation().equals(boost.getLocation())) {
             eatBoost();
