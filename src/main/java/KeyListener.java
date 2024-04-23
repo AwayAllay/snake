@@ -162,8 +162,6 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         setRandomBoostLocation();
 
-        //TODO random Location for boost
-
     }
 
     /**Sets a radom Location for the boost and looks if it would be on the snake or on one of
@@ -340,19 +338,19 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (settings.getMode()) {
 
             case BEGINNER -> {
-                return 160;
+                return 140;
             }
             case ADULT -> {
-                return 150;
-            }
-            case MASTER -> {
                 return 130;
             }
-            case GOD -> {
+            case MASTER -> {
                 return 110;
             }
+            case GOD -> {
+                return 90;
+            }
             default -> {
-                return 200;
+                return 150;
             }
 
         }
