@@ -8,6 +8,7 @@ import java.util.Timer;
 
 public abstract class GameFrame extends JFrame {
 
+    //TODO give time for next level
     private final JFrame frame;
     private final JPanel panel;
     private final JPanel actionBar;
@@ -56,7 +57,7 @@ public abstract class GameFrame extends JFrame {
         level.setFont(new Font("Ariral", Font.BOLD, 50));
         
         //The displayed lives
-        JLabel lives = new JLabel("lives: " + gameStuff.getLives() + "/5");
+        JLabel lives = new JLabel("lives: " + gameStuff.getLives());
         lives.setBounds(519, 5, 213, 50);
         lives.setBackground(Color.WHITE);
         lives.setOpaque(true);
@@ -110,7 +111,7 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(level);
         actionBar.add(timer);
 
-        keyListener = new KeyListener(head, panel, settings, frame, gameStuff);
+        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys);
         keyListener.addTail((SnakeTail) tail1);
         keyListener.addTail((SnakeTail) tail2);
         keyListener.addTail((SnakeTail) tail3);
@@ -151,6 +152,7 @@ public abstract class GameFrame extends JFrame {
     public void setLevel(String newLevel){
         level.setText(newLevel);
     }
+
     private void setTime(int timeToSet) {
 
         String string = "";

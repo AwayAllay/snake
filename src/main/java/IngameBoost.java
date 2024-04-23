@@ -6,7 +6,7 @@ public enum IngameBoost {
     KEY_BOOST(new Color(250,250,50), 0, 0, 500, 1),
     /**Chance: 30%*/
     REGULAR_BOOST(new Color(255, 0, 0), 2, 0, 50, 0),
-    /**Chance: 15%*/
+    /**Chance: 25%*/
     NICE_BOOST(new Color(50, 250, 0), 1, 0, 100, 0),
     /**Chance: 3%*/
     MYTHICAL_BOOST(new Color(250, 50, 230), 5, 0, 300, 0),

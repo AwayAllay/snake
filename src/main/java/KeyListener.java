@@ -11,8 +11,13 @@ public class KeyListener implements java.awt.event.KeyListener {
     private MovingDirections direction = MovingDirections.RIGHT;
     private Timer timer;
     private final JLabel head;
+    private JLabel boost;
+    private boolean allKeysCollected;
     private final JFrame gameFrame;
     private final JPanel panel;
+    private final JLabel points;
+    private final JLabel lives;
+    private final JLabel keys;
     private final Settings settings;
     private final GameStuff gameStuff;
     private final List<SnakeTail> tails = new LinkedList<>();
@@ -20,20 +25,29 @@ public class KeyListener implements java.awt.event.KeyListener {
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
 
-    /**Constructor*/
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff) {
+    /**
+     * Constructor
+     */
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys) {
         this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
         this.head = head;
         this.panel = panel;
+        this.points = points;
+        this.lives = lives;
+        this.keys = keys;
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
+        allKeysCollected = false;
+        spawnBoost();
     }
 
-    /**Increases the snakes length by the given int in SnakeTails.
-     * Does this by adding a tail to the position of the last snake in the tails list.*/
-    private void increaseSnakeLength(int timesToIncrease){
+    /**
+     * Increases the snakes length by the given int in SnakeTails.
+     * Does this by adding a tail to the position of the last snake in the tails list.
+     */
+    private void increaseSnakeLength(int timesToIncrease) {
 
         for (int i = 0; i < timesToIncrease; i++) {
 
@@ -58,7 +72,9 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-    /**Implemented method which looks what key was pressed*/
+    /**
+     * Implemented method which looks what key was pressed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -86,15 +102,12 @@ public class KeyListener implements java.awt.event.KeyListener {
                     startMoving = false;
                 }
             }
-
-            //Enter only for TESTINGS!!!
-            case 10 ->{
-                increaseSnakeLength(1);
-            }
         }
     }
 
-    /**This starts the timer which will depending on the mode call moveAction() from 110-200 milliseconds*/
+    /**
+     * This starts the timer which will depending on the mode call moveAction() from 110-200 milliseconds
+     */
     private void moveSnake() {
         timer = new Timer();
         timerStartedOnce = true;
@@ -109,48 +122,75 @@ public class KeyListener implements java.awt.event.KeyListener {
         }, 0, speed);
     }
 
-    private void spawnBoost(){
+    private void spawnBoost() {
 
         int randomNumber = new Random().nextInt(100) + 1;
 
-        //TODO Passt das so? So bald wie möglich!!
-
-        if (randomNumber <= 5){
+        /*Set current boost depending on the randomNumber*/
+        if (randomNumber <= 5) {
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber > 5 && randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
-        } else if (randomNumber > 35 && randomNumber <= 50) {
+        } else if (randomNumber > 35 && randomNumber <= 60) {
             currentBoost = IngameBoost.NICE_BOOST;
-        } else if (randomNumber > 50 && randomNumber <= 53) {
+        } else if (randomNumber > 60 && randomNumber <= 63) {
             currentBoost = IngameBoost.MYTHICAL_BOOST;
-        } else if (randomNumber > 53 && randomNumber <= 60) {
+        } else if (randomNumber > 63 && randomNumber <= 70) {
             currentBoost = IngameBoost.BAD_BOOST;
-        } else if (randomNumber > 60 && randomNumber <= 70) {
+        } else if (randomNumber > 70 && randomNumber <= 80) {
             currentBoost = IngameBoost.HEALTH_BOOST;
-        } else if (randomNumber > 70 && randomNumber <= 85) {
+        } else if (randomNumber > 80 && randomNumber <= 95) {
             currentBoost = IngameBoost.GOOD_BOOST;
-        } else if (randomNumber > 85 && randomNumber <= 86) {
+        } else if (randomNumber == 96) {
             currentBoost = IngameBoost.GOD_BOOST;
-        }else {
+        } else {
             currentBoost = IngameBoost.LOSER_BOOST;
         }
 
+        spawnLabel();
 
     }
 
-    private void eatBoost(){
+    private void spawnLabel() {
 
-        gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
-        gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
-        increaseSnakeLength(currentBoost.getLengthBoost());
-        gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
+        boost = new JLabel();
+        boost.setBackground(currentBoost.getBoostColor());
+        boost.setOpaque(true);
+        boost.setBounds(500, 500, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+        panel.add(boost);
+        //boost.setLocation(500,500);
+        //TODO random Location for boost
 
+    }
 
+    private void eatBoost() {
 
-        panel.revalidate();
-        panel.repaint();
+        if (gameStuff.getKeyAmount() >= 5) {
+            allKeysCollected = true;
+        }
 
-        spawnBoost();
+        if (!allKeysCollected) {
+
+            gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
+            gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
+            increaseSnakeLength(currentBoost.getLengthBoost());
+            gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
+
+            points.setText(String.valueOf(gameStuff.getPoints()));
+            lives.setText("lives: " + gameStuff.getLives());
+            keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
+
+            panel.remove(boost);
+            panel.revalidate();
+            panel.repaint();
+            spawnBoost();
+        } else {
+            openDoor();
+        }
+    }
+
+    private void openDoor() {
+        //TODO OPEN THE DOOR
     }
 
     private void moveAction() {
@@ -166,12 +206,16 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         //Position position = new Position(head.getX(), head.getY());
         //testIfDied(position.getFieldX(), position.getFieldY());
-        if (head.getLocation().equals())
+        if (head.getLocation().equals(boost.getLocation())) {
+            eatBoost();
+        }
         panel.revalidate();
         panel.repaint();
     }
 
-    /**Moves all the tails in the tails list to the position of the next tail*/
+    /**
+     * Moves all the tails in the tails list to the position of the next tail
+     */
     private void moveTails() {
 
         int moveToX = head.getX();
@@ -186,15 +230,20 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**Method that is called when the player died*/
+    /**
+     * Method that is called when the player died
+     */
     private void died() {
         new DiedFrame(settings, gameStuff);
+        //TODO DIED
     }
 
-    /**This method will decide whether the player died or respawns or just normally moved.
+    /**
+     * This method will decide whether the player died or respawns or just normally moved.
      * By getting all the fields from the .txt file for the level, this will put them in a 2-dimensional
      * Array, which will then look up the field with the coordinates of the snake.
-     * Also looks if the head position equals a position of the snake itself.*/
+     * Also looks if the head position equals a position of the snake itself.
+     */
     private void testIfDied(int x, int y) {
 
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
@@ -211,12 +260,14 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**Method that looks if the snake hits itself with its head*/
+    /**
+     * Method that looks if the snake hits itself with its head
+     */
     private boolean snakeHitItself() {
 
-        for (SnakeTail tail: tails) {
+        for (SnakeTail tail : tails) {
 
-            if (head.getLocation() == tail.getLocation()){
+            if (head.getLocation() == tail.getLocation()) {
                 return true;
             }
 
@@ -226,14 +277,22 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void respawn() {
         resumeTimer();
+        //TODO RESPAWN
     }
 
-    /**This will get the 2-dimentional Array depending on the level*/
+    /**
+     * This will get the 2-dimentional Array depending on the level
+     */
     private boolean[][] getObstacles(final Levels level) {
         switch (level) {
 
+            //TODO static?
+
             case LEVEL1 -> {
                 return LevelEins.getObstacles();
+            }
+            case LEVEL2 -> {
+                return LevelZwei.getObstacles();
             }
             default -> {
                 System.out.println("Bla");
@@ -242,7 +301,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**Sets the speed for the timer moving the snake depending on what mode is selected*/
+    /**
+     * Sets the speed for the timer moving the snake depending on what mode is selected
+     */
     private int getSpeed() {
 
         switch (settings.getMode()) {
@@ -266,23 +327,29 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**This will pause the timer which moves the snake, causing the snake to stop*/
+    /**
+     * This will pause the timer which moves the snake, causing the snake to stop
+     */
     private void pauseTimer() {
         if (timer != null) {
             timer.cancel();
         }
     }
 
-    /**Opens the pause menu for the player when the Esc button is pressed*/
+    /**
+     * Opens the pause menu for the player when the Esc button is pressed
+     */
     private void openPauseMenu() {
         pauseTimer();
         new PauseFrame(settings, this, gameFrame, gameStuff);
         //TODO Pause Timer for time
     }
 
-    /**This will start the timer again if the timer was paused by the menu*/
+    /**
+     * This will start the timer again if the timer was paused by the menu
+     */
     public void resumeTimer() {
-        if (timerStartedOnce){
+        if (timerStartedOnce) {
             moveSnake();
         }
     }
@@ -291,12 +358,10 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
-    public List<SnakeTail> getTails() {
-        return tails;
-    }
-
-    /**Method which allows other classes to add tails to the tails list*/
-    public void addTail(final SnakeTail pTail){
+    /**
+     * Method which allows other classes to add tails to the tails list
+     */
+    public void addTail(final SnakeTail pTail) {
         tails.add(pTail);
     }
 
