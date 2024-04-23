@@ -24,7 +24,6 @@ public class KeyListener implements java.awt.event.KeyListener {
     private boolean startMoving = true;
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
-    //private boolean[][] obstacles;
 
     /**
      * Constructor
@@ -42,7 +41,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
         spawnBoost();
-        //obstacles = getObstacles(gameStuff.getCurrentLevel());
     }
 
     /**
@@ -160,9 +158,39 @@ public class KeyListener implements java.awt.event.KeyListener {
         boost.setOpaque(true);
         boost.setBounds(500, 500, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
         panel.add(boost);
-        //boost.setLocation(500,500);
+
+        setRandomBoostLocation();
+
         //TODO random Location for boost
 
+    }
+
+    /**Sets a radom Location for the boost and looks if it would be on the snake or on one of
+     * the obstacles. If so it will create a new Location for the boost by recursion.*/
+    private void setRandomBoostLocation() {
+        int randomX = new Random().nextInt(105);
+        int randomY = new Random().nextInt(51) + 4;
+
+        boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
+
+        if (obstacles[randomX][randomY] || boostOnSnake(randomX, randomY)){
+            setRandomBoostLocation();
+        }else {
+            boost.setLocation(randomX, randomY);
+        }
+
+    }
+
+    /**Tests if the boost would spawn on the snake.
+     * If so it returns true, otherwise false.*/
+    private boolean boostOnSnake(final int x, final int y) {
+
+        for (SnakeTail tail : tails) {
+            if (x == tail.getX() || y == tail.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void eatBoost() {
@@ -247,7 +275,6 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void testIfDied(int x, int y) {
 
-        //TODO ARRAYSINDESOUTOFBOUNDSEXCEPTION
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
 
         if (obstacles[x][y] || snakeHitItself()) {
