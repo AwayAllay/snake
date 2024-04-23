@@ -40,7 +40,8 @@ public class KeyListener implements java.awt.event.KeyListener {
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
-        spawnBoost();
+        boost = new JLabel();
+        boost.setLocation(-200, -200);
     }
 
     /**
@@ -100,6 +101,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 if (startMoving) {
                     moveSnake();
                     startMoving = false;
+                    spawnBoost();
                 }
             }
         }
@@ -153,7 +155,6 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void spawnLabel() {
 
-        boost = new JLabel();
         boost.setBackground(currentBoost.getBoostColor());
         boost.setOpaque(true);
         boost.setBounds(500, 500, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
@@ -176,7 +177,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         if (obstacles[randomX][randomY] || boostOnSnake(randomX, randomY)){
             setRandomBoostLocation();
         }else {
-            boost.setLocation(randomX, randomY);
+            boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, randomY * GameFrame.FIELD_HEIGHT_PX);
         }
 
     }
