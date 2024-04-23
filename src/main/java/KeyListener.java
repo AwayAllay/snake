@@ -24,6 +24,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private boolean startMoving = true;
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
+    //private boolean[][] obstacles;
 
     /**
      * Constructor
@@ -41,6 +42,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
         spawnBoost();
+        //obstacles = getObstacles(gameStuff.getCurrentLevel());
     }
 
     /**
@@ -205,7 +207,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
 
         //Position position = new Position(head.getX(), head.getY());
-        //testIfDied(position.getFieldX(), position.getFieldY());
+        testIfDied(head.getX() /  GameFrame.FIELD_WIDTH_PX,(head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
         if (head.getLocation().equals(boost.getLocation())) {
             eatBoost();
         }
@@ -246,16 +248,18 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void testIfDied(int x, int y) {
 
+        //TODO ARRAYSINDESOUTOFBOUNDSEXCEPTION
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
 
-        //TODO ARRAYSINDESOUTOFBOUNDSEXCEPTION
         if (obstacles[x][y] || snakeHitItself()) {
             pauseTimer();
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
-                respawn();
+                //respawn();
+                System.out.println("respawn");
             } else {
-                died();
+                //died();
+                System.out.println("died");
             }
         }
     }
@@ -267,7 +271,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         for (SnakeTail tail : tails) {
 
-            if (head.getLocation() == tail.getLocation()) {
+            if (head.getLocation().equals(tail.getLocation())) {
                 return true;
             }
 
