@@ -142,7 +142,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 100) { //5!!
+        if (randomNumber <= 5) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber > 5 && randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
@@ -320,12 +320,13 @@ public class KeyListener implements java.awt.event.KeyListener {
             pauseTimer();
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
-                //respawn();
+                respawn();
                 System.out.println("respawn");
             } else {
                 //died();
                 System.out.println("died");
             }
+            lives.setText("lives: " + gameStuff.getLives());
         }
     }
 
@@ -345,9 +346,41 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void respawn() {
-        resumeTimer();
-        //TODO RESPAWN
+
+        ListIterator<SnakeTail> iterator = tails.listIterator(tails.size());
+
+        Timer removeTimer = new Timer();
+        removeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (iterator.hasPrevious()){
+                    SnakeTail tail = iterator.previous();
+                    panel.remove(tail);
+                    panel.revalidate();
+                    panel.repaint();
+                    iterator.remove();
+                }else {
+                    respawnTheSnake();
+                    cancel();
+                }
+            }
+        }, 0, 50);
     }
+
+    private void respawnTheSnake(){
+        timerStartedOnce = false;
+        head.setLocation(1060 ,580);
+        for (int i = 1000; i < 1041; i+= GameFrame.FIELD_WIDTH_PX) {
+            SnakeTail tail = new SnakeTail(i, 580, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+            tail.setBackground(settings.getSkin().getTailColor());
+            tail.setOpaque(true);
+            tails.add(tail);
+            panel.add(tail);
+            panel.revalidate();
+            panel.repaint();
+        }
+    }
+
 
     /**
      * This will get the 2-dimentional Array depending on the level
