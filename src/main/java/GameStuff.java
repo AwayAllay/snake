@@ -4,8 +4,10 @@ public class GameStuff {
     private int lives;
     private int points;
     private int keyAmount;
+    private int timeElapsed;
 
     public GameStuff() {
+        timeElapsed = 1;
         currentLevel = Levels.LEVEL1;
         lives = 5;
         keyAmount = 0;
@@ -43,5 +45,13 @@ public class GameStuff {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public void setTimeElapsed(int timeElapsed) {
+        this.timeElapsed = timeElapsed;
     }
 }

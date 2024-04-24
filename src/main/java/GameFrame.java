@@ -249,6 +249,7 @@ public abstract class GameFrame extends JFrame {
            @Override
            public void run() {
                setTime(time);
+               gameStuff.setTimeElapsed(time);
                time++;
            }
        }, 0, 1000);

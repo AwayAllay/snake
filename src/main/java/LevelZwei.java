@@ -11,7 +11,7 @@ public class LevelZwei extends GameFrame{
 
         obstacles = translateLevel("level2.txt");
         setLevel("LEVEL 2");
-        startTimer(1);
+        startTimer(gameStuff.getTimeElapsed());
         printObstacles(obstacles);
     }
 

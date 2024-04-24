@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.List;
 import java.util.Timer;
 
 public class KeyListener implements java.awt.event.KeyListener {
@@ -82,20 +84,31 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (e.getKeyCode()) {
 
             //W
-            case 87 -> direction = MovingDirections.UP;
-
+            case 87 -> {
+                if (direction != MovingDirections.DOWN) {
+                    direction = MovingDirections.UP;
+                }
+            }
             //A
-            case 65 -> direction = MovingDirections.LEFT;
-
+            case 65 -> {
+                if (direction != MovingDirections.RIGHT) {
+                    direction = MovingDirections.LEFT;
+                }
+            }
             //S
-            case 83 -> direction = MovingDirections.DOWN;
-
+            case 83 -> {
+                if (direction != MovingDirections.UP) {
+                    direction = MovingDirections.DOWN;
+                }
+            }
             //D
-            case 68 -> direction = MovingDirections.RIGHT;
-
+            case 68 -> {
+                if (direction != MovingDirections.LEFT) {
+                    direction = MovingDirections.RIGHT;
+                }
+            }
             //Esc
             case 27 -> openPauseMenu();
-
             //Space
             case 32 -> {
                 if (startMoving) {
@@ -129,7 +142,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 5) {
+        if (randomNumber <= 100) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber > 5 && randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
@@ -167,7 +180,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**Sets a radom Location for the boost and looks if it would be on the snake or on one of
      * the obstacles. If so it will create a new Location for the boost by recursion.*/
     private void setRandomBoostLocation() {
-        int randomX = new Random().nextInt(105);
+        int randomX = new Random().nextInt(104);
         int randomY = new Random().nextInt(51) + 4;
 
         boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
@@ -194,24 +207,24 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void eatBoost() {
 
-        if (gameStuff.getKeyAmount() >= 5) {
+        gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
+        gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
+        increaseSnakeLength(currentBoost.getLengthBoost());
+        gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
+
+        points.setText(String.valueOf(gameStuff.getPoints()));
+        lives.setText("lives: " + gameStuff.getLives());
+        keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
+
+        panel.remove(boost);
+        panel.revalidate();
+        panel.repaint();
+
+        if (gameStuff.getKeyAmount() >= 1) {
             allKeysCollected = true;
         }
 
         if (!allKeysCollected) {
-
-            gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
-            gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
-            increaseSnakeLength(currentBoost.getLengthBoost());
-            gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
-
-            points.setText(String.valueOf(gameStuff.getPoints()));
-            lives.setText("lives: " + gameStuff.getLives());
-            keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
-
-            panel.remove(boost);
-            panel.revalidate();
-            panel.repaint();
             spawnBoost();
         } else {
             openDoor();
@@ -219,7 +232,17 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void openDoor() {
-        //TODO OPEN THE DOOR
+        //28, 103
+        Component[] components = panel.getComponents();
+        for (Component component: components) {
+            if (component instanceof JLabel &&
+                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (28 + 3) * GameFrame.FIELD_HEIGHT_PX))){
+
+                panel.remove(component);
+                panel.revalidate();
+                panel.repaint();
+            }
+        }
     }
 
     private void moveAction() {
@@ -233,12 +256,29 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (28 + 3) * GameFrame.FIELD_HEIGHT_PX))  && allKeysCollected){
+            System.out.println("WON Nnoino");
+            newLevel();
+        }
+
         testIfDied(head.getX() /  GameFrame.FIELD_WIDTH_PX,(head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
         if (head.getLocation().equals(boost.getLocation())) {
             eatBoost();
         }
         panel.revalidate();
         panel.repaint();
+    }
+
+    private void newLevel() {
+        switch (gameStuff.getCurrentLevel()){
+
+            case LEVEL1:
+                new LevelZwei(settings, gameStuff);
+                gameStuff.setCurrentLevel(Levels.LEVEL2);
+                gameStuff.setKeyAmount(0);
+                gameFrame.dispose();
+            //TODO More LEVELS!
+        }
     }
 
     /**
