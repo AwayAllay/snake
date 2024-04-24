@@ -85,6 +85,11 @@ public class PauseFrame extends JFrame implements ActionListener {
                 if (answer == 0) {
                     frame.dispose();
                     gameFrame.dispose();
+                    gameStuff.setTimeElapsed(1);
+                    gameStuff.setKeyAmount(0);
+                    gameStuff.setPoints(0);
+                    gameStuff.setCurrentLevel(Levels.LEVEL1);
+                    gameStuff.setLives(5);
                     new LaunchFrame(settings, gameStuff);
                 }else {
                     frame.setVisible(true);
