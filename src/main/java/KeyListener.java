@@ -279,13 +279,21 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             case LEVEL1:
                 gameStuff.setCurrentLevel(Levels.LEVEL2);
-                gameStuff.setKeyAmount(0);
-                gameStuff.setTimeElapsed(playtimeManager.getTime());
-                gameStuff.setLives(gameStuff.getLives());
-                gameFrame.dispose();
+                someStuff();
                 new LevelZwei(settings, gameStuff);
+            case LEVEL2:
+                gameStuff.setCurrentLevel(Levels.LEVEL3);
+                someStuff();
+                new LevelDrei(settings, gameStuff);
             //TODO More LEVELS!
         }
+    }
+
+    private void someStuff(){
+        gameStuff.setKeyAmount(0);
+        gameStuff.setTimeElapsed(playtimeManager.getTime());
+        gameStuff.setLives(gameStuff.getLives());
+        gameFrame.dispose();
     }
 
     /**
@@ -405,11 +413,15 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL2 -> {
                 return LevelZwei.getObstacles();
             }
+            case LEVEL3 -> {
+                return LevelDrei.getObstacles();
+            }
             default -> {
                 System.out.println("Bla");
                 return LevelEins.getObstacles();
             }
         }
+        //TODO MORE LEVELS HERE TOO
     }
 
     /**
@@ -454,7 +466,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         pauseTimer();
         playtimeManager.stopTimer();
         new PauseFrame(settings, this, gameFrame, gameStuff);
-        //TODO Pause Timer for time
     }
 
     /**
