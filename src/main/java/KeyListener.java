@@ -370,7 +370,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         startMoving = true;
         direction = MovingDirections.RIGHT;
         head.setLocation(1060 ,580);
-        for (int i = 1000; i < 1041; i+= GameFrame.FIELD_WIDTH_PX) {
+        for (int i = 1040; i > 999; i-= GameFrame.FIELD_WIDTH_PX) {
             SnakeTail tail = new SnakeTail(i, 580, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
             tail.setBackground(settings.getSkin().getTailColor());
             tail.setOpaque(true);

@@ -9,6 +9,7 @@ import java.util.Timer;
 public abstract class GameFrame extends JFrame {
 
     //TODO give time for next level
+    private int timeElapsed;
     private final JFrame frame;
     private final JPanel panel;
     private final JPanel actionBar;
