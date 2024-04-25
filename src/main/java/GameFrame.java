@@ -9,7 +9,6 @@ import java.util.Timer;
 public abstract class GameFrame extends JFrame {
 
     //TODO give time for next level
-    private int timeElapsed;
     private final JFrame frame;
     private final JPanel panel;
     private final JPanel actionBar;
@@ -21,6 +20,7 @@ public abstract class GameFrame extends JFrame {
     private final JLabel tail3;
     private final JLabel head;
     private final KeyListener keyListener;
+    private final PlaytimeManager playtimeManager;
     private final Settings settings;
     private final GameStuff gameStuff;
     public static final int FRAME_WIDTH_PX = 2096; 
@@ -112,7 +112,9 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(level);
         actionBar.add(timer);
 
-        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys);
+        playtimeManager = new PlaytimeManager(gameStuff, timer);
+
+        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys, playtimeManager);
         keyListener.addTail((SnakeTail) tail1);
         keyListener.addTail((SnakeTail) tail2);
         keyListener.addTail((SnakeTail) tail3);
@@ -244,16 +246,8 @@ public abstract class GameFrame extends JFrame {
         obstacles = result;
         return result;
     }
-    public void startTimer(final int pTime){
-       setTimeTimer.schedule(new TimerTask() {
-           private int time = pTime;
-           @Override
-           public void run() {
-               setTime(time);
-               gameStuff.setTimeElapsed(time);
-               time++;
-           }
-       }, 0, 1000);
+    public void startTimer(){
+       playtimeManager.startTimer();
     }
 
 }

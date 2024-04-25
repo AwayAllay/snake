@@ -11,7 +11,7 @@ public class LevelEins extends GameFrame{
 
         obstacles = translateLevel("level1.txt");
         setLevel("LEVEL 1");
-        startTimer(gameStuff.getTimeElapsed());
+        startTimer();
         printObstacles(obstacles);
     }
 

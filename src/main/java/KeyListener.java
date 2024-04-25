@@ -22,6 +22,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final JLabel keys;
     private final Settings settings;
     private final GameStuff gameStuff;
+    private final PlaytimeManager playtimeManager;
     private final List<SnakeTail> tails = new LinkedList<>();
     private boolean startMoving = true;
     private boolean timerStartedOnce;
@@ -30,7 +31,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * Constructor
      */
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys) {
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
         this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
@@ -39,6 +40,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.points = points;
         this.lives = lives;
         this.keys = keys;
+        this.playtimeManager = playtimeManager;
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
@@ -302,6 +304,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      * Method that is called when the player died
      */
     private void died() {
+        playtimeManager.stopTimer();
         new DiedFrame(settings, gameStuff, gameFrame);
     }
 
@@ -443,6 +446,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void openPauseMenu() {
         pauseTimer();
+        playtimeManager.stopTimer();
         new PauseFrame(settings, this, gameFrame, gameStuff);
         //TODO Pause Timer for time
     }
@@ -453,6 +457,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void resumeTimer() {
         if (timerStartedOnce) {
             moveSnake();
+            playtimeManager.startTimer();
         }
     }
 
