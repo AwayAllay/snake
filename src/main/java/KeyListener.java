@@ -116,7 +116,9 @@ public class KeyListener implements java.awt.event.KeyListener {
                 if (startMoving) {
                     moveSnake();
                     startMoving = false;
-                    spawnBoost();
+                    if (!allKeysCollected) {
+                        spawnBoost();
+                    }
                 }
             }
         }
@@ -144,7 +146,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 5) { //5!!
+        if (randomNumber <= 100) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber > 5 && randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
@@ -173,6 +175,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         boost.setBackground(currentBoost.getBoostColor());
         boost.setOpaque(true);
         boost.setBounds(500, 500, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+        boost.setVisible(true);
         panel.add(boost);
 
         setRandomBoostLocation();
@@ -238,7 +241,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         Component[] components = panel.getComponents();
         for (Component component: components) {
             if (component instanceof JLabel &&
-                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (28 + 3) * GameFrame.FIELD_HEIGHT_PX))){
+                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX))){
 
                 panel.remove(component);
                 panel.revalidate();
@@ -258,7 +261,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
-        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (28 + 3) * GameFrame.FIELD_HEIGHT_PX))  && allKeysCollected){
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX))  && allKeysCollected){
             System.out.println("WON Nnoino");
             newLevel();
         }
@@ -275,10 +278,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (gameStuff.getCurrentLevel()){
 
             case LEVEL1:
-                new LevelZwei(settings, gameStuff);
                 gameStuff.setCurrentLevel(Levels.LEVEL2);
                 gameStuff.setKeyAmount(0);
+                gameStuff.setTimeElapsed(playtimeManager.getTime());
+                gameStuff.setLives(gameStuff.getLives());
                 gameFrame.dispose();
+                new LevelZwei(settings, gameStuff);
             //TODO More LEVELS!
         }
     }
@@ -305,6 +310,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void died() {
         playtimeManager.stopTimer();
+        boost.setVisible(false);
         new DiedFrame(settings, gameStuff, gameFrame);
     }
 

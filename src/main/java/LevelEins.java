@@ -13,6 +13,8 @@ public class LevelEins extends GameFrame{
         setLevel("LEVEL 1");
         startTimer();
         printObstacles(obstacles);
+        this.revalidate();
+        this.repaint();
     }
 
     private void printObstacles(boolean[][] obstacles) {

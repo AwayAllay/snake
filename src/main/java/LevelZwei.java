@@ -13,6 +13,8 @@ public class LevelZwei extends GameFrame{
         setLevel("LEVEL 2");
         startTimer();
         printObstacles(obstacles);
+        this.revalidate();
+        this.repaint();
     }
 
     private void printObstacles(boolean[][] obstacles) {
