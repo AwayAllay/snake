@@ -302,8 +302,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      * Method that is called when the player died
      */
     private void died() {
-        new DiedFrame(settings, gameStuff);
-        //TODO DIED
+        new DiedFrame(settings, gameStuff, gameFrame);
     }
 
     /**
@@ -323,7 +322,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 respawn();
                 System.out.println("respawn");
             } else {
-                //died();
+                died();
                 System.out.println("died");
             }
             lives.setText("lives: " + gameStuff.getLives());
@@ -368,7 +367,8 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void respawnTheSnake(){
-        timerStartedOnce = false;
+        startMoving = true;
+        direction = MovingDirections.RIGHT;
         head.setLocation(1060 ,580);
         for (int i = 1000; i < 1041; i+= GameFrame.FIELD_WIDTH_PX) {
             SnakeTail tail = new SnakeTail(i, 580, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);

@@ -8,43 +8,100 @@ public class DiedFrame implements ActionListener {
 
     private final Settings settings;
     private final GameStuff gameStuff;
-
+    private final JFrame gameFrame;
     private final JFrame frame;
+    private final JPanel panel;
 
-    public DiedFrame(Settings settings, GameStuff gameStuff) {
+    public DiedFrame(Settings settings, GameStuff gameStuff, JFrame gameFrame) {
         this.settings = settings;
         this.gameStuff = gameStuff;
+        this.gameFrame = gameFrame;
 
         frame = new JFrame("You died");
+        panel = new JPanel();
         prepareFrame();
 
-        JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setVisible(true);
 
         JButton back = new JButton("Launcher");
         back.setFocusable(false);
-        back.setBounds(125, 460, 250, 60);
+        back.setBounds(125, 500, 250, 60);
         back.addActionListener(this);
         panel.add(back);
 
         JButton retry = new JButton("Retry");
-        back.setFocusable(false);
-        back.setBounds(125, 345, 250, 60);
-        back.addActionListener(this);
-        panel.add(back);
+        retry.setFocusable(false);
+        retry.setBounds(125, 400, 250, 60);
+        retry.addActionListener(this);
+        panel.add(retry);
 
         JLabel letters = new JLabel("YOU DIED");
-        letters.setBounds(145, 100, 250, 60);
+        letters.setBounds(100, 100, 300, 60);
         letters.setVisible(true);
         letters.setFont(new Font("Arial", Font.BOLD, 60));
 
+        JLabel statsPoints = new JLabel("Points: " + gameStuff.getPoints());
+        statsPoints.setBounds(125,270, 250, 30);
+        statsPoints.setVisible(true);
+        statsPoints.setFont(new Font("Arial", Font.ITALIC, 30));
+
+        JLabel statsTime = new JLabel("Time: " + getTime(gameStuff.getTimeElapsed()));
+        statsTime.setBounds(125,300, 250, 30);
+        statsTime.setVisible(true);
+        statsTime.setFont(new Font("Arial", Font.ITALIC, 30));
+
+        JLabel statsLevel = new JLabel("Level: " + gameStuff.getCurrentLevel());
+        statsLevel.setBounds(125,240, 250, 30);
+        statsLevel.setVisible(true);
+        statsLevel.setFont(new Font("Arial", Font.ITALIC, 30));
+
         panel.add(letters);
+        panel.add(statsTime);
+        panel.add(statsLevel);
+        panel.add(statsPoints);
         panel.add(retry);
         panel.add(back);
-        frame.add(panel);
 
     }
+
+    private String getTime(int timeElapsed) {
+
+        String string = "";
+
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+
+        if (timeElapsed / 60 / 60 >= 1){
+            hours = timeElapsed / 60 / 60;
+            timeElapsed = timeElapsed - ((timeElapsed / 60/ 60) * 60 * 60);
+        }
+        if (timeElapsed / 60  >= 1){
+            minutes = timeElapsed / 60;
+            timeElapsed = timeElapsed - ((timeElapsed / 60) * 60);
+        }
+        if (timeElapsed >= 1){
+            seconds=timeElapsed;
+        }
+        if (hours<=9){
+            string = string + "0" + hours + ":";
+        }else {
+            string = string + hours + ":";
+        }
+        if (minutes<=9){
+            string = string + "0" + minutes + ":";
+        }else {
+            string = string + minutes + ":";
+        }
+        if (seconds<=9){
+            string = string + "0" + seconds;
+        }else {
+            string = string + seconds;
+        }
+        return string;
+    }
+
     private void prepareFrame() {
 
         frame.setSize(500, 700);
@@ -58,20 +115,21 @@ public class DiedFrame implements ActionListener {
         frame.setAlwaysOnTop(true);
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.setLayout(null);
         frame.setLocationRelativeTo(null);
+        frame.add(panel);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() instanceof JButton button){
-            if (button.getText().equalsIgnoreCase("Retry")){
+        if (e.getSource() instanceof JButton button) {
+            if (button.getText().equalsIgnoreCase("Retry")) {
+                gameFrame.dispose();
                 frame.dispose();
                 prepareRetry();
-                new LevelEins(settings, gameStuff);
-            }else {
+            } else {
+                gameFrame.dispose();
                 frame.dispose();
                 new LaunchFrame(settings, gameStuff);
             }
@@ -83,5 +141,8 @@ public class DiedFrame implements ActionListener {
         gameStuff.setCurrentLevel(Levels.LEVEL1);
         gameStuff.setLives(5);
         gameStuff.setKeyAmount(0);
+        gameStuff.setTimeElapsed(1);
+        gameStuff.setPoints(0);
+        new LevelEins(settings, gameStuff);
     }
 }

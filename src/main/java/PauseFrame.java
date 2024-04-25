@@ -38,13 +38,19 @@ public class PauseFrame extends JFrame implements ActionListener {
 
         JButton continueGame = new JButton("Continue");
         continueGame.setFocusable(false);
-        continueGame.setBounds(125, 345, 250, 60);
+        continueGame.setBounds(125, 400, 250, 60);
         continueGame.addActionListener(this);
         panel.add(continueGame);
 
+        JButton retry = new JButton("Retry");
+        retry.setFocusable(false);
+        retry.setBounds(125, 300, 250, 60);
+        retry.addActionListener(this);
+        panel.add(retry);
+
         JButton backToLauncher = new JButton("Launcher");
         backToLauncher.setFocusable(false);
-        backToLauncher.setBounds(125, 460, 250, 60);
+        backToLauncher.setBounds(125, 500, 250, 60);
         backToLauncher.addActionListener(this);
         panel.add(backToLauncher);
 
@@ -91,6 +97,23 @@ public class PauseFrame extends JFrame implements ActionListener {
                     gameStuff.setCurrentLevel(Levels.LEVEL1);
                     gameStuff.setLives(5);
                     new LaunchFrame(settings, gameStuff);
+                }else {
+                    frame.setVisible(true);
+                    gameFrame.setVisible(true);
+                }
+            } else if (button.getText().equalsIgnoreCase("Retry")) {
+                frame.setVisible(false);
+                gameFrame.setVisible(false);
+                int answer = JOptionPane.showConfirmDialog(null, "If you retry, your stats WILL NOT BE SAVED!", "Sure?", JOptionPane.YES_NO_OPTION);
+                if (answer == 0) {
+                    frame.dispose();
+                    gameFrame.dispose();
+                    gameStuff.setTimeElapsed(1);
+                    gameStuff.setKeyAmount(0);
+                    gameStuff.setPoints(0);
+                    gameStuff.setCurrentLevel(Levels.LEVEL1);
+                    gameStuff.setLives(5);
+                    new LevelEins(settings, gameStuff);
                 }else {
                     frame.setVisible(true);
                     gameFrame.setVisible(true);
