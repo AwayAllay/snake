@@ -283,19 +283,26 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         switch (gameStuff.getCurrentLevel()) {
             case LEVEL1 -> {
-                gameStuff.setCurrentLevel(Levels.LEVEL2);
+                newLevelSettings(Levels.LEVEL2, 2);
                 new LevelZwei(settings, gameStuff);
-                System.out.println("Level zwei wird erstellt");
             }
             case LEVEL2 -> {
-                gameStuff.setCurrentLevel(Levels.LEVEL3);
+                newLevelSettings(Levels.LEVEL3, 3);
                 new LevelDrei(settings, gameStuff);
-                System.out.println("Level 3 wird erstellt");
             }
-            case LEVEL3 -> new LevelDrei(settings, gameStuff);
+            case LEVEL3 -> {
+                new LevelDrei(settings, gameStuff);
+            }
 
             //TODO IMPORTANT FOR NEW LEVELS!
         }
+    }
+
+    private void newLevelSettings(final Levels level, final int reachedLevel){
+        gameStuff.setCurrentLevel(level);
+        if (settings.getUnlockedLevel() < reachedLevel)
+            settings.setUnlockedLevel(reachedLevel);
+        new SettingsManager().save(settings);
     }
 
     private void someStuff(){
