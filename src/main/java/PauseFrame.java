@@ -29,6 +29,7 @@ public class PauseFrame extends JFrame implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(139, 90, 43));
 
         JLabel letter = new JLabel("Paused");
         letter.setBounds(145, 100, 250, 60);

@@ -32,6 +32,7 @@ public class Cosmetics implements ActionListener {
 
         frame = new JFrame("Skins");
         JPanel panel = new JPanel(null);
+        panel.setBackground(new Color(139, 90, 43));
         prepareLaunchFrame();
 
         JButton next = new JButton("Next");

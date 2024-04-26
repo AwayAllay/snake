@@ -19,6 +19,7 @@ public class DiedFrame implements ActionListener {
 
         frame = new JFrame("You died");
         panel = new JPanel();
+        panel.setBackground(new Color(139, 90, 43));
         prepareFrame();
 
         panel.setLayout(null);

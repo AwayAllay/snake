@@ -39,7 +39,7 @@ public abstract class GameFrame extends JFrame {
 
 
         panel = new JPanel();
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(new Color(139, 90, 43));
         panel.setLayout(null);
 
         removeObstaclesFromPanel();
@@ -211,7 +211,7 @@ public abstract class GameFrame extends JFrame {
             for (char c : charArry) {
 
                 JLabel label = new JLabel();
-                label.setBackground(Color.ORANGE);
+                label.setBackground(new Color(205, 133, 63));
                 label.setOpaque(true);
 
                 if (c == ' '){

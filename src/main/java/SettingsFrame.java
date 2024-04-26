@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
@@ -22,6 +23,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(139, 90, 43));
 
         JButton difficulty = new JButton("Difficulty");
         difficulty.setFocusable(false);

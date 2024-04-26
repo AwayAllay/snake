@@ -47,6 +47,7 @@ public class LaunchFrame implements ActionListener {
         settingsButton.setFocusable(false);
         settingsButton.addActionListener(this);
 
+        panel.setBackground(new Color(139, 90, 43));
         panel.add(button);
         panel.add(settingsButton);
         panel.add(letter);
