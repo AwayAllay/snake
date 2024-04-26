@@ -185,8 +185,8 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**Sets a radom Location for the boost and looks if it would be on the snake or on one of
      * the obstacles. If so it will create a new Location for the boost by recursion.*/
     private void setRandomBoostLocation() {
-        int randomX = new Random().nextInt(104);
-        int randomY = new Random().nextInt(51) + 4;
+        int randomX = new Random().nextInt(103) + 1;
+        int randomY = new Random().nextInt(50) + 4;
 
         if (obstacles[randomX][randomY] || boostOnSnake(randomX, randomY)){
             setRandomBoostLocation();
@@ -389,7 +389,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                     cancel();
                 }
             }
-        }, 0, 50);
+        }, 0, getSpeed() / 2);
     }
 
     private void respawnTheSnake(){
@@ -416,19 +416,19 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (settings.getMode()) {
 
             case BEGINNER -> {
-                return 140;
+                return 120;
             }
             case ADULT -> {
-                return 130;
+                return 100;
             }
             case MASTER -> {
-                return 110;
-            }
-            case GOD -> {
                 return 90;
             }
+            case GOD -> {
+                return 60;
+            }
             default -> {
-                return 150;
+                return 140;
             }
 
         }
