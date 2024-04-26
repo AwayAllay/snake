@@ -46,7 +46,7 @@ public class DiedFrame implements ActionListener {
         statsPoints.setVisible(true);
         statsPoints.setFont(new Font("Arial", Font.ITALIC, 30));
 
-        JLabel statsTime = new JLabel("Time: " + getTime(gameStuff.getTimeElapsed()));
+        JLabel statsTime = new JLabel("Time: " + getTime(gameStuff.getTimeElapsed() - 1));
         statsTime.setBounds(125,300, 250, 30);
         statsTime.setVisible(true);
         statsTime.setFont(new Font("Arial", Font.ITALIC, 30));

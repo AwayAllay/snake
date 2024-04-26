@@ -12,6 +12,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private MovingDirections direction = MovingDirections.RIGHT;
     private Timer timer;
+    private boolean isInvinceble = false;
     private final JLabel head;
     private final JLabel boost;
     private boolean allKeysCollected;
@@ -47,7 +48,8 @@ public class KeyListener implements java.awt.event.KeyListener {
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
         boost = new JLabel();
-        boost.setLocation(-200, -200);
+        //boost.setLocation(-200, -200);
+        spawnBoost();
     }
 
     /**
@@ -118,9 +120,6 @@ public class KeyListener implements java.awt.event.KeyListener {
                 if (startMoving) {
                     moveSnake();
                     startMoving = false;
-                    if (!allKeysCollected) {
-                        spawnBoost();
-                    }
                 }
             }
         }
@@ -148,19 +147,19 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 100) { //5!!
+        if (randomNumber <= 5) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
-        } else if (randomNumber > 5 && randomNumber <= 35) {
+        } else if (randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
-        } else if (randomNumber > 35 && randomNumber <= 60) {
+        } else if (randomNumber <= 60) {
             currentBoost = IngameBoost.NICE_BOOST;
-        } else if (randomNumber > 60 && randomNumber <= 63) {
+        } else if (randomNumber <= 63) {
             currentBoost = IngameBoost.MYTHICAL_BOOST;
-        } else if (randomNumber > 63 && randomNumber <= 70) {
+        } else if (randomNumber <= 70) {
             currentBoost = IngameBoost.BAD_BOOST;
-        } else if (randomNumber > 70 && randomNumber <= 80) {
+        } else if (randomNumber <= 80) {
             currentBoost = IngameBoost.HEALTH_BOOST;
-        } else if (randomNumber > 80 && randomNumber <= 95) {
+        } else if (randomNumber <= 95) {
             currentBoost = IngameBoost.GOOD_BOOST;
         } else if (randomNumber == 96) {
             currentBoost = IngameBoost.GOD_BOOST;
@@ -261,15 +260,19 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
-        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX))  && allKeysCollected){
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected){
             System.out.println("WON");
             newLevel();
         }
 
-        testIfDied(head.getX() /  GameFrame.FIELD_WIDTH_PX,(head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
         if (head.getLocation().equals(boost.getLocation())) {
             eatBoost();
         }
+
+        if (!isInvinceble) {
+            testIfDied(head.getX() / GameFrame.FIELD_WIDTH_PX, (head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
+        }
+
         panel.revalidate();
         panel.repaint();
     }
@@ -277,6 +280,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void newLevel() {
 
         someStuff();
+        isInvinceble = true;
 
         switch (gameStuff.getCurrentLevel()) {
             case LEVEL1 -> {
@@ -332,8 +336,8 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     /**
      * This method will decide whether the player died or respawns or just normally moved.
-     * By getting all the fields from the .txt file for the level, this will put them in a 2-dimensional
-     * Array, which will then look up the field with the coordinates of the snake.
+     * By getting all the fields from the obstacles Array for the level, this will
+     * then look up the field with the coordinates of the snake.
      * Also looks if the head position equals a position of the snake itself.
      */
     private void testIfDied(int x, int y) {
