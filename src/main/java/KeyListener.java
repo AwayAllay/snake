@@ -13,7 +13,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private MovingDirections direction = MovingDirections.RIGHT;
     private Timer timer;
     private final JLabel head;
-    private JLabel boost;
+    private final JLabel boost;
     private boolean allKeysCollected;
     private final JFrame gameFrame;
     private final JPanel panel;
@@ -278,21 +278,19 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         someStuff();
 
-        switch (gameStuff.getCurrentLevel()){
-
-            case LEVEL1:
+        switch (gameStuff.getCurrentLevel()) {
+            case LEVEL1 -> {
                 gameStuff.setCurrentLevel(Levels.LEVEL2);
                 new LevelZwei(settings, gameStuff);
                 System.out.println("Level zwei wird erstellt");
-                break;
-            case LEVEL2:
+            }
+            case LEVEL2 -> {
                 gameStuff.setCurrentLevel(Levels.LEVEL3);
                 new LevelDrei(settings, gameStuff);
                 System.out.println("Level 3 wird erstellt");
-                break;
-            case LEVEL3:
-                new LevelDrei(settings, gameStuff);
-                break;
+            }
+            case LEVEL3 -> new LevelDrei(settings, gameStuff);
+
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }

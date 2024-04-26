@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
+import java.util.Objects;
+import java.util.Scanner;
 
 public abstract class GameFrame extends JFrame {
 
@@ -13,8 +14,6 @@ public abstract class GameFrame extends JFrame {
     private final JPanel panel;
     private final JPanel actionBar;
     private final JLabel level;
-    private final JLabel timer;
-    private final Timer setTimeTimer;
     private final JLabel tail1;
     private final JLabel tail2;
     private final JLabel tail3;
@@ -23,8 +22,7 @@ public abstract class GameFrame extends JFrame {
     private final PlaytimeManager playtimeManager;
     private final Settings settings;
     private final GameStuff gameStuff;
-    private final boolean[][] obstacles;
-    public static final int FRAME_WIDTH_PX = 2096; 
+    public static final int FRAME_WIDTH_PX = 2096;
     public static final int FRAME_HEIGHT_PX = 1198;
     public static final int FIELD_WIDTH_PX = 20;
     public static final int FIELD_HEIGHT_PX = 20;
@@ -81,7 +79,7 @@ public abstract class GameFrame extends JFrame {
         keys.setFont(new Font("Ariral", Font.BOLD, 50));
         
         //Timer-Label for the game-timer
-        timer = new JLabel("00:00:00");
+        JLabel timer = new JLabel("00:00:00");
         timer.setBounds(100, 5, 202, 50);
         timer.setBackground(Color.WHITE);
         timer.setOpaque(true);
@@ -114,7 +112,7 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(level);
         actionBar.add(timer);
 
-        obstacles = createObstacles();
+        boolean[][] obstacles = createObstacles();
 
         playtimeManager = new PlaytimeManager(gameStuff, timer);
 
@@ -124,8 +122,6 @@ public abstract class GameFrame extends JFrame {
         keyListener.addTail((SnakeTail) tail3);
 
         initializeFrame();
-
-        setTimeTimer = new Timer();
     }
 
     private boolean[][] createObstacles() {

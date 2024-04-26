@@ -22,11 +22,11 @@ public enum IngameBoost {
     LOSER_BOOST(new Color(51, 25, 0), 10, 0, 2, 0);
 
 
-    private Color boostColor;
-    private int lengthBoost;
-    private int healthBoost;
-    private int points;
-    private int keyBoost;
+    private final Color boostColor;
+    private final int lengthBoost;
+    private final int healthBoost;
+    private final int points;
+    private final int keyBoost;
 
     IngameBoost(Color boostColor, int lengthBoost, int healthBoost, int points, int keyBoost) {
         this.boostColor = boostColor;
