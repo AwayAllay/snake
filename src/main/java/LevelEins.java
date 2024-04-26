@@ -8,6 +8,7 @@ public class LevelEins extends GameFrame{
         super(settings, gameStuff);
 
         this.gameStuff = gameStuff;
+        gameStuff.setCurrentLevel(Levels.LEVEL1);
 
         obstacles = translateLevel("level1.txt");
         setLevel("LEVEL 1");

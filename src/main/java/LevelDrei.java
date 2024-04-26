@@ -7,6 +7,7 @@ public class LevelDrei extends GameFrame{
         super(settings, gameStuff);
 
         this.gameStuff = gameStuff;
+        gameStuff.setCurrentLevel(Levels.LEVEL3);
 
         obstacles = translateLevel("level3.txt");
         setLevel("LEVEL 3");

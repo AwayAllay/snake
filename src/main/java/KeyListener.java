@@ -262,7 +262,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
 
         if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX))  && allKeysCollected){
-            System.out.println("WON Nnoino");
+            System.out.println("WON");
             newLevel();
         }
 
@@ -275,21 +275,28 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void newLevel() {
+
+        someStuff();
+
         switch (gameStuff.getCurrentLevel()){
 
             case LEVEL1:
-                gameStuff.setCurrentLevel(Levels.LEVEL2);
-                someStuff();
                 new LevelZwei(settings, gameStuff);
+                System.out.println("Level zwei wird erstellt");
+                break;
             case LEVEL2:
-                gameStuff.setCurrentLevel(Levels.LEVEL3);
-                someStuff();
                 new LevelDrei(settings, gameStuff);
+                System.out.println("Level 3 wird erstellt");
+                break;
+            case LEVEL3:
+                new LevelDrei(settings, gameStuff);
+                break;
             //TODO More LEVELS!
         }
     }
 
     private void someStuff(){
+        System.out.println("some stuff");
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(playtimeManager.getTime());
         gameStuff.setLives(gameStuff.getLives());
@@ -318,6 +325,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void died() {
         playtimeManager.stopTimer();
+        System.out.println("timer stopped");
         boost.setVisible(false);
         new DiedFrame(settings, gameStuff, gameFrame);
     }
