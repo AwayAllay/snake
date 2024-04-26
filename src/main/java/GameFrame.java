@@ -23,6 +23,7 @@ public abstract class GameFrame extends JFrame {
     private final PlaytimeManager playtimeManager;
     private final Settings settings;
     private final GameStuff gameStuff;
+    private final boolean[][] obstacles;
     public static final int FRAME_WIDTH_PX = 2096; 
     public static final int FRAME_HEIGHT_PX = 1198;
     public static final int FIELD_WIDTH_PX = 20;
@@ -31,7 +32,6 @@ public abstract class GameFrame extends JFrame {
     /**FRAME_WIDTH_PX / FIELD_WIDTH_PX but with some fixes for the actual frame width*/
     public static final int NUM_FIELDS_HORIZ = 104;
     public static final int NUM_FIELDS_VERT = 55;
-    private boolean[][] obstacles;
 
     public GameFrame(final Settings settings, final GameStuff gameStuff) {
         frame = new JFrame();
@@ -43,6 +43,8 @@ public abstract class GameFrame extends JFrame {
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(null);
+
+        removeObstaclesFromPanel();
 
         //The bar above the game field
         actionBar = new JPanel();
@@ -112,9 +114,11 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(level);
         actionBar.add(timer);
 
+        obstacles = createObstacles();
+
         playtimeManager = new PlaytimeManager(gameStuff, timer);
 
-        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys, playtimeManager);
+        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys, playtimeManager, obstacles);
         keyListener.addTail((SnakeTail) tail1);
         keyListener.addTail((SnakeTail) tail2);
         keyListener.addTail((SnakeTail) tail3);
@@ -122,6 +126,28 @@ public abstract class GameFrame extends JFrame {
         initializeFrame();
 
         setTimeTimer = new Timer();
+    }
+
+    private boolean[][] createObstacles() {
+
+        boolean [][] result = null;
+
+        switch (gameStuff.getCurrentLevel()){
+
+            case LEVEL1 -> {
+                System.out.println("level1");
+                result = translateLevel("level1.txt");}
+            case LEVEL2 -> {
+                System.out.println("level2");
+                result = translateLevel("level2.txt");}
+            case LEVEL3 -> {
+                System.out.println("level 3");
+                result = translateLevel("level3.txt");}
+
+        }
+        //TODO IMPORTANT FOR NEW LEVELS!
+
+        return result;
     }
 
     private void initializeFrame() {
@@ -156,45 +182,6 @@ public abstract class GameFrame extends JFrame {
         level.setText(newLevel);
     }
 
-    private void setTime(int timeToSet) {
-
-        String string = "";
-
-        int hours = 0;
-        int minutes = 0;
-        int seconds = 0;
-
-        if (timeToSet / 60 / 60 >= 1){
-            hours = timeToSet / 60 / 60;
-            timeToSet = timeToSet - ((timeToSet / 60/ 60) * 60 * 60);
-        }
-        if (timeToSet / 60  >= 1){
-            minutes = timeToSet / 60;
-            timeToSet = timeToSet - ((timeToSet / 60) * 60);
-        }
-        if (timeToSet >= 1){
-            seconds=timeToSet;
-        }
-        if (hours<=9){
-            string = string + "0" + hours + ":";
-        }else {
-            string = string + hours + ":";
-        }
-        if (minutes<=9){
-            string = string + "0" + minutes + ":";
-        }else {
-            string = string + minutes + ":";
-        }
-        if (seconds<=9){
-            string = string + "0" + seconds;
-        }else {
-            string = string + seconds;
-        }
-
-        timer.setText(string);
-
-
-    }
     public boolean[][] translateLevel(final String fileName){
         //105 Zeichen in X Richtung
         //57 in Y Richtung
@@ -243,9 +230,18 @@ public abstract class GameFrame extends JFrame {
             x = 0;
             y += FIELD_HEIGHT_PX;
         }
-        obstacles = result;
         return result;
     }
+
+    private void removeObstaclesFromPanel(){
+        Component[] components = panel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel){
+                panel.remove(component);
+            }
+        }
+    }
+
     public void startTimer(){
        playtimeManager.startTimer();
     }

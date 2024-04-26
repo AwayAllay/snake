@@ -24,6 +24,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final GameStuff gameStuff;
     private final PlaytimeManager playtimeManager;
     private final List<SnakeTail> tails = new LinkedList<>();
+    private final boolean[][] obstacles;
     private boolean startMoving = true;
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
@@ -31,7 +32,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * Constructor
      */
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager, boolean[][] obstacles) {
         this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
@@ -41,6 +42,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.lives = lives;
         this.keys = keys;
         this.playtimeManager = playtimeManager;
+        this.obstacles = obstacles;
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
@@ -188,8 +190,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomX = new Random().nextInt(104);
         int randomY = new Random().nextInt(51) + 4;
 
-        boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
-
         if (obstacles[randomX][randomY] || boostOnSnake(randomX, randomY)){
             setRandomBoostLocation();
         }else {
@@ -281,17 +281,19 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (gameStuff.getCurrentLevel()){
 
             case LEVEL1:
+                gameStuff.setCurrentLevel(Levels.LEVEL2);
                 new LevelZwei(settings, gameStuff);
                 System.out.println("Level zwei wird erstellt");
                 break;
             case LEVEL2:
+                gameStuff.setCurrentLevel(Levels.LEVEL3);
                 new LevelDrei(settings, gameStuff);
                 System.out.println("Level 3 wird erstellt");
                 break;
             case LEVEL3:
                 new LevelDrei(settings, gameStuff);
                 break;
-            //TODO More LEVELS!
+            //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
 
@@ -337,8 +339,6 @@ public class KeyListener implements java.awt.event.KeyListener {
      * Also looks if the head position equals a position of the snake itself.
      */
     private void testIfDied(int x, int y) {
-
-        boolean[][] obstacles = getObstacles(gameStuff.getCurrentLevel());
 
         if (obstacles[x][y] || snakeHitItself()) {
             pauseTimer();
@@ -406,31 +406,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-
-    /**
-     * This will get the 2-dimentional Array depending on the level
-     */
-    private boolean[][] getObstacles(final Levels level) {
-        switch (level) {
-
-            //TODO static?
-
-            case LEVEL1 -> {
-                return LevelEins.getObstacles();
-            }
-            case LEVEL2 -> {
-                return LevelZwei.getObstacles();
-            }
-            case LEVEL3 -> {
-                return LevelDrei.getObstacles();
-            }
-            default -> {
-                System.out.println("Bla");
-                return LevelEins.getObstacles();
-            }
-        }
-        //TODO MORE LEVELS HERE TOO
-    }
 
     /**
      * Sets the speed for the timer moving the snake depending on what mode is selected
