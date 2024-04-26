@@ -48,7 +48,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
         boost = new JLabel();
-        //boost.setLocation(-200, -200);
         spawnBoost();
     }
 
