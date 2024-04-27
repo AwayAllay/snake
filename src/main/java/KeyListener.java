@@ -291,7 +291,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                 new LevelDrei(settings, gameStuff);
             }
             case LEVEL3 -> {
-                new LevelDrei(settings, gameStuff);
+                newLevelSettings(Levels.LEVEL4, 4);
+                new LevelVier(settings, gameStuff);
             }
 
             //TODO IMPORTANT FOR NEW LEVELS!

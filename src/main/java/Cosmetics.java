@@ -166,7 +166,6 @@ public class Cosmetics implements ActionListener {
      */
     private void lastSkin(final Skins pActual) {
         //"default","blue","brown","black","red","gold","purple","gray"
-        //TODO ADD SELECTED TEXT TO BUTTON VIA SELECTEDSKIN VARIABLE!!!
 
         switch (pActual) {
             case DEFAULT -> {

@@ -128,15 +128,10 @@ public abstract class GameFrame extends JFrame {
 
         switch (gameStuff.getCurrentLevel()){
 
-            case LEVEL1 -> {
-                System.out.println("level1");
-                result = translateLevel("level1.txt");}
-            case LEVEL2 -> {
-                System.out.println("level2");
-                result = translateLevel("level2.txt");}
-            case LEVEL3 -> {
-                System.out.println("level 3");
-                result = translateLevel("level3.txt");}
+            case LEVEL1 -> result = translateLevel("level1.txt");
+            case LEVEL2 -> result = translateLevel("level2.txt");
+            case LEVEL3 -> result = translateLevel("level3.txt");
+            case LEVEL4 -> result = translateLevel("level4.txt");
 
         }
         //TODO IMPORTANT FOR NEW LEVELS!
