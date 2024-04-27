@@ -9,6 +9,7 @@ public class SettingsManager {
 
     private static final String FILE_NAME = "snake.properties";
 
+    /**Loads all the saved settings from the user from the snake.properties file*/
     public Settings load() {
 
         Properties properties = new Properties();
@@ -42,6 +43,7 @@ public class SettingsManager {
         return settings;
     }
 
+    /**Saves all the settings from the user to the snake.properties file*/
     public void save(final Settings pSettings) {
 
         Properties properties = new Properties();

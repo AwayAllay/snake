@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class GameFrame extends JFrame {
-
-    //TODO give time for next level
     private final JFrame frame;
     private final JPanel panel;
     private final JPanel actionBar;
