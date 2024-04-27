@@ -1,6 +1,5 @@
-#There must be 104 chars in X and 55 chars in Y direction
+#There must be 104 chars in X and 54 chars in Y direction
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-X                                                                                                      X
 X                                                                                                      X
 X                                                                                                      X
 X                                                                                                      X

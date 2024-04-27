@@ -84,22 +84,22 @@ public abstract class GameFrame extends JFrame {
         timer.setFont(new Font("Ariral", Font.BOLD, 50));
 
         //SnakeTail
-        tail1 = new SnakeTail(1040, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail1 = new SnakeTail(1040, 600, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
         tail1.setBackground(settings.getSkin().getTailColor());
         tail1.setOpaque(true);
 
         //SnakeTail2
-        tail2 = new SnakeTail(1020, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail2 = new SnakeTail(1020, 600, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
         tail2.setBackground(settings.getSkin().getTailColor());
         tail2.setOpaque(true);
 
         //SnakeTail3
-        tail3 = new SnakeTail(1000, 580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
+        tail3 = new SnakeTail(1000, 600, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );
         tail3.setBackground(settings.getSkin().getTailColor());
         tail3.setOpaque(true);
 
         //SnakeHead
-        head = new SnakeHead(1060 ,580, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
+        head = new SnakeHead(1060 ,600, FIELD_WIDTH_PX, FIELD_HEIGHT_PX);
         head.setBackground(settings.getSkin().getHeadColor());
         head.setOpaque(true);
 
@@ -132,6 +132,7 @@ public abstract class GameFrame extends JFrame {
             case LEVEL2 -> result = translateLevel("level2.txt");
             case LEVEL3 -> result = translateLevel("level3.txt");
             case LEVEL4 -> result = translateLevel("level4.txt");
+            case LEVEL5 -> result = translateLevel("level5.txt");
 
         }
         //TODO IMPORTANT FOR NEW LEVELS!

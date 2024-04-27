@@ -146,7 +146,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 5) { //5!!
+        if (randomNumber <= 99) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
@@ -239,7 +239,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         Component[] components = panel.getComponents();
         for (Component component: components) {
             if (component instanceof JLabel &&
-                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX))){
+                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX))){
 
                 panel.remove(component);
                 panel.revalidate();
@@ -259,7 +259,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
-        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (26 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected){
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected){
             System.out.println("WON");
             newLevel();
         }
@@ -293,6 +293,10 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL3 -> {
                 newLevelSettings(Levels.LEVEL4, 4);
                 new LevelVier(settings, gameStuff);
+            }
+            case LEVEL4 -> {
+                newLevelSettings(Levels.LEVEL5, 5);
+                new LevelFuenf(settings, gameStuff);
             }
 
             //TODO IMPORTANT FOR NEW LEVELS!
@@ -403,9 +407,9 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void respawnTheSnake(){
         startMoving = true;
         direction = MovingDirections.RIGHT;
-        head.setLocation(1060 ,580);
+        head.setLocation(1060 ,600);
         for (int i = 1040; i > 999; i-= GameFrame.FIELD_WIDTH_PX) {
-            SnakeTail tail = new SnakeTail(i, 580, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+            SnakeTail tail = new SnakeTail(i, 600, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
             tail.setBackground(settings.getSkin().getTailColor());
             tail.setOpaque(true);
             tails.add(tail);
