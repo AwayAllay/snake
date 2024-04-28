@@ -25,7 +25,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final GameStuff gameStuff;
     private final PlaytimeManager playtimeManager;
     private final List<SnakeTail> tails = new LinkedList<>();
-    private final boolean[][] obstacles;
+    private boolean[][] obstacles;
     private boolean startMoving = true;
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
@@ -33,7 +33,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * Constructor
      */
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager, boolean[][] obstacles) {
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
         this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
@@ -43,12 +43,23 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.lives = lives;
         this.keys = keys;
         this.playtimeManager = playtimeManager;
-        this.obstacles = obstacles;
+        boost = new JLabel();
+        /*this.obstacles = gameStuff.getObstacles();
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
-        boost = new JLabel();
+        spawnBoost();*/
+        update();
+    }
+
+    public void update(){
+        obstacles = gameStuff.getObstacles();
+        timerStartedOnce = false;
+        currentBoost = IngameBoost.REGULAR_BOOST;
+        allKeysCollected = false;
+        isInvinceble = false;
         spawnBoost();
+        System.out.println("Updated that shit");
     }
 
     /**
@@ -188,7 +199,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomX = new Random().nextInt(103) + 1;
         int randomY = new Random().nextInt(50) + 4;
 
-        if (obstacles[randomX][randomY] || boostOnSnake(randomX, randomY)){
+        System.out.println(gameStuff.getObstacles()[randomX][randomY]);
+
+        if (gameStuff.getObstacles()[randomX][randomY] || boostOnSnake(randomX, randomY)){
             setRandomBoostLocation();
         }else {
             boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, randomY * GameFrame.FIELD_HEIGHT_PX);
@@ -284,21 +297,20 @@ public class KeyListener implements java.awt.event.KeyListener {
         switch (gameStuff.getCurrentLevel()) {
             case LEVEL1 -> {
                 newLevelSettings(Levels.LEVEL2, 2);
-                new LevelZwei(settings, gameStuff);
+                //new LevelZwei(settings, gameStuff);
             }
             case LEVEL2 -> {
                 newLevelSettings(Levels.LEVEL3, 3);
-                new LevelDrei(settings, gameStuff);
+                //new LevelDrei(settings, gameStuff);
             }
             case LEVEL3 -> {
                 newLevelSettings(Levels.LEVEL4, 4);
-                new LevelVier(settings, gameStuff);
+                //new LevelVier(settings, gameStuff);
             }
             case LEVEL4 -> {
                 newLevelSettings(Levels.LEVEL5, 5);
-                new LevelFuenf(settings, gameStuff);
+                //new LevelFuenf(settings, gameStuff);
             }
-
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
@@ -315,7 +327,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(playtimeManager.getTime());
         gameStuff.setLives(gameStuff.getLives());
-        gameFrame.dispose();
     }
 
     /**
@@ -353,7 +364,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void testIfDied(int x, int y) {
 
-        if (obstacles[x][y] || snakeHitItself()) {
+        if (gameStuff.getObstacles()[x][y] || snakeHitItself()) {
             pauseTimer();
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
@@ -382,7 +393,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         return false;
     }
 
-    private void respawn() {
+    public void respawn() {
 
         ListIterator<SnakeTail> iterator = tails.listIterator(tails.size());
 
@@ -449,7 +460,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * This will pause the timer which moves the snake, causing the snake to stop
      */
-    private void pauseTimer() {
+    public void pauseTimer() {
         if (timer != null) {
             timer.cancel();
         }
@@ -485,4 +496,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         tails.add(pTail);
     }
 
+    public List<SnakeTail> getTails() {
+        return tails;
+    }
 }

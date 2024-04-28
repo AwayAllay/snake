@@ -5,6 +5,7 @@ public class GameStuff {
     private int points;
     private int keyAmount;
     private int timeElapsed;
+    private boolean[][] obstacles;
 
     public GameStuff() {
         timeElapsed = 1;
@@ -12,8 +13,30 @@ public class GameStuff {
         lives = 5;
         keyAmount = 0;
         points = 0;
+        obstacles = null;
     }
 
+    public boolean[][] getObstacles() {
+        return obstacles;
+    }
+
+    public void setObstacles(boolean[][] obstacles) {
+        System.out.println("obstacles set");
+        this.obstacles = obstacles;
+
+        //TODO tracking
+        for (int y = 0; y < 55; y++) {
+            for (int x = 0; x < 104; x++) {
+                if (obstacles[x][y]){
+                    System.out.print("X");
+                }else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        
+    }
 
     public Levels getCurrentLevel() {
         return currentLevel;

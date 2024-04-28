@@ -2,15 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.Timer;
 
-public abstract class GameFrame extends JFrame {
+public class GameFrame extends JFrame {
     private final JFrame frame;
     private final JPanel panel;
     private final JPanel actionBar;
+    private final JLabel keys;
     private final JLabel level;
     private final JLabel tail1;
     private final JLabel tail2;
@@ -20,6 +20,7 @@ public abstract class GameFrame extends JFrame {
     private final PlaytimeManager playtimeManager;
     private final Settings settings;
     private final GameStuff gameStuff;
+    private Levels currentLevel;
     public static final int FRAME_WIDTH_PX = 2096;
     public static final int FRAME_HEIGHT_PX = 1198;
     public static final int FIELD_WIDTH_PX = 20;
@@ -34,7 +35,7 @@ public abstract class GameFrame extends JFrame {
 
         this.settings = settings;
         this.gameStuff = gameStuff;
-
+        currentLevel = gameStuff.getCurrentLevel();
 
         panel = new JPanel();
         panel.setBackground(new Color(139, 90, 43));
@@ -70,7 +71,7 @@ public abstract class GameFrame extends JFrame {
         points.setFont(new Font("Ariral", Font.BOLD, 50));
 
         //The displayed amount of keys
-        JLabel keys = new JLabel("keys: " + gameStuff.getKeyAmount() + "/5");
+        keys = new JLabel("keys: " + gameStuff.getKeyAmount() + "/5");
         keys.setBounds(1379, 5, 213, 50);
         keys.setBackground(Color.WHITE);
         keys.setOpaque(true);
@@ -111,15 +112,66 @@ public abstract class GameFrame extends JFrame {
         actionBar.add(timer);
 
         boolean[][] obstacles = createObstacles();
+        gameStuff.setObstacles(obstacles);
 
         playtimeManager = new PlaytimeManager(gameStuff, timer);
 
-        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys, playtimeManager, obstacles);
+        keyListener = new KeyListener(head, panel, settings, frame, gameStuff, points, lives, keys, playtimeManager);
         keyListener.addTail((SnakeTail) tail1);
         keyListener.addTail((SnakeTail) tail2);
         keyListener.addTail((SnakeTail) tail3);
 
         initializeFrame();
+
+        setLevel("LEVEL " + gameStuff.getCurrentLevel().getLevelNumber());
+        startTimer();
+        checkForNewLevel();
+    }
+
+    private void checkForNewLevel() {
+        Timer checkingForNewLevel = new Timer();
+        checkingForNewLevel.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!gameStuff.getCurrentLevel().equals(currentLevel)){
+                    nextLevel();
+                }
+            }
+        }, 0, 1000);
+    }
+
+    private void nextLevel() {
+        currentLevel = gameStuff.getCurrentLevel();
+        keyListener.respawn();
+
+        Component[] components = panel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel && !component.getLocation().equals(head.getLocation())
+            && doesEqualTail(component))
+                panel.remove(component);
+        }
+
+        boolean[][] obstacles = createObstacles();
+        gameStuff.setObstacles(obstacles);
+        keyListener.update();
+
+        setLevel("LEVEL " + gameStuff.getCurrentLevel().getLevelNumber());
+        keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
+
+        keyListener.pauseTimer();
+
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    private boolean doesEqualTail(Component component) {
+
+        for (SnakeTail tail : keyListener.getTails()) {
+            if (tail.getLocation().equals(component.getLocation())){
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean[][] createObstacles() {
@@ -172,7 +224,7 @@ public abstract class GameFrame extends JFrame {
         level.setText(newLevel);
     }
 
-    public boolean[][] translateLevel(final String fileName){
+    private boolean[][] translateLevel(final String fileName){
         //105 Zeichen in X Richtung
         //57 in Y Richtung
 

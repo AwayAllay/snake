@@ -231,7 +231,7 @@ public class LaunchFrame implements ActionListener {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 frame.dispose();
-                new LevelEins(settings, gameStuff);
+                new GameFrame(settings, gameStuff);
 
             } else if (klickedButton.getText().equalsIgnoreCase("Settings")) {
                 frame.dispose();
