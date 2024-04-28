@@ -114,7 +114,7 @@ public class PauseFrame extends JFrame implements ActionListener {
                     gameStuff.setPoints(0);
                     gameStuff.setCurrentLevel(Levels.LEVEL1);
                     gameStuff.setLives(5);
-                    new LevelEins(settings, gameStuff);
+                    new GameFrame(settings, gameStuff);
                 }else {
                     frame.setVisible(true);
                     gameFrame.setVisible(true);

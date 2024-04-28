@@ -25,7 +25,6 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final GameStuff gameStuff;
     private final PlaytimeManager playtimeManager;
     private final List<SnakeTail> tails = new LinkedList<>();
-    private boolean[][] obstacles;
     private boolean startMoving = true;
     private boolean timerStartedOnce;
     private IngameBoost currentBoost;
@@ -44,16 +43,11 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.keys = keys;
         this.playtimeManager = playtimeManager;
         boost = new JLabel();
-        /*this.obstacles = gameStuff.getObstacles();
-        timerStartedOnce = false;
-        currentBoost = IngameBoost.REGULAR_BOOST;
-        allKeysCollected = false;
-        spawnBoost();*/
+
         update();
     }
 
     public void update(){
-        obstacles = gameStuff.getObstacles();
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
@@ -157,7 +151,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 99) { //5!!
+        if (randomNumber <= 5) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
         } else if (randomNumber <= 35) {
             currentBoost = IngameBoost.REGULAR_BOOST;
@@ -293,24 +287,13 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         someStuff();
         isInvinceble = true;
+        timer.cancel();
 
         switch (gameStuff.getCurrentLevel()) {
-            case LEVEL1 -> {
-                newLevelSettings(Levels.LEVEL2, 2);
-                //new LevelZwei(settings, gameStuff);
-            }
-            case LEVEL2 -> {
-                newLevelSettings(Levels.LEVEL3, 3);
-                //new LevelDrei(settings, gameStuff);
-            }
-            case LEVEL3 -> {
-                newLevelSettings(Levels.LEVEL4, 4);
-                //new LevelVier(settings, gameStuff);
-            }
-            case LEVEL4 -> {
-                newLevelSettings(Levels.LEVEL5, 5);
-                //new LevelFuenf(settings, gameStuff);
-            }
+            case LEVEL1 -> newLevelSettings(Levels.LEVEL2, 2);
+            case LEVEL2 -> newLevelSettings(Levels.LEVEL3, 3);
+            case LEVEL3 -> newLevelSettings(Levels.LEVEL4, 4);
+            case LEVEL4 -> newLevelSettings(Levels.LEVEL5, 5);
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }

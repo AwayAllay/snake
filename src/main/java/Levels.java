@@ -19,7 +19,7 @@ public enum Levels {
     LEVEL18(18),
     LEVEL19(19);
 
-    private int levelNumber;
+    private final int levelNumber;
 
     Levels(int levelNumber) {
         this.levelNumber = levelNumber;

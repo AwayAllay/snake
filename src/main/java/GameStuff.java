@@ -23,19 +23,6 @@ public class GameStuff {
     public void setObstacles(boolean[][] obstacles) {
         System.out.println("obstacles set");
         this.obstacles = obstacles;
-
-        //TODO tracking
-        for (int y = 0; y < 55; y++) {
-            for (int x = 0; x < 104; x++) {
-                if (obstacles[x][y]){
-                    System.out.print("X");
-                }else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
-        
     }
 
     public Levels getCurrentLevel() {

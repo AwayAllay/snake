@@ -18,7 +18,6 @@ public class GameFrame extends JFrame {
     private final JLabel head;
     private final KeyListener keyListener;
     private final PlaytimeManager playtimeManager;
-    private final Settings settings;
     private final GameStuff gameStuff;
     private Levels currentLevel;
     public static final int FRAME_WIDTH_PX = 2096;
@@ -33,7 +32,6 @@ public class GameFrame extends JFrame {
     public GameFrame(final Settings settings, final GameStuff gameStuff) {
         frame = new JFrame();
 
-        this.settings = settings;
         this.gameStuff = gameStuff;
         currentLevel = gameStuff.getCurrentLevel();
 
@@ -245,7 +243,7 @@ public class GameFrame extends JFrame {
         List<char[]> lineChars = new ArrayList<>();
 
 
-        while (scanner.hasNext()) {
+        while (Objects.requireNonNull(scanner).hasNext()) {
             lines.add(scanner.nextLine());
         }
 
@@ -253,8 +251,8 @@ public class GameFrame extends JFrame {
             lineChars.add(line.toCharArray());
         }
 
-        for (char[] charArry : lineChars) {
-            for (char c : charArry) {
+        for (char[] charArray : lineChars) {
+            for (char c : charArray) {
 
                 JLabel label = new JLabel();
                 label.setBackground(new Color(205, 133, 63));

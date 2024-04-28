@@ -144,6 +144,6 @@ public class DiedFrame implements ActionListener {
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(1);
         gameStuff.setPoints(0);
-        new LevelEins(settings, gameStuff);
+        new GameFrame(settings, gameStuff);
     }
 }
