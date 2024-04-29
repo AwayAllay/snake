@@ -44,6 +44,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.keys = keys;
         this.playtimeManager = playtimeManager;
         boost = new JLabel();
+        boost.setBounds(600, 1000, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
 
         update();
     }
@@ -180,7 +181,6 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         boost.setBackground(currentBoost.getBoostColor());
         boost.setOpaque(true);
-        boost.setBounds(500, 500, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
         boost.setVisible(true);
         panel.add(boost);
 
@@ -193,8 +193,8 @@ public class KeyListener implements java.awt.event.KeyListener {
      * the obstacles. If so it will create a new Location for the boost by recursion.
      */
     private void setRandomBoostLocation() {
-        int randomX = new Random().nextInt(103) + 1;
-        int randomY = new Random().nextInt(50) + 4;
+        int randomX = new Random().nextInt(100) + 2;
+        int randomY = new Random().nextInt(45) + 6;
 
         System.out.println(gameStuff.getObstacles()[randomX][randomY]);
 
@@ -318,7 +318,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void highscore() {
-        if (gameStuff.getPoints() > settings.getHighestPoints()){
+        if (gameStuff.getPoints() > settings.getHighestPoints()) {
             settings.setHighestPoints(gameStuff.getPoints());
             settings.setHighScoreTime(playtimeManager.setTime(gameStuff.getTimeElapsed()));
             settings.setHighScoreLevel(gameStuff.getCurrentLevel());
@@ -438,28 +438,39 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             Timer respawnTimer = new Timer();
             respawnTimer.schedule(new TimerTask() {
-                int index = 0;
+
                 @Override
                 public void run() {
                     if (iterator.hasPrevious()) {
                         SnakeTail tail = iterator.previous();
+                        if (!tail.equals(tails.get(0)) &&
+                                !tail.equals(tails.get(1)) &&
+                                !tail.equals(tails.get(2))) {
                             tail.setLocation(1000, 600);
                             panel.revalidate();
                             panel.repaint();
+                        }else {
+                            cancel();
+                            replaceTailAndHead();
+                        }
                     } else {
                         cancel();
-                        for (int i = 1040; i > 999; i -= GameFrame.FIELD_WIDTH_PX) {
-                            tails.get(index).setLocation(i, 600);
-                            panel.revalidate();
-                            panel.repaint();
-                            index++;
-                        }
-                        head.setLocation(1060, 600);
                     }
                 }
             }, 0, getSpeed() / 2);
         }
 
+    }
+
+    private void replaceTailAndHead() {
+        int index = 0;
+        for (int i = 1040; i > 999; i -= GameFrame.FIELD_WIDTH_PX) {
+            tails.get(index).setLocation(i, 600);
+            panel.revalidate();
+            panel.repaint();
+            index++;
+        }
+        head.setLocation(1060, 600);
     }
 
 
@@ -502,9 +513,9 @@ public class KeyListener implements java.awt.event.KeyListener {
      * Opens the pause menu for the player when the Esc button is pressed
      */
     private void openPauseMenu() {
+        highscore();
         pauseTimer();
         playtimeManager.stopTimer();
-        highscore();
         new PauseFrame(settings, this, gameFrame, gameStuff);
     }
 
