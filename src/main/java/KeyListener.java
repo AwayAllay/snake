@@ -7,32 +7,46 @@ import java.util.Timer;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
-    /**
-     * 0 == North, 1 == East, 2 == South, 3 == West
-     */
+    /**RIGHT LEFT UP AND DOWN (directions in which snake is moving)*/
     private MovingDirections direction = MovingDirections.RIGHT;
+    /**The timer which causes the snake to move frequently*/
     private Timer timer;
+    /**true if the snake is currently entering a new level*/
     private boolean enteringNewLevel = false;
+    /**says if the snake can die or not*/
     private boolean isInvinceble = false;
+    /**The head label of the snake*/
     private final JLabel head;
+    /**The label of the displayed boost*/
     private final JLabel boost;
+    /**says if all the keys are collected and potentially the door could open*/
     private boolean allKeysCollected;
+    /**The main frame of the game*/
     private final JFrame gameFrame;
+    /**The main panel (The panel on which the snake and the obstacles are)*/
     private final JPanel panel;
+    /**The label on which the current points are displayed*/
     private final JLabel points;
+    /**The label which displays the current lives of the snake*/
     private final JLabel lives;
+    /**The label which displays the current amount of collected keys*/
     private final JLabel keys;
+    /**The settings object which is given every class though the constructor*/
     private final Settings settings;
+    /**The gameStuff stuff which is given almost every class through the constructor*/
     private final GameStuff gameStuff;
+    /**The instance of the class which manages the displayed timer*/
     private final PlaytimeManager playtimeManager;
+    /**The list of the tails of the snake*/
     private final List<SnakeTail> tails = new LinkedList<>();
+    /**Says if the snake has already started moving so pressing the space-bar again don´t makes it faster */
     private boolean startMoving = true;
+    /**Says if the timer moving the snake has started so it cant be started again*/
     private boolean timerStartedOnce;
+    /**The type of the current boost*/
     private IngameBoost currentBoost;
 
-    /**
-     * Constructor
-     */
+    /**Constructor*/
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
         this.gameStuff = gameStuff;
         this.settings = settings;
