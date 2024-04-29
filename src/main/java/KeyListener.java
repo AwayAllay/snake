@@ -447,6 +447,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                                 !tail.equals(tails.get(1)) &&
                                 !tail.equals(tails.get(2))) {
                             tail.setLocation(1000, 600);
+                            tail.setVisible(false);
                             panel.revalidate();
                             panel.repaint();
                         }else {
@@ -471,6 +472,9 @@ public class KeyListener implements java.awt.event.KeyListener {
             index++;
         }
         head.setLocation(1060, 600);
+        for (SnakeTail tail : tails) {
+            tail.setVisible(true);
+        }
     }
 
 
