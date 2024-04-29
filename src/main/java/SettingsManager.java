@@ -29,6 +29,21 @@ public class SettingsManager {
         Skins skin = Skins.valueOf(properties.getProperty("skin"));
         Modes mode = Modes.valueOf(properties.getProperty("mode"));
         int unlockedLevel = Integer.parseInt(properties.getProperty("unlockedLevel"));
+        int highestPoints = Integer.parseInt(properties.getProperty("highestPoints"));
+        Levels highScoreLevel = Levels.valueOf(properties.getProperty("highScoreLevel"));
+        String highScoreTime = properties.getProperty("highScoreTime");
+
+        if (highestPoints != 0){
+            settings.setHighestPoints(highestPoints);
+        }
+
+        if (highScoreLevel != null){
+            settings.setHighScoreLevel(highScoreLevel);
+        }
+
+        if (highScoreTime != null){
+            settings.setHighScoreTime(highScoreTime);
+        }
 
         if (skin != null) {
             settings.setSkin(skin);
@@ -51,6 +66,9 @@ public class SettingsManager {
         properties.setProperty("skin", String.valueOf(pSettings.getSkin()));
         properties.setProperty("mode", String.valueOf(pSettings.getMode()));
         properties.setProperty("unlockedLevel", String.valueOf(pSettings.getUnlockedLevel()));
+        properties.setProperty("highestPoints", String.valueOf(pSettings.getHighestPoints()));
+        properties.setProperty("highScoreLevel", String.valueOf(pSettings.getHighScoreLevel()));
+        properties.setProperty("highScoreTime", pSettings.getHighScoreTime());
 
         try {
             properties.store(new FileOutputStream(FILE_NAME), "The set settings of the user.");

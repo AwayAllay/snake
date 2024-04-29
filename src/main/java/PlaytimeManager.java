@@ -24,6 +24,7 @@ public class PlaytimeManager {
             public void run() {
 
                 setTime(time);
+                timerLabel.setText(setTime(time));
                 gameStuff.setTimeElapsed(time);
                 time++;
 
@@ -42,7 +43,7 @@ public class PlaytimeManager {
         }
     }
 
-    private void setTime(int timeToSet) {
+    public String setTime(int timeToSet) {
 
         String string = "";
 
@@ -77,7 +78,7 @@ public class PlaytimeManager {
             string = string + seconds;
         }
 
-        timerLabel.setText(string);
+        return  string;
 
     }
 

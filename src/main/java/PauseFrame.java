@@ -88,7 +88,7 @@ public class PauseFrame extends JFrame implements ActionListener {
             if (button.getText().equalsIgnoreCase("Launcher")) {
                 frame.setVisible(false);
                 gameFrame.setVisible(false);
-                int answer = JOptionPane.showConfirmDialog(null, "Leaving will take you to the launcher. Your stats WILL NOT BE SAVED!", "Sure?", JOptionPane.YES_NO_OPTION);
+                int answer = JOptionPane.showConfirmDialog(null, "Leaving will take you to the launcher. Are you sure?", "Sure?", JOptionPane.YES_NO_OPTION);
                 if (answer == 0) {
                     frame.dispose();
                     gameFrame.dispose();
@@ -105,7 +105,7 @@ public class PauseFrame extends JFrame implements ActionListener {
             } else if (button.getText().equalsIgnoreCase("Retry")) {
                 frame.setVisible(false);
                 gameFrame.setVisible(false);
-                int answer = JOptionPane.showConfirmDialog(null, "If you retry, your stats WILL NOT BE SAVED!", "Sure?", JOptionPane.YES_NO_OPTION);
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to retry?", "Sure?", JOptionPane.YES_NO_OPTION);
                 if (answer == 0) {
                     frame.dispose();
                     gameFrame.dispose();

@@ -290,7 +290,6 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void newLevel() {
-
         someStuff();
         isInvinceble = true;
         timer.cancel();
@@ -316,13 +315,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(playtimeManager.getTime());
         gameStuff.setLives(gameStuff.getLives());
-        highscore();
     }
 
     private void highscore() {
         if (gameStuff.getPoints() > settings.getHighestPoints()){
             settings.setHighestPoints(gameStuff.getPoints());
-            settings.setHighScoreTime(gameStuff.getTimeElapsed());
+            settings.setHighScoreTime(playtimeManager.setTime(gameStuff.getTimeElapsed()));
             settings.setHighScoreLevel(gameStuff.getCurrentLevel());
             new SettingsManager().save(settings);
         }
@@ -370,6 +368,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                 }
             }
         }, 0, getSpeed() / 2);
+
+        highscore();
 
         new DiedFrame(settings, gameStuff, gameFrame);
     }
@@ -504,6 +504,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void openPauseMenu() {
         pauseTimer();
         playtimeManager.stopTimer();
+        highscore();
         new PauseFrame(settings, this, gameFrame, gameStuff);
     }
 
