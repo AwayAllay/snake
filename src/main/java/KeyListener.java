@@ -12,6 +12,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private MovingDirections direction = MovingDirections.RIGHT;
     private Timer timer;
+    private boolean enteringNewLevel = false;
     private boolean isInvinceble = false;
     private final JLabel head;
     private final JLabel boost;
@@ -47,7 +48,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         update();
     }
 
-    public void update(){
+    public void update() {
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
         allKeysCollected = false;
@@ -187,24 +188,28 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     }
 
-    /**Sets a radom Location for the boost and looks if it would be on the snake or on one of
-     * the obstacles. If so it will create a new Location for the boost by recursion.*/
+    /**
+     * Sets a radom Location for the boost and looks if it would be on the snake or on one of
+     * the obstacles. If so it will create a new Location for the boost by recursion.
+     */
     private void setRandomBoostLocation() {
         int randomX = new Random().nextInt(103) + 1;
         int randomY = new Random().nextInt(50) + 4;
 
         System.out.println(gameStuff.getObstacles()[randomX][randomY]);
 
-        if (gameStuff.getObstacles()[randomX][randomY] || boostOnSnake(randomX, randomY)){
+        if (gameStuff.getObstacles()[randomX][randomY] || boostOnSnake(randomX, randomY)) {
             setRandomBoostLocation();
-        }else {
+        } else {
             boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, randomY * GameFrame.FIELD_HEIGHT_PX);
         }
 
     }
 
-    /**Tests if the boost would spawn on the snake.
-     * If so it returns true, otherwise false.*/
+    /**
+     * Tests if the boost would spawn on the snake.
+     * If so it returns true, otherwise false.
+     */
     private boolean boostOnSnake(final int x, final int y) {
 
         for (SnakeTail tail : tails) {
@@ -244,9 +249,9 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void openDoor() {
         //28, 103
         Component[] components = panel.getComponents();
-        for (Component component: components) {
+        for (Component component : components) {
             if (component instanceof JLabel &&
-                    component.getBounds().contains( new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX))){
+                    component.getBounds().contains(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX))) {
 
                 panel.remove(component);
                 panel.revalidate();
@@ -266,7 +271,8 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
         }
 
-        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected){
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected) {
+            enteringNewLevel = true;
             System.out.println("WON");
             newLevel();
         }
@@ -275,7 +281,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             eatBoost();
         }
 
-        if (!isInvinceble) {
+        if (!isInvinceble && !enteringNewLevel) {
             testIfDied(head.getX() / GameFrame.FIELD_WIDTH_PX, (head.getY() - 60) / GameFrame.FIELD_HEIGHT_PX);
         }
 
@@ -298,14 +304,14 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    private void newLevelSettings(final Levels level, final int reachedLevel){
+    private void newLevelSettings(final Levels level, final int reachedLevel) {
         gameStuff.setCurrentLevel(level);
         if (settings.getUnlockedLevel() < reachedLevel)
             settings.setUnlockedLevel(reachedLevel);
         new SettingsManager().save(settings);
     }
 
-    private void someStuff(){
+    private void someStuff() {
         System.out.println("some stuff");
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(playtimeManager.getTime());
@@ -336,6 +342,25 @@ public class KeyListener implements java.awt.event.KeyListener {
         playtimeManager.stopTimer();
         System.out.println("timer stopped");
         boost.setVisible(false);
+
+        ListIterator<SnakeTail> iterator = tails.listIterator(tails.size());
+
+        Timer removeTimer = new Timer();
+        removeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (iterator.hasPrevious()) {
+                    SnakeTail tail = iterator.previous();
+                    panel.remove(tail);
+                    panel.revalidate();
+                    panel.repaint();
+                    iterator.remove();
+                } else {
+                    cancel();
+                }
+            }
+        }, 0, getSpeed() / 2);
+
         new DiedFrame(settings, gameStuff, gameFrame);
     }
 
@@ -377,40 +402,54 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     public void respawn() {
-
-        ListIterator<SnakeTail> iterator = tails.listIterator(tails.size());
-
-        Timer removeTimer = new Timer();
-        removeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (iterator.hasPrevious()){
-                    SnakeTail tail = iterator.previous();
-                    panel.remove(tail);
-                    panel.revalidate();
-                    panel.repaint();
-                    iterator.remove();
-                }else {
-                    respawnTheSnake();
-                    cancel();
-                }
-            }
-        }, 0, getSpeed() / 2);
+        respawnTheSnake();
     }
 
-    private void respawnTheSnake(){
+    private void respawnTheSnake() {
         startMoving = true;
         direction = MovingDirections.RIGHT;
-        head.setLocation(1060 ,600);
-        for (int i = 1040; i > 999; i-= GameFrame.FIELD_WIDTH_PX) {
-            SnakeTail tail = new SnakeTail(i, 600, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
-            tail.setBackground(settings.getSkin().getTailColor());
-            tail.setOpaque(true);
-            tails.add(tail);
-            panel.add(tail);
-            panel.revalidate();
-            panel.repaint();
+        int index = 0;
+
+        if (enteringNewLevel) {
+            ListIterator<SnakeTail> iterator = tails.listIterator(2);
+            for (int i = 1040; i > 999; i -= GameFrame.FIELD_WIDTH_PX) {
+                tails.get(index).setLocation(i, 600);
+                panel.revalidate();
+                panel.repaint();
+                index++;
+            }
+            head.setLocation(1060, 600);
+            while (iterator.hasNext())
+                iterator.next().setLocation(tails.get(2).getLocation());
+            enteringNewLevel = false;
+        } else {
+
+            ListIterator<SnakeTail> iterator = tails.listIterator(tails.size());
+
+            Timer respawnTimer = new Timer();
+            respawnTimer.schedule(new TimerTask() {
+                int index = 0;
+                @Override
+                public void run() {
+                    if (iterator.hasPrevious()) {
+                        SnakeTail tail = iterator.previous();
+                            tail.setLocation(1000, 600);
+                            panel.revalidate();
+                            panel.repaint();
+                    } else {
+                        cancel();
+                        for (int i = 1040; i > 999; i -= GameFrame.FIELD_WIDTH_PX) {
+                            tails.get(index).setLocation(i, 600);
+                            panel.revalidate();
+                            panel.repaint();
+                            index++;
+                        }
+                        head.setLocation(1060, 600);
+                    }
+                }
+            }, 0, getSpeed() / 2);
         }
+
     }
 
 
