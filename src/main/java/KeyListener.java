@@ -151,17 +151,17 @@ public class KeyListener implements java.awt.event.KeyListener {
         int randomNumber = new Random().nextInt(100) + 1;
 
         /*Set current boost depending on the randomNumber*/
-        if (randomNumber <= 5) { //5!!
+        if (randomNumber <= 25) { //5!!
             currentBoost = IngameBoost.KEY_BOOST;
-        } else if (randomNumber <= 35) {
+        } else if (randomNumber <= 45) {
             currentBoost = IngameBoost.REGULAR_BOOST;
-        } else if (randomNumber <= 60) {
-            currentBoost = IngameBoost.NICE_BOOST;
-        } else if (randomNumber <= 63) {
-            currentBoost = IngameBoost.MYTHICAL_BOOST;
         } else if (randomNumber <= 70) {
-            currentBoost = IngameBoost.BAD_BOOST;
+            currentBoost = IngameBoost.NICE_BOOST;
+        } else if (randomNumber <= 73) {
+            currentBoost = IngameBoost.MYTHICAL_BOOST;
         } else if (randomNumber <= 80) {
+            currentBoost = IngameBoost.BAD_BOOST;
+        } else if (randomNumber <= 85) {
             currentBoost = IngameBoost.HEALTH_BOOST;
         } else if (randomNumber <= 95) {
             currentBoost = IngameBoost.GOOD_BOOST;

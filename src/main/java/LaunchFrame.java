@@ -209,7 +209,7 @@ public class LaunchFrame implements ActionListener {
                     cancel();
                 }
             }
-        }, 1500, 400);
+        }, 1100, 200);
     }
 
 

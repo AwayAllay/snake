@@ -2,9 +2,9 @@ import java.awt.*;
 
 public enum IngameBoost {
 
-    /**Chance: 5%*/
+    /**Chance: 25%*/
     KEY_BOOST(new Color(250,250,50), 2, 0, 500, 1),
-    /**Chance: 30%*/
+    /**Chance: 20%*/
     REGULAR_BOOST(new Color(255, 0, 0), 3, 0, 50, 0),
     /**Chance: 25%*/
     NICE_BOOST(new Color(50, 250, 0), 2, 0, 100, 0),
@@ -12,9 +12,9 @@ public enum IngameBoost {
     MYTHICAL_BOOST(new Color(250, 50, 230), 7, 0, 300, 0),
     /**Chance: 7%*/
     BAD_BOOST(new Color(0,0,0), 8, 0, 20, 0),
-    /**Chance: 10%*/
+    /**Chance: 5%*/
     HEALTH_BOOST(new Color(0, 255,255), 3,1, 200, 0),
-    /**Chance: 15%*/
+    /**Chance: 10%*/
     GOOD_BOOST(new Color(150, 255,150), 2, 0, 150, 0),
     /**Chance: 1%*/
     GOD_BOOST(new Color(0, 0, 255), 6, 2, 1000, 0),
