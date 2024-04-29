@@ -3,6 +3,25 @@ public class Settings {
     private Skins skin = Skins.DEFAULT;
     private Modes mode = Modes.NOOB;
     private int unlockedLevel = 1;
+    private int highestPoints = 0;
+
+    private Levels highScoreLevel = Levels.LEVEL1;
+
+    public Levels getHighScoreLevel() {
+        return highScoreLevel;
+    }
+
+    public void setHighScoreLevel(Levels highScoreLevel) {
+        this.highScoreLevel = highScoreLevel;
+    }
+
+    public int getHighestPoints() {
+        return highestPoints;
+    }
+
+    public void setHighestPoints(int highestPoints) {
+        this.highestPoints = highestPoints;
+    }
 
     public Skins getSkin() {
         return skin;

@@ -316,6 +316,16 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setKeyAmount(0);
         gameStuff.setTimeElapsed(playtimeManager.getTime());
         gameStuff.setLives(gameStuff.getLives());
+        highscore();
+    }
+
+    private void highscore() {
+        if (gameStuff.getPoints() > settings.getHighestPoints()){
+            settings.setHighestPoints(gameStuff.getPoints());
+            settings.setHighScoreTime(gameStuff.getTimeElapsed());
+            settings.setHighScoreLevel(gameStuff.getCurrentLevel());
+            new SettingsManager().save(settings);
+        }
     }
 
     /**
