@@ -70,10 +70,10 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void update() {
         timerStartedOnce = false;
         currentBoost = IngameBoost.REGULAR_BOOST;
+        spawnBoost();
         allKeysCollected = false;
         isInvinceble = false;
-        spawnBoost();
-        System.out.println("Updated that shit");
+        System.out.println("Updated");
     }
 
     /**
@@ -115,28 +115,28 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //W
             case 87 -> {
-                if (direction != MovingDirections.DOWN && direction != MovingDirections.UP) {
+                if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.DOWN && direction != MovingDirections.UP) {
                     direction = MovingDirections.UP;
                     pressedDirections.add(direction);
                 }
             }
             //A
             case 65 -> {
-                if (direction != MovingDirections.RIGHT && direction != MovingDirections.LEFT) {
+                if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.RIGHT && direction != MovingDirections.LEFT) {
                     direction = MovingDirections.LEFT;
                     pressedDirections.add(direction);
                 }
             }
             //S
             case 83 -> {
-                if (direction != MovingDirections.UP && direction != MovingDirections.DOWN) {
+                if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.UP && direction != MovingDirections.DOWN) {
                     direction = MovingDirections.DOWN;
                     pressedDirections.add(direction);
                 }
             }
             //D
             case 68 -> {
-                if (direction != MovingDirections.LEFT && direction != MovingDirections.RIGHT) {
+                if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.LEFT && direction != MovingDirections.RIGHT) {
                     direction = MovingDirections.RIGHT;
                     pressedDirections.add(direction);
                 }
@@ -220,10 +220,15 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         System.out.println(gameStuff.getObstacles()[randomX][randomY]);
 
+        //FIXME
         if (gameStuff.getObstacles()[randomX][randomY] || boostOnSnake(randomX, randomY)) {
             setRandomBoostLocation();
         } else {
             boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, randomY * GameFrame.FIELD_HEIGHT_PX);
+            System.out.println(randomX + " " + randomY);
+            boost.setVisible(true);
+            panel.revalidate();
+            panel.repaint();
         }
 
     }
@@ -325,10 +330,15 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL3 -> newLevelSettings(Levels.LEVEL4, 4);
             case LEVEL4 -> newLevelSettings(Levels.LEVEL5, 5);
             case LEVEL5 -> newLevelSettings(Levels.LEVEL6, 6);
+            case LEVEL6 -> newLevelSettings(Levels.LEVEL7, 7);
+            case LEVEL7 -> newLevelSettings(Levels.LEVEL8, 8);
+            case LEVEL8 -> newLevelSettings(Levels.LEVEL9, 9);
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
 
+    /**This method sets the current level up one time if a new level is reached.
+     * The method which is called by a timer in the GameFrame class will notice that and start a new level.*/
     private void newLevelSettings(final Levels level, final int reachedLevel) {
         gameStuff.setCurrentLevel(level);
         if (settings.getUnlockedLevel() < reachedLevel)
@@ -336,6 +346,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         new SettingsManager().save(settings);
     }
 
+    /**Does some settings in the gameStuff instance*/
     private void someStuff() {
         System.out.println("some stuff");
         gameStuff.setKeyAmount(0);
@@ -343,6 +354,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setLives(gameStuff.getLives());
     }
 
+    /**Will change the highscore if a new points all time high is achieved*/
     private void highscore() {
         if (gameStuff.getPoints() > settings.getHighestPoints()) {
             settings.setHighestPoints(gameStuff.getPoints());
@@ -352,9 +364,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**
-     * Moves all the tails in the tails list to the position of the next tail
-     */
+    /**Moves all the tails in the tails list to the position of the next tail*/
     private void moveTails() {
 
         int moveToX = head.getX();
@@ -369,9 +379,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**
-     * Method that is called when the player died
-     */
+    /**Method that is called when the player died*/
     private void died() {
         playtimeManager.stopTimer();
         System.out.println("timer stopped");
@@ -400,12 +408,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         new DiedFrame(settings, gameStuff, gameFrame);
     }
 
-    /**
-     * This method will decide whether the player died or respawns or just normally moved.
-     * By getting all the fields from the obstacles Array for the level, this will
-     * then look up the field with the coordinates of the snake.
-     * Also looks if the head position equals a position of the snake itself.
-     */
     private void testIfDied(int x, int y) {
 
         if (gameStuff.getObstacles()[x][y] || snakeHitItself()) {
@@ -437,6 +439,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         return false;
     }
 
+    /**Called when the snake has to respawn and calls the respawnTheSnake method*/
     public void respawn() {
         pressedDirections.clear();
         pressedDirections.add(MovingDirections.RIGHT);

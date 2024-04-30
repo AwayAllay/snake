@@ -126,6 +126,7 @@ public class GameFrame extends JFrame {
         checkForNewLevel();
     }
 
+    /**Checks if the current level has changed and if so it calls the nextLevel method*/
     private void checkForNewLevel() {
         Timer checkingForNewLevel = new Timer();
         checkingForNewLevel.schedule(new TimerTask() {
@@ -184,6 +185,9 @@ public class GameFrame extends JFrame {
             case LEVEL4 -> result = translateLevel("level4.txt");
             case LEVEL5 -> result = translateLevel("level5.txt");
             case LEVEL6 -> result = translateLevel("level6.txt");
+            case LEVEL7 -> result = translateLevel("level7.txt");
+            case LEVEL8 -> result = translateLevel("level8.txt");
+            case LEVEL9 -> result = translateLevel("level9.txt");
 
         }
         //TODO IMPORTANT FOR NEW LEVELS!
