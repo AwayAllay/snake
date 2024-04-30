@@ -25,7 +25,7 @@ X                        X                         X                          X 
 X                        X                         X                          X                        X
 X                        X                         X                          X                        X
 X                        X                         X                          X                        X
-X                          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                          X
+X                            XXXXXXXXXXXXXXX               XXXXXXXXXXXXXXXX                            X
 X                        X                         X                          X                        X
 X                        X                         X                          X                        X
 X                        X                         X                          X                        X

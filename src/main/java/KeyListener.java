@@ -150,6 +150,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                     startMoving = false;
                 }
             }
+            //B
+            case 66 -> spawnBoost();
         }
     }
 
@@ -215,8 +217,8 @@ public class KeyListener implements java.awt.event.KeyListener {
      * the obstacles. If so it will create a new Location for the boost by recursion.
      */
     private void setRandomBoostLocation() {
-        int randomX = new Random().nextInt(100) + 2;
-        int randomY = new Random().nextInt(45) + 6;
+        int randomX = new Random().nextInt(104);
+        int randomY = new Random().nextInt(55);
 
         System.out.println(gameStuff.getObstacles()[randomX][randomY]);
 
@@ -224,7 +226,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         if (gameStuff.getObstacles()[randomX][randomY] || boostOnSnake(randomX, randomY)) {
             setRandomBoostLocation();
         } else {
-            boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, randomY * GameFrame.FIELD_HEIGHT_PX);
+            boost.setLocation(randomX * GameFrame.FIELD_WIDTH_PX, (randomY + 3) * GameFrame.FIELD_HEIGHT_PX);
             System.out.println(randomX + " " + randomY);
             boost.setVisible(true);
             panel.revalidate();
@@ -343,6 +345,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setCurrentLevel(level);
         if (settings.getUnlockedLevel() < reachedLevel)
             settings.setUnlockedLevel(reachedLevel);
+        allKeysCollected = false;
         new SettingsManager().save(settings);
     }
 
