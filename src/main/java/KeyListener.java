@@ -39,6 +39,9 @@ public class KeyListener implements java.awt.event.KeyListener {
     private final PlaytimeManager playtimeManager;
     /**The list of the tails of the snake*/
     private final List<SnakeTail> tails = new LinkedList<>();
+    /**The list of pressed directions in which the first object will be taken for the direction whenever the
+     * snake is moving */
+    private final List<MovingDirections> pressedDirections = new  LinkedList<>();
     /**Says if the snake has already started moving so pressing the space-bar again don´t makes it faster */
     private boolean startMoving = true;
     /**Says if the timer moving the snake has started so it cant be started again*/
@@ -59,6 +62,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.playtimeManager = playtimeManager;
         boost = new JLabel();
         boost.setBounds(600, 1000, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
+        pressedDirections.add(MovingDirections.RIGHT);
 
         update();
     }
@@ -111,26 +115,30 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             //W
             case 87 -> {
-                if (direction != MovingDirections.DOWN) {
+                if (direction != MovingDirections.DOWN && direction != MovingDirections.UP) {
                     direction = MovingDirections.UP;
+                    pressedDirections.add(direction);
                 }
             }
             //A
             case 65 -> {
-                if (direction != MovingDirections.RIGHT) {
+                if (direction != MovingDirections.RIGHT && direction != MovingDirections.LEFT) {
                     direction = MovingDirections.LEFT;
+                    pressedDirections.add(direction);
                 }
             }
             //S
             case 83 -> {
-                if (direction != MovingDirections.UP) {
+                if (direction != MovingDirections.UP && direction != MovingDirections.DOWN) {
                     direction = MovingDirections.DOWN;
+                    pressedDirections.add(direction);
                 }
             }
             //D
             case 68 -> {
-                if (direction != MovingDirections.LEFT) {
+                if (direction != MovingDirections.LEFT && direction != MovingDirections.RIGHT) {
                     direction = MovingDirections.RIGHT;
+                    pressedDirections.add(direction);
                 }
             }
             //Esc
@@ -278,11 +286,14 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         moveTails();
 
-        switch (direction) {
+        switch (pressedDirections.get(0)) {
             case UP -> head.setLocation(head.getX(), head.getY() - GameFrame.FIELD_HEIGHT_PX);
             case RIGHT -> head.setLocation(head.getX() + GameFrame.FIELD_WIDTH_PX, head.getY());
             case DOWN -> head.setLocation(head.getX(), head.getY() + GameFrame.FIELD_HEIGHT_PX);
             case LEFT -> head.setLocation(head.getX() - GameFrame.FIELD_WIDTH_PX, head.getY());
+        }
+        if (pressedDirections.size() > 1) {
+            pressedDirections.remove(0);
         }
 
         if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected) {
@@ -313,6 +324,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL2 -> newLevelSettings(Levels.LEVEL3, 3);
             case LEVEL3 -> newLevelSettings(Levels.LEVEL4, 4);
             case LEVEL4 -> newLevelSettings(Levels.LEVEL5, 5);
+            case LEVEL5 -> newLevelSettings(Levels.LEVEL6, 6);
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
@@ -426,12 +438,13 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     public void respawn() {
+        pressedDirections.clear();
+        pressedDirections.add(MovingDirections.RIGHT);
         respawnTheSnake();
     }
 
     private void respawnTheSnake() {
         startMoving = true;
-        direction = MovingDirections.RIGHT;
         int index = 0;
 
         if (enteringNewLevel) {

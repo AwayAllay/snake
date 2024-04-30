@@ -183,6 +183,7 @@ public class GameFrame extends JFrame {
             case LEVEL3 -> result = translateLevel("level3.txt");
             case LEVEL4 -> result = translateLevel("level4.txt");
             case LEVEL5 -> result = translateLevel("level5.txt");
+            case LEVEL6 -> result = translateLevel("level6.txt");
 
         }
         //TODO IMPORTANT FOR NEW LEVELS!
