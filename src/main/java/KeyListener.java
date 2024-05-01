@@ -197,11 +197,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 }
             }
             //B
-            case 66 -> {
-                spawnBoost();
-                AchievementSlideThing thing = new AchievementSlideThing(settings, gameStuff, "IDIOT", panel);
-                thing.act();
-            }
+            case 66 -> spawnBoost();
         }
     }
 
@@ -337,6 +333,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                 panel.repaint();
             }
         }
+        AchievementSlideThing thing = new AchievementSlideThing(settings, gameStuff, "DOOR OPENED", panel);
+        thing.act();
     }
 
     private void moveAction() {

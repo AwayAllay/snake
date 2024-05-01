@@ -20,12 +20,12 @@ public class AchievementSlideThing {
 
         Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
 
-        textLabel = new JLabel(text);
+        textLabel = new JLabel(text, SwingConstants.CENTER);
         textLabel.setBorder(border);
         textLabel.setBackground(new Color(96, 96,96));
         textLabel.setForeground(Color.WHITE);
         textLabel.setOpaque(true);
-        textLabel.setBounds(panel.getWidth(), 80, 180, 60);
+        textLabel.setBounds(panel.getWidth(), 80, 220, 60);
 
         panel.add(textLabel);
     }
@@ -39,16 +39,16 @@ public class AchievementSlideThing {
             private int counter = 0;
             @Override
             public void run() {
-                if (counter < 200) {
+                if (counter < 240) {
                     textLabel.setLocation(textLabel.getX() - 1, textLabel.getY());
-                } else if (counter > 700 && counter < 1000) {
+                } else if (counter > 1000 && counter < 1700) {
                     textLabel.setLocation(textLabel.getX() + 1, textLabel.getY());
-                }else if (counter > 1000){
+                }else if (counter > 1700){
                     panel.remove(textLabel);
                     cancel();
                 }
                 counter++;
             }
-        }, 0, 10);
+        }, 0, 4);
     }
 }
