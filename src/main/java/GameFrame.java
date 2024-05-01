@@ -155,7 +155,7 @@ public class GameFrame extends JFrame {
         keyListener.update();
 
         setLevel("LEVEL " + gameStuff.getCurrentLevel().getLevelNumber());
-        keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
+        keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
         keyListener.pauseTimer();
 
@@ -188,6 +188,8 @@ public class GameFrame extends JFrame {
             case LEVEL7 -> result = translateLevel("level7.txt");
             case LEVEL8 -> result = translateLevel("level8.txt");
             case LEVEL9 -> result = translateLevel("level9.txt");
+            case LEVEL10 -> result = translateLevel("level10.txt");
+            case LEVEL11 -> result = translateLevel("level11.txt");
 
         }
         //TODO IMPORTANT FOR NEW LEVELS!

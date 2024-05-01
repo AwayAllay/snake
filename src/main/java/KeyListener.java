@@ -7,49 +7,91 @@ import java.util.Timer;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
-    /**RIGHT LEFT UP AND DOWN (directions in which snake is moving)*/
+    /**
+     * RIGHT LEFT UP AND DOWN (directions in which snake is moving)
+     */
     private MovingDirections direction = MovingDirections.RIGHT;
-    /**The timer which causes the snake to move frequently*/
+    /**
+     * The timer which causes the snake to move frequently
+     */
     private Timer timer;
-    /**true if the snake is currently entering a new level*/
+    /**
+     * true if the snake is currently entering a new level
+     */
     private boolean enteringNewLevel = false;
-    /**says if the snake can die or not*/
+    /**
+     * says if the snake can die or not
+     */
     private boolean isInvinceble = false;
-    /**The head label of the snake*/
+    /**
+     * The head label of the snake
+     */
     private final JLabel head;
-    /**The label of the displayed boost*/
+    /**
+     * The label of the displayed boost
+     */
     private final JLabel boost;
-    /**says if all the keys are collected and potentially the door could open*/
+    /**
+     * says if all the keys are collected and potentially the door could open
+     */
     private boolean allKeysCollected;
-    /**The main frame of the game*/
+    /**
+     * The main frame of the game
+     */
     private final JFrame gameFrame;
-    /**The main panel (The panel on which the snake and the obstacles are)*/
+    /**
+     * The main panel (The panel on which the snake and the obstacles are)
+     */
     private final JPanel panel;
-    /**The label on which the current points are displayed*/
+    /**
+     * The label on which the current points are displayed
+     */
     private final JLabel points;
-    /**The label which displays the current lives of the snake*/
+    /**
+     * The label which displays the current lives of the snake
+     */
     private final JLabel lives;
-    /**The label which displays the current amount of collected keys*/
+    /**
+     * The label which displays the current amount of collected keys
+     */
     private final JLabel keys;
-    /**The settings object which is given every class though the constructor*/
+    /**
+     * The settings object which is given every class though the constructor
+     */
     private final Settings settings;
-    /**The gameStuff stuff which is given almost every class through the constructor*/
+    /**
+     * The gameStuff stuff which is given almost every class through the constructor
+     */
     private final GameStuff gameStuff;
-    /**The instance of the class which manages the displayed timer*/
+    /**
+     * The instance of the class which manages the displayed timer
+     */
     private final PlaytimeManager playtimeManager;
-    /**The list of the tails of the snake*/
+    /**
+     * The list of the tails of the snake
+     */
     private final List<SnakeTail> tails = new LinkedList<>();
-    /**The list of pressed directions in which the first object will be taken for the direction whenever the
-     * snake is moving */
-    private final List<MovingDirections> pressedDirections = new  LinkedList<>();
-    /**Says if the snake has already started moving so pressing the space-bar again don´t makes it faster */
+    /**
+     * The list of pressed directions in which the first object will be taken for the direction whenever the
+     * snake is moving
+     */
+    private final List<MovingDirections> pressedDirections = new LinkedList<>();
+    /**
+     * Says if the snake has already started moving so pressing the space-bar again don´t makes it faster
+     */
     private boolean startMoving = true;
-    /**Says if the timer moving the snake has started so it cant be started again*/
+    /**
+     * Says if the timer moving the snake has started so it cant be started again
+     */
     private boolean timerStartedOnce;
-    /**The type of the current boost*/
+    /**
+     * The type of the current boost
+     */
     private IngameBoost currentBoost;
 
-    /**Constructor*/
+    /**
+     * Constructor
+     */
     public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
         this.gameStuff = gameStuff;
         this.settings = settings;
@@ -117,28 +159,32 @@ public class KeyListener implements java.awt.event.KeyListener {
             case 87 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.DOWN && direction != MovingDirections.UP) {
                     direction = MovingDirections.UP;
-                    pressedDirections.add(direction);
+                    if (pressedDirections.size() < 5)
+                        pressedDirections.add(direction);
                 }
             }
             //A
             case 65 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.RIGHT && direction != MovingDirections.LEFT) {
                     direction = MovingDirections.LEFT;
-                    pressedDirections.add(direction);
+                    if (pressedDirections.size() < 5)
+                        pressedDirections.add(direction);
                 }
             }
             //S
             case 83 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.UP && direction != MovingDirections.DOWN) {
                     direction = MovingDirections.DOWN;
-                    pressedDirections.add(direction);
+                    if (pressedDirections.size() < 5)
+                        pressedDirections.add(direction);
                 }
             }
             //D
             case 68 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.LEFT && direction != MovingDirections.RIGHT) {
                     direction = MovingDirections.RIGHT;
-                    pressedDirections.add(direction);
+                    if (pressedDirections.size() < 5)
+                        pressedDirections.add(direction);
                 }
             }
             //Esc
@@ -151,7 +197,11 @@ public class KeyListener implements java.awt.event.KeyListener {
                 }
             }
             //B
-            case 66 -> spawnBoost();
+            case 66 -> {
+                spawnBoost();
+                AchievementSlideThing thing = new AchievementSlideThing(settings, gameStuff, "IDIOT", panel);
+                thing.act();
+            }
         }
     }
 
@@ -258,7 +308,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         points.setText(String.valueOf(gameStuff.getPoints()));
         lives.setText("lives: " + gameStuff.getLives());
-        keys.setText("keys: " + gameStuff.getKeyAmount() + "/5");
+        keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
         panel.remove(boost);
         panel.revalidate();
@@ -335,12 +385,16 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL6 -> newLevelSettings(Levels.LEVEL7, 7);
             case LEVEL7 -> newLevelSettings(Levels.LEVEL8, 8);
             case LEVEL8 -> newLevelSettings(Levels.LEVEL9, 9);
+            case LEVEL9 -> newLevelSettings(Levels.LEVEL10, 10);
+            case LEVEL10 -> newLevelSettings(Levels.LEVEL11, 11);
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
 
-    /**This method sets the current level up one time if a new level is reached.
-     * The method which is called by a timer in the GameFrame class will notice that and start a new level.*/
+    /**
+     * This method sets the current level up one time if a new level is reached.
+     * The method which is called by a timer in the GameFrame class will notice that and start a new level.
+     */
     private void newLevelSettings(final Levels level, final int reachedLevel) {
         gameStuff.setCurrentLevel(level);
         if (settings.getUnlockedLevel() < reachedLevel)
@@ -349,7 +403,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         new SettingsManager().save(settings);
     }
 
-    /**Does some settings in the gameStuff instance*/
+    /**
+     * Does some settings in the gameStuff instance
+     */
     private void someStuff() {
         System.out.println("some stuff");
         gameStuff.setKeyAmount(0);
@@ -357,7 +413,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         gameStuff.setLives(gameStuff.getLives());
     }
 
-    /**Will change the highscore if a new points all time high is achieved*/
+    /**
+     * Will change the highscore if a new points all time high is achieved
+     */
     private void highscore() {
         if (gameStuff.getPoints() > settings.getHighestPoints()) {
             settings.setHighestPoints(gameStuff.getPoints());
@@ -367,7 +425,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**Moves all the tails in the tails list to the position of the next tail*/
+    /**
+     * Moves all the tails in the tails list to the position of the next tail
+     */
     private void moveTails() {
 
         int moveToX = head.getX();
@@ -382,7 +442,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**Method that is called when the player died*/
+    /**
+     * Method that is called when the player died
+     */
     private void died() {
         playtimeManager.stopTimer();
         System.out.println("timer stopped");
@@ -442,7 +504,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         return false;
     }
 
-    /**Called when the snake has to respawn and calls the respawnTheSnake method*/
+    /**
+     * Called when the snake has to respawn and calls the respawnTheSnake method
+     */
     public void respawn() {
         pressedDirections.clear();
         pressedDirections.add(MovingDirections.RIGHT);
@@ -483,7 +547,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                             tail.setVisible(false);
                             panel.revalidate();
                             panel.repaint();
-                        }else {
+                        } else {
                             cancel();
                             replaceTailAndHead();
                         }

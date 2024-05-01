@@ -10,7 +10,7 @@ public class GameStuff {
     public GameStuff() {
         timeElapsed = 1;
         currentLevel = Levels.LEVEL1;
-        lives = 5;
+        lives = 10;
         keyAmount = 0;
         points = 0;
         obstacles = null;
