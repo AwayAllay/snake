@@ -11,23 +11,31 @@ public class AchievementSlideThing {
     private final String text;
     private final JPanel panel;
     private final JLabel textLabel;
+    private final Color textColor;
+    private final Color backgroundColor;
+    private final Color borderColor;
 
-    public AchievementSlideThing(Settings settings, GameStuff gameStuff, String text, JPanel panel) {
+    public AchievementSlideThing(Settings settings, GameStuff gameStuff, String text, JPanel panel,
+                                 Color textColor, Color backgroundColor, Color borderColor) {
         this.settings = settings;
         this.gameStuff = gameStuff;
         this.text = text;
         this.panel = panel;
+        this.textColor = textColor;
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
 
-        Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+        Border border = BorderFactory.createLineBorder(borderColor, 2);
 
         textLabel = new JLabel(text, SwingConstants.CENTER);
         textLabel.setBorder(border);
-        textLabel.setBackground(new Color(96, 96,96));
-        textLabel.setForeground(Color.WHITE);
+        textLabel.setBackground(backgroundColor);
+        textLabel.setForeground(textColor);
         textLabel.setOpaque(true);
         textLabel.setBounds(panel.getWidth(), 80, 220, 60);
 
         panel.add(textLabel);
+        panel.setComponentZOrder(textLabel, 0);
     }
 
     public void act(){

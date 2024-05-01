@@ -333,8 +333,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                 panel.repaint();
             }
         }
-        AchievementSlideThing thing = new AchievementSlideThing(settings, gameStuff, "DOOR OPENED", panel);
-        thing.act();
+        new AchievementSlideThing(settings, gameStuff, "DOOR OPENED", panel,
+                new Color(255, 255, 0), new Color(96, 96,96), new Color(255, 255, 0)).act();
     }
 
     private void moveAction() {
@@ -395,10 +395,28 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void newLevelSettings(final Levels level, final int reachedLevel) {
         gameStuff.setCurrentLevel(level);
-        if (settings.getUnlockedLevel() < reachedLevel)
+        if (settings.getUnlockedLevel() < reachedLevel) {
             settings.setUnlockedLevel(reachedLevel);
+            gameStuff.setSendUnlockMessage(true);
+        }else {
+            gameStuff.setSendUnlockMessage(false);
+        }
         allKeysCollected = false;
         new SettingsManager().save(settings);
+    }
+
+    /**This method will be called from the GameFrame class after it has repainted itself for the label to be shown
+     * when the player has the chance to see it and not when the level is repainting. It will send a AchievementThing
+     * based on the Colors of the unlocked Skin*/
+    public void sendUnlockThing(final int reachedLevel) {
+
+        for (Skins skin : Skins.values()) {
+
+            if (reachedLevel == skin.getUnlockNumber()){
+                new AchievementSlideThing(settings, gameStuff, "New skin unlocked: " + skin.name(), panel,
+                        skin.getTailColor(), new Color(96, 96, 96), skin.getHeadColor()).act();
+            }
+        }
     }
 
     /**
@@ -475,6 +493,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         if (gameStuff.getObstacles()[x][y] || snakeHitItself()) {
             pauseTimer();
+            startMoving = false;
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
                 respawn();
@@ -556,6 +575,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             }, 0, getSpeed() / 2);
         }
 
+        startMoving = true;
     }
 
     private void replaceTailAndHead() {

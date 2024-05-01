@@ -6,6 +6,7 @@ public class GameStuff {
     private int keyAmount;
     private int timeElapsed;
     private boolean[][] obstacles;
+    private boolean sendUnlockMessage = false;
 
     public GameStuff() {
         timeElapsed = 1;
@@ -23,6 +24,17 @@ public class GameStuff {
     public void setObstacles(boolean[][] obstacles) {
         System.out.println("obstacles set");
         this.obstacles = obstacles;
+    }
+    /**This returns true if the player has reached a level for the first time and could so potentially has unlocked
+     * a new skin*/
+    public boolean isSendUnlockMessage() {
+        return sendUnlockMessage;
+    }
+
+    /**This is set to true if the player has reached a level for the first time and could so potentially has unlocked
+     * a new skin*/
+    public void setSendUnlockMessage(boolean sendUnlockMessage) {
+        this.sendUnlockMessage = sendUnlockMessage;
     }
 
     public Levels getCurrentLevel() {

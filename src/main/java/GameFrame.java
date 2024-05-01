@@ -16,6 +16,7 @@ public class GameFrame extends JFrame {
     private final JLabel tail2;
     private final JLabel tail3;
     private final JLabel head;
+    private final Settings settings;
     private final KeyListener keyListener;
     private final PlaytimeManager playtimeManager;
     private final GameStuff gameStuff;
@@ -33,6 +34,7 @@ public class GameFrame extends JFrame {
         frame = new JFrame();
 
         this.gameStuff = gameStuff;
+        this.settings = settings;
         currentLevel = gameStuff.getCurrentLevel();
 
         panel = new JPanel();
@@ -161,7 +163,15 @@ public class GameFrame extends JFrame {
 
         frame.revalidate();
         frame.repaint();
+
+        /**Looks if the player could have unlocked a new skin by getting the boolean from the gameStuff class which is set
+         * by the keyListener. If its true it calls the sendUnlockThing method in the keyListener class -> not the best way
+         * in codestyle but it works....*/
+        if (gameStuff.isSendUnlockMessage()){
+            keyListener.sendUnlockThing(settings.getUnlockedLevel());
+        }
     }
+
 
     private boolean doesEqualTail(Component component) {
 
