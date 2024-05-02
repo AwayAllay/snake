@@ -9,7 +9,16 @@ public enum Skins {
     GOLD(new Color(255, 255, 0), new Color(153, 153, 0), 20),
     PURPLE(new Color(204, 0, 102), new Color(102, 0, 51), 25),
     GRAY(new Color(96, 96, 96), new Color(32, 32, 32), 30),
-    NOT_UNLOCKED(new Color(0, 0, 0), new Color(0, 0, 0), 10000);
+    NOT_UNLOCKED(new Color(0, 0, 0), new Color(0, 0, 0), 10000),
+    BLACK_YELLOW(new Color(255, 255,0), new Color(0,0,0), 35),
+    DEEP_PURPLE(new Color(76, 0 ,153),new Color(204, 0, 204), 40),
+    BLUE_LIGHTPURPLE(new Color(153, 255, 255) , new Color( 255, 153, 255), 45),
+    BLUE_SKINCOLOR(new Color(25, 170, 186), new Color(255, 154, 154), 50),
+    GOD(new Color(255,255,255), new Color(0, 255, 26), 55);
+
+
+
+
 
 
     private final Color tailColor;
