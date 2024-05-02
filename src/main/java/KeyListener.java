@@ -79,7 +79,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * Says if the snake has already started moving so pressing the space-bar again don´t makes it faster
      */
-    private boolean startMoving = true;
+    public boolean startMoving = true;
     /**
      * Says if the timer moving the snake has started so it cant be started again
      */
@@ -155,32 +155,33 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         switch (e.getKeyCode()) {
 
-            //W
-            case 87 -> {
+            //W and arrow key up
+            case 87, 38 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.DOWN && direction != MovingDirections.UP) {
                     direction = MovingDirections.UP;
                     if (pressedDirections.size() < 5)
                         pressedDirections.add(direction);
                 }
             }
-            //A
-            case 65 -> {
+            //A and arrow key left
+            case 65, 37 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.RIGHT && direction != MovingDirections.LEFT) {
                     direction = MovingDirections.LEFT;
                     if (pressedDirections.size() < 5)
                         pressedDirections.add(direction);
                 }
             }
-            //S
-            case 83 -> {
+
+            //S and arrow key down
+            case 83, 40 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.UP && direction != MovingDirections.DOWN) {
                     direction = MovingDirections.DOWN;
                     if (pressedDirections.size() < 5)
                         pressedDirections.add(direction);
                 }
             }
-            //D
-            case 68 -> {
+            //D and arrow key right
+            case 68, 39 -> {
                 if (pressedDirections.get(pressedDirections.size() - 1) != MovingDirections.LEFT && direction != MovingDirections.RIGHT) {
                     direction = MovingDirections.RIGHT;
                     if (pressedDirections.size() < 5)
@@ -189,6 +190,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             }
             //Esc
             case 27 -> openPauseMenu();
+
             //Space
             case 32 -> {
                 if (startMoving) {
@@ -372,6 +374,7 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void newLevel() {
         someStuff();
         isInvinceble = true;
+        startMoving = false;
         timer.cancel();
 
         switch (gameStuff.getCurrentLevel()) {
@@ -527,11 +530,12 @@ public class KeyListener implements java.awt.event.KeyListener {
     public void respawn() {
         pressedDirections.clear();
         pressedDirections.add(MovingDirections.RIGHT);
+        direction = MovingDirections.RIGHT;
         respawnTheSnake();
     }
 
     private void respawnTheSnake() {
-        startMoving = true;
+        startMoving = false;
         int index = 0;
 
         if (enteringNewLevel) {
@@ -574,8 +578,6 @@ public class KeyListener implements java.awt.event.KeyListener {
                 }
             }, 0, getSpeed() / 2);
         }
-
-        startMoving = true;
     }
 
     private void replaceTailAndHead() {
@@ -590,6 +592,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         for (SnakeTail tail : tails) {
             tail.setVisible(true);
         }
+        startMoving = true;
     }
 
 
