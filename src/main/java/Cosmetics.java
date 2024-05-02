@@ -196,7 +196,7 @@ public class Cosmetics implements ActionListener {
     }
     
     
-    /**Replaced the old 100 lines of case statements. When called it will set the settings, displayed skin to the given skin, or 
+    /**Replaced the old 280 lines of case statements. When called it will set the settings, displayed skin to the given skin, or
      * display a not unlocked skin if the skin is not unlocked yet.*/
     private void skinStuff(Skins skin) {
 

@@ -253,11 +253,30 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         boost.setBackground(currentBoost.getBoostColor());
         boost.setOpaque(true);
+        boost.setIcon(getBoostIcon());
         boost.setVisible(true);
         panel.add(boost);
 
         setRandomBoostLocation();
 
+    }
+
+    private Icon getBoostIcon() {
+
+        ImageIcon image = null;
+        String directory = "";
+
+        switch (currentBoost){
+            case HEALTH_BOOST -> directory = "Heart.png";
+        }
+
+
+        try {
+            image = new ImageIcon(Objects.requireNonNull(getClass().getResource(directory)));
+        } catch (NullPointerException e) {
+            System.out.println("Image not found");
+        }
+        return image;
     }
 
     /**
