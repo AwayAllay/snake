@@ -2,7 +2,7 @@ public class GameStuff {
 
     private Levels currentLevel;
     private int lives;
-    private int points;
+    private long points;
     private int keyAmount;
     private int timeElapsed;
     private boolean[][] obstacles;
@@ -61,11 +61,11 @@ public class GameStuff {
         this.keyAmount = keyAmount;
     }
 
-    public int getPoints() {
+    public long getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(long points) {
         this.points = points;
     }
 

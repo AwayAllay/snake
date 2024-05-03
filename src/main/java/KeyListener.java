@@ -210,7 +210,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         timer = new Timer();
         timerStartedOnce = true;
 
-        int speed = getSpeed();
+        int speed = settings.getMode().getSpeed();
 
         timer.schedule(new TimerTask() {
             @Override
@@ -253,21 +253,21 @@ public class KeyListener implements java.awt.event.KeyListener {
 
         boost.setBackground(currentBoost.getBoostColor());
         boost.setOpaque(true);
-        boost.setIcon(getBoostIcon());
+        //boost.setIcon(getBoostIcon());
         boost.setVisible(true);
         panel.add(boost);
-
         setRandomBoostLocation();
 
     }
 
-    private Icon getBoostIcon() {
+    /*private Icon getBoostIcon() {
 
         ImageIcon image = null;
         String directory = "";
 
         switch (currentBoost){
             case HEALTH_BOOST -> directory = "Heart.png";
+            case GOOD_BOOST -> directory = "Good.png";
         }
 
 
@@ -277,7 +277,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             System.out.println("Image not found");
         }
         return image;
-    }
+    }*/
 
     /**
      * Sets a radom Location for the boost and looks if it would be on the snake or on one of
@@ -318,12 +318,12 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void eatBoost() {
 
-        gameStuff.setPoints(gameStuff.getPoints() + currentBoost.getPoints());
+        gameStuff.setPoints(gameStuff.getPoints() + (long) currentBoost.getPoints() * settings.getMode().getModeMultiplier());
         gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
         increaseSnakeLength(currentBoost.getLengthBoost());
         gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
 
-        points.setText(String.valueOf(gameStuff.getPoints()));
+        points.setText(String.valueOf(gameStuff.getPoints() * settings.getMode().getModeMultiplier()));
         lives.setText("lives: " + gameStuff.getLives());
         keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
@@ -456,9 +456,10 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void highscore() {
         if (gameStuff.getPoints() > settings.getHighestPoints()) {
-            settings.setHighestPoints(gameStuff.getPoints());
+            settings.setHighestPoints(gameStuff.getPoints() * settings.getMode().getModeMultiplier());
             settings.setHighScoreTime(playtimeManager.setTime(gameStuff.getTimeElapsed()));
             settings.setHighScoreLevel(gameStuff.getCurrentLevel());
+            settings.setHighScoreMode(settings.getMode());
             new SettingsManager().save(settings);
         }
     }
@@ -504,7 +505,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                     cancel();
                 }
             }
-        }, 0, getSpeed() / 2);
+        }, 0, settings.getMode().getSpeed() / 4);
 
         highscore();
 
@@ -595,7 +596,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                         cancel();
                     }
                 }
-            }, 0, getSpeed() / 2);
+            }, 0, settings.getMode().getSpeed() / 2);
         }
     }
 
@@ -614,32 +615,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         startMoving = true;
     }
 
-
-    /**
-     * Sets the speed for the timer moving the snake depending on what mode is selected
-     */
-    private int getSpeed() {
-
-        switch (settings.getMode()) {
-
-            case BEGINNER -> {
-                return 120;
-            }
-            case ADULT -> {
-                return 100;
-            }
-            case MASTER -> {
-                return 90;
-            }
-            case GOD -> {
-                return 60;
-            }
-            default -> {
-                return 140;
-            }
-
-        }
-    }
 
     /**
      * This will pause the timer which moves the snake, causing the snake to stop

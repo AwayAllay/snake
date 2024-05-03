@@ -50,39 +50,39 @@ public class GameFrame extends JFrame {
         actionBar.setLayout(null);
 
         //The displayed level
-        level = new JLabel("LEVEL 0");
+        level = new JLabel("LEVEL 10", SwingConstants.CENTER);
         level.setBounds(949, 5, 203, 50);
         level.setBackground(Color.WHITE);
         level.setOpaque(true);
-        level.setFont(new Font("Ariral", Font.BOLD, 50));
+        level.setFont(new Font("Ariral", Font.BOLD, 35));
         
         //The displayed lives
-        JLabel lives = new JLabel("lives: " + gameStuff.getLives());
+        JLabel lives = new JLabel("lives: " + gameStuff.getLives(), SwingConstants.CENTER);
         lives.setBounds(519, 5, 213, 50);
         lives.setBackground(Color.WHITE);
         lives.setOpaque(true);
-        lives.setFont(new Font("Ariral", Font.BOLD, 50));
+        lives.setFont(new Font("Ariral", Font.BOLD, 35));
 
         //The displayed points
-        JLabel points = new JLabel(String.valueOf(gameStuff.getPoints()));
+        JLabel points = new JLabel(String.valueOf(gameStuff.getPoints()), SwingConstants.CENTER);
         points.setBounds(1794, 5, 202, 50);
         points.setBackground(Color.WHITE);
         points.setOpaque(true);
-        points.setFont(new Font("Ariral", Font.BOLD, 50));
+        points.setFont(new Font("Ariral", Font.BOLD, 35));
 
         //The displayed amount of keys
-        keys = new JLabel("keys: " + gameStuff.getKeyAmount() + "/5");
+        keys = new JLabel("keys: " + gameStuff.getKeyAmount() + "/1", SwingConstants.CENTER);
         keys.setBounds(1379, 5, 213, 50);
         keys.setBackground(Color.WHITE);
         keys.setOpaque(true);
-        keys.setFont(new Font("Ariral", Font.BOLD, 50));
+        keys.setFont(new Font("Ariral", Font.BOLD, 35));
         
         //Timer-Label for the game-timer
-        JLabel timer = new JLabel("00:00:00");
+        JLabel timer = new JLabel("00:00:00", SwingConstants.CENTER);
         timer.setBounds(100, 5, 202, 50);
         timer.setBackground(Color.WHITE);
         timer.setOpaque(true);
-        timer.setFont(new Font("Ariral", Font.BOLD, 50));
+        timer.setFont(new Font("Ariral", Font.BOLD, 35));
 
         //SnakeTail
         tail1 = new SnakeTail(1040, 600, FIELD_WIDTH_PX, FIELD_HEIGHT_PX );

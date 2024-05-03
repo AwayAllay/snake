@@ -3,9 +3,10 @@ public class Settings {
     private Skins skin = Skins.DEFAULT;
     private Modes mode = Modes.NOOB;
     private int unlockedLevel = 1;
-    private int highestPoints = 0;
+    private long highestPoints = 0L;
     private String highScoreTime = "00:00:00";
     private Levels highScoreLevel = Levels.LEVEL1;
+    private Modes highScoreMode = Modes.GOD;
 
     public String getHighScoreTime() {
         return highScoreTime;
@@ -23,11 +24,11 @@ public class Settings {
         this.highScoreLevel = highScoreLevel;
     }
 
-    public int getHighestPoints() {
+    public long getHighestPoints() {
         return highestPoints;
     }
 
-    public void setHighestPoints(int highestPoints) {
+    public void setHighestPoints(long highestPoints) {
         this.highestPoints = highestPoints;
     }
 
@@ -53,5 +54,13 @@ public class Settings {
 
     public void setUnlockedLevel(int unlockedLevel) {
         this.unlockedLevel = unlockedLevel;
+    }
+
+    public Modes getHighScoreMode() {
+        return highScoreMode;
+    }
+
+    public void setHighScoreMode(Modes highScoreMode) {
+        this.highScoreMode = highScoreMode;
     }
 }
