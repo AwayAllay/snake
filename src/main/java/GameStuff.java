@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameStuff {
 
     private Levels currentLevel;
@@ -7,6 +10,7 @@ public class GameStuff {
     private int timeElapsed;
     private boolean[][] obstacles;
     private boolean sendUnlockMessage = false;
+    private List<AchievementSlideThing> popups;
 
     public GameStuff() {
         timeElapsed = 1;
@@ -15,6 +19,11 @@ public class GameStuff {
         keyAmount = 0;
         points = 0;
         obstacles = null;
+        popups  = new ArrayList<>();
+    }
+
+    public List<AchievementSlideThing> getPopups() {
+        return popups;
     }
 
     public boolean[][] getObstacles() {
