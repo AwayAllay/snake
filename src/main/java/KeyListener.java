@@ -134,7 +134,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /**
+    /*
      * Keys:
      * W 87;
      * A 65;
@@ -318,12 +318,12 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void eatBoost() {
 
-        gameStuff.setPoints(gameStuff.getPoints() + (long) currentBoost.getPoints() * settings.getMode().getModeMultiplier());
+        gameStuff.setPoints(gameStuff.getPoints() + ((long) currentBoost.getPoints() * settings.getMode().getModeMultiplier()));
         gameStuff.setLives(gameStuff.getLives() + currentBoost.getHealthBoost());
         increaseSnakeLength(currentBoost.getLengthBoost());
         gameStuff.setKeyAmount(gameStuff.getKeyAmount() + currentBoost.getKeyBoost());
 
-        points.setText(String.valueOf(gameStuff.getPoints() * settings.getMode().getModeMultiplier()));
+        points.setText(String.valueOf(gameStuff.getPoints()));
         lives.setText("lives: " + gameStuff.getLives());
         keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
@@ -457,7 +457,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     private void highscore() {
         if (gameStuff.getPoints() > settings.getHighestPoints()) {
-            settings.setHighestPoints(gameStuff.getPoints() * settings.getMode().getModeMultiplier());
+            settings.setHighestPoints(gameStuff.getPoints());
             settings.setHighScoreTime(playtimeManager.setTime(gameStuff.getTimeElapsed()));
             settings.setHighScoreLevel(gameStuff.getCurrentLevel());
             settings.setHighScoreMode(settings.getMode());
