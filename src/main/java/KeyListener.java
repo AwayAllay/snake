@@ -407,6 +407,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             case LEVEL8 -> newLevelSettings(Levels.LEVEL9, 9);
             case LEVEL9 -> newLevelSettings(Levels.LEVEL10, 10);
             case LEVEL10 -> newLevelSettings(Levels.LEVEL11, 11);
+            case LEVEL11 -> newLevelSettings(Levels.LEVEL12, 12);
             //TODO IMPORTANT FOR NEW LEVELS!
         }
     }
