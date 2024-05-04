@@ -167,11 +167,16 @@ public class GameFrame extends JFrame {
         keyListener.startMoving = true;
 
         /**Looks if the player could have unlocked a new skin by getting the boolean from the gameStuff class which is set
-         * by the keyListener. If its true it calls the sendUnlockThing method in the keyListener class -> not the best way
-         * in codestyle but it works....*/
+         * by the keyListener. If its true it calls the sendUnlockThing method in the keyListener class*/
         if (gameStuff.isSendUnlockMessage()){
             keyListener.sendUnlockThing(settings.getUnlockedLevel());
         }
+
+        checkForAchievement();
+    }
+
+    private void checkForAchievement() {
+        //TODO
     }
 
 

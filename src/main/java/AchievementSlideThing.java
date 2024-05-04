@@ -5,25 +5,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AchievementSlideThing {
-
-    private final Settings settings;
-    private final GameStuff gameStuff;
-    private final String text;
     private final JPanel panel;
     private final JLabel textLabel;
-    private final Color textColor;
-    private final Color backgroundColor;
-    private final Color borderColor;
+    private final int time;
 
-    public AchievementSlideThing(Settings settings, GameStuff gameStuff, String text, JPanel panel,
-                                 Color textColor, Color backgroundColor, Color borderColor) {
-        this.settings = settings;
-        this.gameStuff = gameStuff;
-        this.text = text;
+    public AchievementSlideThing(String text, JPanel panel,
+                                 Color textColor, Color backgroundColor, Color borderColor, int timeStaying) {
         this.panel = panel;
-        this.textColor = textColor;
-        this.backgroundColor = backgroundColor;
-        this.borderColor = borderColor;
+        this.time = timeStaying / 4;
 
         Border border = BorderFactory.createLineBorder(borderColor, 2);
 
@@ -44,15 +33,23 @@ public class AchievementSlideThing {
 
         timer.schedule(new TimerTask() {
 
-            private int counter = 0;
+            private int counter = -240;
             @Override
             public void run() {
-                if (counter < 240) {
+                if (counter <= 0) {
                     textLabel.setLocation(textLabel.getX() - 1, textLabel.getY());
-                } else if (counter > 1000 && counter < 1700) {
+                }
+                else if (counter < time) {
+                    //Do nothing
+                }
+                else if (counter >= time && counter < time + 300) {
                     textLabel.setLocation(textLabel.getX() + 1, textLabel.getY());
-                }else if (counter > 1700){
+                }
+                else if (counter >= time + 300) {
                     panel.remove(textLabel);
+                    cancel();
+                }
+                else{
                     cancel();
                 }
                 counter++;
