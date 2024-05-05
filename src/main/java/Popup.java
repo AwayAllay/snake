@@ -19,10 +19,11 @@ public class Popup {
 
         Border border = BorderFactory.createLineBorder(borderColor, 2);
 
-        String titel = "<html><h1 style='font-size: 12px; font-family: Arial;'>" + text + "</h1>"
-                + "<p style='font-size: 10px; font-family: Arial; color: #F0F0F0;'>" + untertitel + "</p></html>";
+        //Uses html formation to format the text on the label
+        String titel = "<html><h1 style='font-size: 12px; font-family: Arial; color: #F0F0F0;'>" + text + "</h1>"
+                + "<p style='font-size: 10px; font-family: Arial;'>" + untertitel + "</p></html>";
 
-        textLabel = new JLabel(titel);
+        textLabel = new JLabel(titel, SwingConstants.LEFT);
         textLabel.setBorder(border);
         textLabel.setBackground(backgroundColor);
         textLabel.setForeground(textColor);
