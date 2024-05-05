@@ -4,15 +4,15 @@ import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AchievementSlideThing {
+public class Popup {
     private final JPanel panel;
     private final JLabel textLabel;
     private final int time;
     private final GameStuff gameStuff;
     private int numberOfPopups;
 
-    public AchievementSlideThing(String text, JPanel panel,
-                                 Color textColor, Color backgroundColor, Color borderColor, int timeStaying , GameStuff gameStuff) {
+    public Popup(String text, JPanel panel,
+                 Color textColor, Color backgroundColor, Color borderColor, int timeStaying , GameStuff gameStuff) {
         this.panel = panel;
         this.time = timeStaying / 4;
         this.gameStuff = gameStuff;
@@ -26,10 +26,10 @@ public class AchievementSlideThing {
         textLabel.setOpaque(true);
         gameStuff.getPopups().add(this);
         numberOfPopups = gameStuff.getPopups().size();
+
         if(gameStuff.getPopups().size() < 2) {
             textLabel.setBounds(panel.getWidth(), 85, 220, 60);
         }else {
-            //gameStuff.getPopups().size()
             textLabel.setBounds(panel.getWidth(), 80 + ((gameStuff.getPopups().size() -1) * 60) + (5 * (gameStuff.getPopups().size())), 220, 60);
         }
 
@@ -45,33 +45,30 @@ public class AchievementSlideThing {
     private void act(final JLabel popupGiven){
 
         Timer timer = new Timer();
-        JLabel popup = popupGiven;
-
         timer.schedule(new TimerTask() {
 
-            private int counter = -240;
+            private int counter = -120;
             @Override
             public void run() {
                 if (counter <= 0) {
-                    textLabel.setLocation(textLabel.getX() - 1, textLabel.getY());
+                    textLabel.setLocation(textLabel.getX() - 2, textLabel.getY());
                 }
                 else if (counter < time) {
                     //Do nothing
                 }
-                else if (counter >= time && counter < time + 300) {
-                    textLabel.setLocation(textLabel.getX() + 1, textLabel.getY());
+                else if (counter >= time && counter < time + 100) {
+                    textLabel.setLocation(textLabel.getX() + 3, textLabel.getY());
                 }
-                else if (counter >= time + 300) {
+                else if (counter >= time + 100) {
                     panel.remove(textLabel);
-                    gameStuff.getPopups().remove(AchievementSlideThing.this);
+                    gameStuff.getPopups().remove(Popup.this);
                     cancel();
                 }
                 else{
                     cancel();
                 }
                 if (gameStuff.getPopups().size() < numberOfPopups){
-                    int bla = numberOfPopups - gameStuff.getPopups().size();
-                    //popupGiven.setLocation(popupGiven.getX(), );
+                    popupGiven.setLocation(popupGiven.getX(), 80 + ((gameStuff.getPopups().size() -1) * 60) + (5 * (gameStuff.getPopups().size())));
                     numberOfPopups = gameStuff.getPopups().size();
                 }
                 counter++;
@@ -79,15 +76,5 @@ public class AchievementSlideThing {
             }
         }, 0, 4);
 
-        /*Timer removal = new Timer();
-        removal.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                gameStuff.getPopups().remove(AchievementSlideThing.this);
-                cancel();
-                System.out.println(gameStuff.getPopups().size());
-            }
-        }, time + 300);
-        System.out.println(gameStuff.getPopups().size());*/
     }
 }

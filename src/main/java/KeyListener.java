@@ -1,6 +1,3 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -221,27 +218,27 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void checkForStartingAchievements() {
         if (!Achievement.WHATS_WINDING_THERE.isCollected()) {
-            new AchievementSlideThing(Achievement.WHATS_WINDING_THERE.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+            new Popup(Achievement.WHATS_WINDING_THERE.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.WHATS_WINDING_THERE.setCollected(true);
         }
         if (!Achievement.BEGINNER.isCollected() && settings.getMode().equals(Modes.BEGINNER)) {
-            new AchievementSlideThing(Achievement.BEGINNER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+            new Popup(Achievement.BEGINNER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.BEGINNER.setCollected(true);
         }
         if (!Achievement.IAM_GROWING_UP.isCollected() && settings.getMode().equals(Modes.ADULT)) {
-            new AchievementSlideThing(Achievement.IAM_GROWING_UP.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+            new Popup(Achievement.IAM_GROWING_UP.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.IAM_GROWING_UP.setCollected(true);
         }
         if (!Achievement.MASTER.isCollected() && settings.getMode().equals(Modes.MASTER)) {
-            new AchievementSlideThing(Achievement.MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+            new Popup(Achievement.MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.MASTER.setCollected(true);
         }
         if (!Achievement.DEMIGOD.isCollected() && settings.getMode().equals(Modes.GOD)) {
-            new AchievementSlideThing(Achievement.DEMIGOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+            new Popup(Achievement.DEMIGOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.DEMIGOD.setCollected(true);
         }
@@ -397,7 +394,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 panel.repaint();
             }
         }
-        new AchievementSlideThing("DOOR OPENED", panel,
+        new Popup("DOOR OPENED", panel,
                 new Color(255, 255, 0), ACHIEVEMENT_BACKGROUND_COLOR, new Color(255, 255, 0), 2000, gameStuff);
     }
 
@@ -481,7 +478,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         for (Skins skin : Skins.values()) {
 
             if (reachedLevel == skin.getUnlockNumber()) {
-                new AchievementSlideThing("New skin unlocked: " + skin.name(), panel,
+                new Popup("New skin unlocked: " + skin.name(), panel,
                         skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff);
             }
         }
@@ -599,7 +596,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         direction = MovingDirections.RIGHT;
         respawnTheSnake();
         if (!Achievement.NOOB.isCollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)) {
-            new AchievementSlideThing(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+            new Popup(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.NOOB.setCollected(true);
         }
     }

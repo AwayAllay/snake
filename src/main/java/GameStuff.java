@@ -10,7 +10,7 @@ public class GameStuff {
     private int timeElapsed;
     private boolean[][] obstacles;
     private boolean sendUnlockMessage = false;
-    private List<AchievementSlideThing> popups;
+    private List<Popup> popups;
 
     public GameStuff() {
         timeElapsed = 1;
@@ -22,7 +22,7 @@ public class GameStuff {
         popups  = new ArrayList<>();
     }
 
-    public List<AchievementSlideThing> getPopups() {
+    public List<Popup> getPopups() {
         return popups;
     }
 
