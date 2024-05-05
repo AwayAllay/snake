@@ -376,6 +376,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new Popup(Achievement.YUMMY.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.YUMMY.getDescription());
+            Achievement.YUMMY.setCollected(true);
         }
 
         //Checks for GOT_THEM_ALL achievement
@@ -385,6 +386,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 new Popup(Achievement.GOT_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                         ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                         Achievement.GOT_THEM_ALL.getDescription());
+                Achievement.GOT_THEM_ALL.setCollected(true);
             }
         }
 
@@ -605,6 +607,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                     new Popup(Achievement.SMELLS_FAMILIAR.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                             ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                             Achievement.SMELLS_FAMILIAR.getDescription());
+                    Achievement.SMELLS_FAMILIAR.setCollected(true);
                 }
 
                 return true;
