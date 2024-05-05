@@ -12,7 +12,7 @@ public enum Achievement {
     DEMIGOD("Demigod", "Play GOD mode", false),
     SERPENT_GOD("Serpent god", "Reach level 15 in GOD mode", false),
     DIVINITY("Divinity", "Reach the final level in GOD mode", false),
-    THE_LONGEST_OF_THEM_ALL("The longest of them all", "Contain 50 snake tails", false),
+    THE_LONGEST_OF_THEM_ALL("The longest of them all", "Contain 100 snake tails", false),
     COLLECTOR("Collector", "Collect 3000 points", false),
     COLLECTING_MASTER("Collecting-master", "Collect 10000 points", false),
     COLLECTING_GOD("Collecting-god", "Collect 20000 points", false),

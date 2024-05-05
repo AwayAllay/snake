@@ -99,6 +99,10 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * The background-color for the achievement box which will be shown if the player reached an achievement*/
     public static final Color ACHIEVEMENT_BACKGROUND_COLOR = new Color(96, 96, 96);
+    /**List of collected boost types throughout the round. Is used to look if the player managed to collect every boost type in one round*/
+    private List<IngameBoost> boostsCollected = new ArrayList<>();
+    /**Time a displayed achievement stays in milliseconds*/
+    public static final int ACHIEVEMENT_DISPLAYTIME = 4500;
 
     /**
      * Constructor
@@ -144,15 +148,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    /*
-     * Keys:
-     * W 87;
-     * A 65;
-     * S 83;
-     * D 68;
-     * Leertaste 32;
-     * Esc 27;
-     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -219,27 +214,32 @@ public class KeyListener implements java.awt.event.KeyListener {
     private void checkForStartingAchievements() {
         if (!Achievement.WHATS_WINDING_THERE.isCollected()) {
             new Popup(Achievement.WHATS_WINDING_THERE.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
-                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.WHATS_WINDING_THERE.getDescription());
             Achievement.WHATS_WINDING_THERE.setCollected(true);
         }
         if (!Achievement.BEGINNER.isCollected() && settings.getMode().equals(Modes.BEGINNER)) {
             new Popup(Achievement.BEGINNER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
-                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.BEGINNER.getDescription());
             Achievement.BEGINNER.setCollected(true);
         }
         if (!Achievement.IAM_GROWING_UP.isCollected() && settings.getMode().equals(Modes.ADULT)) {
             new Popup(Achievement.IAM_GROWING_UP.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
-                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.IAM_GROWING_UP.getDescription());
             Achievement.IAM_GROWING_UP.setCollected(true);
         }
         if (!Achievement.MASTER.isCollected() && settings.getMode().equals(Modes.MASTER)) {
             new Popup(Achievement.MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
-                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.MASTER.getDescription());
             Achievement.MASTER.setCollected(true);
         }
         if (!Achievement.DEMIGOD.isCollected() && settings.getMode().equals(Modes.GOD)) {
             new Popup(Achievement.DEMIGOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
-                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.DEMIGOD.getDescription());
             Achievement.DEMIGOD.setCollected(true);
         }
     }
@@ -371,6 +371,23 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.revalidate();
         panel.repaint();
 
+        //Checks for YUMMY achievement
+        if (!Achievement.YUMMY.isCollected()){
+            new Popup(Achievement.YUMMY.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.YUMMY.getDescription());
+        }
+
+        //Checks for GOT_THEM_ALL achievement
+        if (!boostsCollected.contains(currentBoost)) {
+            boostsCollected.add(currentBoost);
+            if (boostsCollected.size() >= 9 && !Achievement.GOT_THEM_ALL.isCollected()){
+                new Popup(Achievement.GOT_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                        ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                        Achievement.GOT_THEM_ALL.getDescription());
+            }
+        }
+
         if (gameStuff.getKeyAmount() >= 1) {
             allKeysCollected = true;
         }
@@ -395,7 +412,8 @@ public class KeyListener implements java.awt.event.KeyListener {
             }
         }
         new Popup("DOOR OPENED", panel,
-                new Color(255, 255, 0), ACHIEVEMENT_BACKGROUND_COLOR, new Color(255, 255, 0), 2000, gameStuff);
+                new Color(255, 255, 0), ACHIEVEMENT_BACKGROUND_COLOR, new Color(255, 255, 0),
+                2000, gameStuff, "Get to it quickly!");
     }
 
     private void moveAction() {
@@ -479,7 +497,8 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             if (reachedLevel == skin.getUnlockNumber()) {
                 new Popup("New skin unlocked: " + skin.name(), panel,
-                        skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff);
+                        skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff,
+                        skin + " unlocked!");
             }
         }
     }
@@ -551,6 +570,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }, 0, settings.getMode().getSpeed() / 4);
 
         highscore();
+        boostsCollected.clear();
 
         new DiedFrame(settings, gameStuff, gameFrame);
     }
@@ -580,6 +600,13 @@ public class KeyListener implements java.awt.event.KeyListener {
         for (SnakeTail tail : tails) {
 
             if (head.getLocation().equals(tail.getLocation())) {
+
+                if (!Achievement.SMELLS_FAMILIAR.isCollected()){
+                    new Popup(Achievement.SMELLS_FAMILIAR.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+                            ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                            Achievement.SMELLS_FAMILIAR.getDescription());
+                }
+
                 return true;
             }
 
@@ -596,7 +623,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         direction = MovingDirections.RIGHT;
         respawnTheSnake();
         if (!Achievement.NOOB.isCollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)) {
-            new Popup(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
+            new Popup(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.NOOB.getDescription());
             Achievement.NOOB.setCollected(true);
         }
     }

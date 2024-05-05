@@ -12,14 +12,17 @@ public class Popup {
     private int numberOfPopups;
 
     public Popup(String text, JPanel panel,
-                 Color textColor, Color backgroundColor, Color borderColor, int timeStaying , GameStuff gameStuff) {
+                 Color textColor, Color backgroundColor, Color borderColor, int timeStaying , GameStuff gameStuff, String untertitel) {
         this.panel = panel;
         this.time = timeStaying / 4;
         this.gameStuff = gameStuff;
 
         Border border = BorderFactory.createLineBorder(borderColor, 2);
 
-        textLabel = new JLabel(text, SwingConstants.CENTER);
+        String titel = "<html><h1 style='font-size: 12px; font-family: Arial;'>" + text + "</h1>"
+                + "<p style='font-size: 10px; font-family: Arial; color: #F0F0F0;'>" + untertitel + "</p></html>";
+
+        textLabel = new JLabel(titel);
         textLabel.setBorder(border);
         textLabel.setBackground(backgroundColor);
         textLabel.setForeground(textColor);
