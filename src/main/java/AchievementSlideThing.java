@@ -1,9 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,6 +9,7 @@ public class AchievementSlideThing {
     private final JLabel textLabel;
     private final int time;
     private final GameStuff gameStuff;
+    private int numberOfPopups;
 
     public AchievementSlideThing(String text, JPanel panel,
                                  Color textColor, Color backgroundColor, Color borderColor, int timeStaying , GameStuff gameStuff) {
@@ -26,12 +24,13 @@ public class AchievementSlideThing {
         textLabel.setBackground(backgroundColor);
         textLabel.setForeground(textColor);
         textLabel.setOpaque(true);
-        if(gameStuff.getPopups().size() == 1) {
-            textLabel.setBounds(panel.getWidth(), 80, 220, 60);
-            gameStuff.getPopups().add(this);
+        gameStuff.getPopups().add(this);
+        numberOfPopups = gameStuff.getPopups().size();
+        if(gameStuff.getPopups().size() < 2) {
+            textLabel.setBounds(panel.getWidth(), 85, 220, 60);
         }else {
-            textLabel.setBounds(panel.getWidth(), 80 + gameStuff.getPopups().size() * 60, 220, 60);
-            gameStuff.getPopups().add(this);
+            //gameStuff.getPopups().size()
+            textLabel.setBounds(panel.getWidth(), 80 + ((gameStuff.getPopups().size() -1) * 60) + (5 * (gameStuff.getPopups().size())), 220, 60);
         }
 
         System.out.println(gameStuff.getPopups().size());
@@ -39,13 +38,14 @@ public class AchievementSlideThing {
         panel.add(textLabel);
         panel.setComponentZOrder(textLabel, 0);
 
-        act();
+        act(textLabel);
         //TODO if 2 at same time one of them y++ u know:)
     }
 
-    private void act(){
+    private void act(final JLabel popupGiven){
 
         Timer timer = new Timer();
+        JLabel popup = popupGiven;
 
         timer.schedule(new TimerTask() {
 
@@ -63,16 +63,23 @@ public class AchievementSlideThing {
                 }
                 else if (counter >= time + 300) {
                     panel.remove(textLabel);
+                    gameStuff.getPopups().remove(AchievementSlideThing.this);
                     cancel();
                 }
                 else{
                     cancel();
                 }
+                if (gameStuff.getPopups().size() < numberOfPopups){
+                    int bla = numberOfPopups - gameStuff.getPopups().size();
+                    //popupGiven.setLocation(popupGiven.getX(), );
+                    numberOfPopups = gameStuff.getPopups().size();
+                }
                 counter++;
+                System.out.println(gameStuff.getPopups().size());
             }
         }, 0, 4);
 
-        Timer removal = new Timer();
+        /*Timer removal = new Timer();
         removal.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -81,6 +88,6 @@ public class AchievementSlideThing {
                 System.out.println(gameStuff.getPopups().size());
             }
         }, time + 300);
-        System.out.println(gameStuff.getPopups().size());
+        System.out.println(gameStuff.getPopups().size());*/
     }
 }

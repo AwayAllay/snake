@@ -1,3 +1,6 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -88,13 +91,17 @@ public class KeyListener implements java.awt.event.KeyListener {
      * The type of the current boost
      */
     private IngameBoost currentBoost;
-    /**The color for the Achievement text which will be shown if an achievement is reached*/
+    /**
+     * The color for the Achievement text which will be shown if an achievement is reached
+     */
     public static final Color ACHIEVEMENT_TEXT_COLOR = new Color(200, 0, 200);
-    /**The color for the Achievement border which will be shown if an achievement is reached*/
+    /**
+     * The color for the Achievement border which will be shown if an achievement is reached
+     */
     public static final Color ACHIEVEMENT_BORDER_COLOR = new Color(150, 0, 150);
-    /**The background-color for the achievement box which will be shown if the player reached a achievement*/
-    public static final Color ACHIEVEMENT_BACKGROUND_COLOR = new Color(96, 96,96);
-
+    /**
+     * The background-color for the achievement box which will be shown if the player reached an achievement*/
+    public static final Color ACHIEVEMENT_BACKGROUND_COLOR = new Color(96, 96, 96);
 
     /**
      * Constructor
@@ -112,7 +119,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         boost = new JLabel();
         boost.setBounds(600, 1000, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
         pressedDirections.add(MovingDirections.RIGHT);
-
         update();
     }
 
@@ -219,22 +225,22 @@ public class KeyListener implements java.awt.event.KeyListener {
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.WHATS_WINDING_THERE.setCollected(true);
         }
-        if (!Achievement.BEGINNER.isCollected() && settings.getMode().equals(Modes.BEGINNER)){
+        if (!Achievement.BEGINNER.isCollected() && settings.getMode().equals(Modes.BEGINNER)) {
             new AchievementSlideThing(Achievement.BEGINNER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.BEGINNER.setCollected(true);
         }
-        if (!Achievement.IAM_GROWING_UP.isCollected() && settings.getMode().equals(Modes.ADULT)){
+        if (!Achievement.IAM_GROWING_UP.isCollected() && settings.getMode().equals(Modes.ADULT)) {
             new AchievementSlideThing(Achievement.IAM_GROWING_UP.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.IAM_GROWING_UP.setCollected(true);
         }
-        if (!Achievement.MASTER.isCollected() && settings.getMode().equals(Modes.MASTER)){
+        if (!Achievement.MASTER.isCollected() && settings.getMode().equals(Modes.MASTER)) {
             new AchievementSlideThing(Achievement.MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.MASTER.setCollected(true);
         }
-        if (!Achievement.DEMIGOD.isCollected() && settings.getMode().equals(Modes.GOD)){
+        if (!Achievement.DEMIGOD.isCollected() && settings.getMode().equals(Modes.GOD)) {
             new AchievementSlideThing(Achievement.DEMIGOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.DEMIGOD.setCollected(true);
@@ -391,8 +397,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                 panel.repaint();
             }
         }
-        new AchievementSlideThing( "DOOR OPENED", panel,
-                new Color(255, 255, 0),ACHIEVEMENT_BACKGROUND_COLOR , new Color(255, 255, 0), 2000, gameStuff);
+        new AchievementSlideThing("DOOR OPENED", panel,
+                new Color(255, 255, 0), ACHIEVEMENT_BACKGROUND_COLOR, new Color(255, 255, 0), 2000, gameStuff);
     }
 
     private void moveAction() {
@@ -458,21 +464,23 @@ public class KeyListener implements java.awt.event.KeyListener {
         if (settings.getUnlockedLevel() < reachedLevel) {
             settings.setUnlockedLevel(reachedLevel);
             gameStuff.setSendUnlockMessage(true);
-        }else {
+        } else {
             gameStuff.setSendUnlockMessage(false);
         }
         allKeysCollected = false;
         new SettingsManager().save(settings);
     }
 
-    /**This method will be called from the GameFrame class after it has repainted itself for the label to be shown
+    /**
+     * This method will be called from the GameFrame class after it has repainted itself for the label to be shown
      * when the player has the chance to see it and not when the level is repainting. It will send a AchievementThing
-     * based on the Colors of the unlocked Skin*/
+     * based on the Colors of the unlocked Skin
+     */
     public void sendUnlockThing(final int reachedLevel) {
 
         for (Skins skin : Skins.values()) {
 
-            if (reachedLevel == skin.getUnlockNumber()){
+            if (reachedLevel == skin.getUnlockNumber()) {
                 new AchievementSlideThing("New skin unlocked: " + skin.name(), panel,
                         skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff);
             }
@@ -590,7 +598,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         pressedDirections.add(MovingDirections.RIGHT);
         direction = MovingDirections.RIGHT;
         respawnTheSnake();
-        if (!Achievement.NOOB.isCollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)){
+        if (!Achievement.NOOB.isCollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)) {
             new AchievementSlideThing(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, 4500, gameStuff);
             Achievement.NOOB.setCollected(true);
         }
