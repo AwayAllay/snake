@@ -565,9 +565,9 @@ public class KeyListener implements java.awt.event.KeyListener {
         for (Skins skin : Skins.values()) {
 
             if (reachedLevel == skin.getUnlockNumber()) {
-                new Popup("New skin unlocked: " + skin.name(), panel,
+                new Popup("New skin unlocked!", panel,
                         skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff,
-                        skin + " unlocked!");
+                          "Skin: " + skin + " unlocked!");
                 new SettingsManager().save(settings);
             }
         }
