@@ -146,6 +146,12 @@ public class KeyListener implements java.awt.event.KeyListener {
             panel.add(tailToAdd);
             tails.add(tailToAdd);
         }
+        if (tails.size() >= 100){
+            new Popup(Achievement.THE_LONGEST_OF_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
+                    ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.THE_LONGEST_OF_THEM_ALL.getDescription());
+            Achievement.THE_LONGEST_OF_THEM_ALL.setCollected(true);
+        }
     }
 
     @Override
@@ -403,7 +409,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    private void lookForPointsAchievement(int points) {
+    private void lookForPointsAchievement(long points) {
         //Checks for COLLECTOR achievement
         if (!Achievement.COLLECTOR.isCollected() && points == 3000){
             new Popup(Achievement.COLLECTOR.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
