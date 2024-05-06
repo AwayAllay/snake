@@ -1,11 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.*;
 import java.util.List;
 import java.util.Timer;
+import java.util.*;
 
 public class GameFrame extends JFrame {
     private final JFrame frame;
@@ -167,7 +165,7 @@ public class GameFrame extends JFrame {
 
         keyListener.startMoving = true;
 
-        /**Looks if the player could have unlocked a new skin by getting the boolean from the gameStuff class which is set
+        /*Looks if the player could have unlocked a new skin by getting the boolean from the gameStuff class which is set
          * by the keyListener. If its true it calls the sendUnlockThing method in the keyListener class*/
         if (gameStuff.isSendUnlockMessage()){
             keyListener.sendUnlockThing(settings.getUnlockedLevel());
@@ -177,7 +175,42 @@ public class GameFrame extends JFrame {
     }
 
     private void checkForAchievement() {
-        //TODO
+        //Looks for PARENT achievement
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.PARENT.isCollected()
+        && settings.getMode().equals(Modes.ADULT)){
+            
+            new Popup(Achievement.PARENT.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
+                    KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff, 
+                    Achievement.PARENT.getDescription());
+            Achievement.PARENT.setCollected(true);
+        }
+        //Looks for SERPENT_GOD achievement
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.SERPENT_GOD.isCollected()
+                && settings.getMode().equals(Modes.GOD)){
+
+            new Popup(Achievement.SERPENT_GOD.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
+                    KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.SERPENT_GOD.getDescription());
+            Achievement.SERPENT_GOD.setCollected(true);
+        }
+        //Looks for GETTING_BETTER achievement
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.GETTING_BETTER.isCollected()
+                && settings.getMode().equals(Modes.BEGINNER)){
+
+            new Popup(Achievement.GETTING_BETTER.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
+                    KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.GETTING_BETTER.getDescription());
+            Achievement.GETTING_BETTER.setCollected(true);
+        }
+        //Looks for DIVINITY achievement
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL60) && !Achievement.DIVINITY.isCollected()
+                && settings.getMode().equals(Modes.BEGINNER)){
+
+            new Popup(Achievement.DIVINITY.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
+                    KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.DIVINITY.getDescription());
+            Achievement.DIVINITY.setCollected(true);
+        }
     }
 
 
@@ -260,7 +293,7 @@ public class GameFrame extends JFrame {
         int y = 60;
 
         try {
-            scanner = new Scanner(inputStream);
+            scanner = new Scanner(Objects.requireNonNull(inputStream));
         } catch (Exception e) {
             System.out.println("File not found");
         }

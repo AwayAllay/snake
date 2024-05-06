@@ -378,6 +378,8 @@ public class KeyListener implements java.awt.event.KeyListener {
                     Achievement.YUMMY.getDescription());
             Achievement.YUMMY.setCollected(true);
         }
+        
+        lookForPointsAchievement(gameStuff.getPoints());
 
         //Checks for GOT_THEM_ALL achievement
         if (!boostsCollected.contains(currentBoost)) {
@@ -398,6 +400,51 @@ public class KeyListener implements java.awt.event.KeyListener {
             spawnBoost();
         } else {
             openDoor();
+        }
+    }
+
+    private void lookForPointsAchievement(int points) {
+        //Checks for COLLECTOR achievement
+        if (!Achievement.COLLECTOR.isCollected() && points == 3000){
+            new Popup(Achievement.COLLECTOR.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.COLLECTOR.getDescription());
+            Achievement.COLLECTOR.setCollected(true);
+        }
+        //Checks for COLLECTING_MASTER achievement
+        if (!Achievement.COLLECTING_MASTER.isCollected() && points == 10000){
+            new Popup(Achievement.COLLECTING_MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.COLLECTING_MASTER.getDescription());
+            Achievement.COLLECTING_MASTER.setCollected(true);
+        } 
+        //Checks for COLLECTING_GOD achievement
+        if (!Achievement.COLLECTING_GOD.isCollected() && points == 20000){
+            new Popup(Achievement.COLLECTING_GOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.COLLECTING_GOD.getDescription());
+            Achievement.COLLECTING_GOD.setCollected(true);
+        }
+        //Checks for COLLECTING_ADDICT achievement
+        if (!Achievement.COLLECTING_ADDICT.isCollected() && points == 50000){
+            new Popup(Achievement.COLLECTING_ADDICT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.COLLECTING_ADDICT.getDescription());
+            Achievement.COLLECTING_ADDICT.setCollected(true);
+        }
+        //Checks for I_HAVE_NO_LIFE achievement
+        if (!Achievement.I_HAVE_NO_LIFE.isCollected() && points == 100000){
+            new Popup(Achievement.I_HAVE_NO_LIFE.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.I_HAVE_NO_LIFE.getDescription());
+            Achievement.I_HAVE_NO_LIFE.setCollected(true);
+        } 
+        //Checks for EXPLOIT achievement
+        if (!Achievement.EXPLOIT.isCollected() && points == 200000){
+            new Popup(Achievement.EXPLOIT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.EXPLOIT.getDescription());
+            Achievement.EXPLOIT.setCollected(true);
         }
     }
 
