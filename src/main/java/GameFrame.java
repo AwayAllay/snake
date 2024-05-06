@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -253,14 +254,14 @@ public class GameFrame extends JFrame {
 
         boolean[][] result = new boolean[NUM_FIELDS_HORIZ][NUM_FIELDS_VERT];
 
-        File file = new File(fileName);
+        InputStream inputStream = getClass().getResourceAsStream(fileName);
         Scanner scanner = null;
         int x = 0;
         int y = 60;
 
         try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
+            scanner = new Scanner(inputStream);
+        } catch (Exception e) {
             System.out.println("File not found");
         }
 
