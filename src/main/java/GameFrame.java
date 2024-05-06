@@ -176,40 +176,44 @@ public class GameFrame extends JFrame {
 
     private void checkForAchievement() {
         //Looks for PARENT achievement
-        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.PARENT.isCollected()
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !settings.isPARENTcollected()
         && settings.getMode().equals(Modes.ADULT)){
             
             new Popup(Achievement.PARENT.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
                     KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff, 
                     Achievement.PARENT.getDescription());
-            Achievement.PARENT.setCollected(true);
+            settings.setPARENTcollected(true);
+            new SettingsManager().save(settings);
         }
         //Looks for SERPENT_GOD achievement
-        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.SERPENT_GOD.isCollected()
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !settings.isSERPENT_GODcollected()
                 && settings.getMode().equals(Modes.GOD)){
 
             new Popup(Achievement.SERPENT_GOD.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
                     KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.SERPENT_GOD.getDescription());
-            Achievement.SERPENT_GOD.setCollected(true);
+            settings.setSERPENT_GODcollected(true);
+            new SettingsManager().save(settings);
         }
         //Looks for GETTING_BETTER achievement
-        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !Achievement.GETTING_BETTER.isCollected()
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL20) && !settings.isGETTING_BETTERcollected()
                 && settings.getMode().equals(Modes.BEGINNER)){
 
             new Popup(Achievement.GETTING_BETTER.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
                     KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.GETTING_BETTER.getDescription());
-            Achievement.GETTING_BETTER.setCollected(true);
+            settings.setGETTING_BETTERcollected(true);
+            new SettingsManager().save(settings);
         }
         //Looks for DIVINITY achievement
-        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL60) && !Achievement.DIVINITY.isCollected()
+        if (gameStuff.getCurrentLevel().equals(Levels.LEVEL60) && !settings.isDIVINITYcollected()
                 && settings.getMode().equals(Modes.BEGINNER)){
 
             new Popup(Achievement.DIVINITY.getName(), panel, KeyListener.ACHIEVEMENT_TEXT_COLOR, KeyListener.ACHIEVEMENT_BACKGROUND_COLOR,
                     KeyListener.ACHIEVEMENT_BORDER_COLOR, KeyListener.ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.DIVINITY.getDescription());
-            Achievement.DIVINITY.setCollected(true);
+            settings.setDIVINITYcollected(true);
+            new SettingsManager().save(settings);
         }
     }
 

@@ -100,7 +100,7 @@ public class KeyListener implements java.awt.event.KeyListener {
      * The background-color for the achievement box which will be shown if the player reached an achievement*/
     public static final Color ACHIEVEMENT_BACKGROUND_COLOR = new Color(96, 96, 96);
     /**List of collected boost types throughout the round. Is used to look if the player managed to collect every boost type in one round*/
-    private List<IngameBoost> boostsCollected = new ArrayList<>();
+    private final List<IngameBoost> boostsCollected = new ArrayList<>();
     /**Time a displayed achievement stays in milliseconds*/
     public static final int ACHIEVEMENT_DISPLAYTIME = 4500;
 
@@ -146,11 +146,12 @@ public class KeyListener implements java.awt.event.KeyListener {
             panel.add(tailToAdd);
             tails.add(tailToAdd);
         }
-        if (tails.size() >= 100){
+        if (tails.size() >= 100 && !settings.isTHE_LONGEST_OF_THEM_ALLcollected()){
             new Popup(Achievement.THE_LONGEST_OF_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.THE_LONGEST_OF_THEM_ALL.getDescription());
-            Achievement.THE_LONGEST_OF_THEM_ALL.setCollected(true);
+            settings.setTHE_LONGEST_OF_THEM_ALLcollected(true);
+            new SettingsManager().save(settings);
         }
     }
 
@@ -218,35 +219,40 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     private void checkForStartingAchievements() {
-        if (!Achievement.WHATS_WINDING_THERE.isCollected()) {
+        if (!settings.isWHATS_WINDING_THEREcollected()) {
             new Popup(Achievement.WHATS_WINDING_THERE.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.WHATS_WINDING_THERE.getDescription());
-            Achievement.WHATS_WINDING_THERE.setCollected(true);
+            settings.setWHATS_WINDING_THEREcollected(true);
+            new SettingsManager().save(settings);
         }
-        if (!Achievement.BEGINNER.isCollected() && settings.getMode().equals(Modes.BEGINNER)) {
+        if (!settings.isBEGINNERcollected() && settings.getMode().equals(Modes.BEGINNER)) {
             new Popup(Achievement.BEGINNER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.BEGINNER.getDescription());
-            Achievement.BEGINNER.setCollected(true);
+            settings.setBEGINNERcollected(true);
+            new SettingsManager().save(settings);
         }
-        if (!Achievement.IAM_GROWING_UP.isCollected() && settings.getMode().equals(Modes.ADULT)) {
+        if (!settings.isIAM_GROWING_UPcollected() && settings.getMode().equals(Modes.ADULT)) {
             new Popup(Achievement.IAM_GROWING_UP.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.IAM_GROWING_UP.getDescription());
-            Achievement.IAM_GROWING_UP.setCollected(true);
+            settings.setIAM_GROWING_UPcollected(true);
+            new SettingsManager().save(settings);
         }
-        if (!Achievement.MASTER.isCollected() && settings.getMode().equals(Modes.MASTER)) {
+        if (!settings.isMASTERcollected() && settings.getMode().equals(Modes.MASTER)) {
             new Popup(Achievement.MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.MASTER.getDescription());
-            Achievement.MASTER.setCollected(true);
+            settings.setMASTERcollected(true);
+            new SettingsManager().save(settings);
         }
-        if (!Achievement.DEMIGOD.isCollected() && settings.getMode().equals(Modes.GOD)) {
+        if (!settings.isDEMIGODcollected() && settings.getMode().equals(Modes.GOD)) {
             new Popup(Achievement.DEMIGOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.DEMIGOD.getDescription());
-            Achievement.DEMIGOD.setCollected(true);
+            settings.setDEMIGODcollected(true);
+            new SettingsManager().save(settings);
         }
     }
 
@@ -378,11 +384,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.repaint();
 
         //Checks for YUMMY achievement
-        if (!Achievement.YUMMY.isCollected()){
+        if (!settings.isYUMMYcollected()){
             new Popup(Achievement.YUMMY.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.YUMMY.getDescription());
-            Achievement.YUMMY.setCollected(true);
+            settings.setYUMMYcollected(true);
+            new SettingsManager().save(settings);
         }
         
         lookForPointsAchievement(gameStuff.getPoints());
@@ -390,11 +397,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         //Checks for GOT_THEM_ALL achievement
         if (!boostsCollected.contains(currentBoost)) {
             boostsCollected.add(currentBoost);
-            if (boostsCollected.size() >= 9 && !Achievement.GOT_THEM_ALL.isCollected()){
+            if (boostsCollected.size() >= 9 && !settings.isGOT_THEM_ALLcollected()){
                 new Popup(Achievement.GOT_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                         ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                         Achievement.GOT_THEM_ALL.getDescription());
-                Achievement.GOT_THEM_ALL.setCollected(true);
+                settings.setGOT_THEM_ALLcollected(true);
+                new SettingsManager().save(settings);
             }
         }
 
@@ -411,46 +419,52 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void lookForPointsAchievement(long points) {
         //Checks for COLLECTOR achievement
-        if (!Achievement.COLLECTOR.isCollected() && points == 3000){
+        if (!settings.isCOLLECTORcollected() && points == 3000){
             new Popup(Achievement.COLLECTOR.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTOR.getDescription());
-            Achievement.COLLECTOR.setCollected(true);
+            settings.setCOLLECTORcollected(true);
+            new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_MASTER achievement
-        if (!Achievement.COLLECTING_MASTER.isCollected() && points == 10000){
+        if (!settings.isCOLLECTING_MASTERcollected() && points == 10000){
             new Popup(Achievement.COLLECTING_MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_MASTER.getDescription());
-            Achievement.COLLECTING_MASTER.setCollected(true);
+            settings.setCOLLECTING_MASTERcollected(true);
+            new SettingsManager().save(settings);
         } 
         //Checks for COLLECTING_GOD achievement
-        if (!Achievement.COLLECTING_GOD.isCollected() && points == 20000){
+        if (!settings.isCOLLECTING_GODcollected() && points == 20000){
             new Popup(Achievement.COLLECTING_GOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_GOD.getDescription());
-            Achievement.COLLECTING_GOD.setCollected(true);
+            settings.setCOLLECTING_GODcollected(true);
+            new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_ADDICT achievement
-        if (!Achievement.COLLECTING_ADDICT.isCollected() && points == 50000){
+        if (!settings.isCOLLECTING_ADDICTcollected() && points == 50000){
             new Popup(Achievement.COLLECTING_ADDICT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_ADDICT.getDescription());
-            Achievement.COLLECTING_ADDICT.setCollected(true);
+            settings.setCOLLECTING_ADDICTcollected(true);
+            new SettingsManager().save(settings);
         }
         //Checks for I_HAVE_NO_LIFE achievement
-        if (!Achievement.I_HAVE_NO_LIFE.isCollected() && points == 100000){
+        if (!settings.isI_HAVE_NO_LIFEcollected() && points == 100000){
             new Popup(Achievement.I_HAVE_NO_LIFE.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.I_HAVE_NO_LIFE.getDescription());
-            Achievement.I_HAVE_NO_LIFE.setCollected(true);
+            settings.setI_HAVE_NO_LIFEcollected(true);
+            new SettingsManager().save(settings);
         } 
         //Checks for EXPLOIT achievement
-        if (!Achievement.EXPLOIT.isCollected() && points == 200000){
+        if (!settings.isEXPLOITcollected() && points == 200000){
             new Popup(Achievement.EXPLOIT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.EXPLOIT.getDescription());
-            Achievement.EXPLOIT.setCollected(true);
+            settings.setEXPLOITcollected(true);
+            new SettingsManager().save(settings);
         }
     }
 
@@ -554,6 +568,7 @@ public class KeyListener implements java.awt.event.KeyListener {
                 new Popup("New skin unlocked: " + skin.name(), panel,
                         skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff,
                         skin + " unlocked!");
+                new SettingsManager().save(settings);
             }
         }
     }
@@ -656,11 +671,12 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             if (head.getLocation().equals(tail.getLocation())) {
 
-                if (!Achievement.SMELLS_FAMILIAR.isCollected()){
+                if (!settings.isSMELLS_FAMILIARcollected()){
                     new Popup(Achievement.SMELLS_FAMILIAR.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                             ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                             Achievement.SMELLS_FAMILIAR.getDescription());
-                    Achievement.SMELLS_FAMILIAR.setCollected(true);
+                    settings.setSMELLS_FAMILIARcollected(true);
+                    new SettingsManager().save(settings);
                 }
 
                 return true;
@@ -678,11 +694,12 @@ public class KeyListener implements java.awt.event.KeyListener {
         pressedDirections.add(MovingDirections.RIGHT);
         direction = MovingDirections.RIGHT;
         respawnTheSnake();
-        if (!Achievement.NOOB.isCollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)) {
+        if (!settings.isNOOBcollected() && gameStuff.getCurrentLevel().equals(Levels.LEVEL1)) {
             new Popup(Achievement.NOOB.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.NOOB.getDescription());
-            Achievement.NOOB.setCollected(true);
+            settings.setNOOBcollected(true);
+            new SettingsManager().save(settings);
         }
     }
 
