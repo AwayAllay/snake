@@ -1,5 +1,7 @@
+
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.example'
@@ -7,6 +9,10 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = 'Main'
 }
 
 dependencies {
@@ -17,3 +23,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.named('installDist').configure {
+    destinationDir = new File(buildDir, 'distributions/unpacked')
+}
+tasks.named('build').configure { it.dependsOn tasks.installDist }
