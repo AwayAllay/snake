@@ -1,6 +1,11 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -352,6 +357,8 @@ public class KeyListener implements java.awt.event.KeyListener {
             panel.repaint();
         }
 
+
+
     }
 
     /**
@@ -382,6 +389,8 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.remove(boost);
         panel.revalidate();
         panel.repaint();
+
+        playSound("BoostCollect.wav");
 
         //Checks for YUMMY achievement
         if (!settings.isYUMMYcollected()){
@@ -414,6 +423,32 @@ public class KeyListener implements java.awt.event.KeyListener {
             spawnBoost();
         } else {
             openDoor();
+        }
+    }
+
+    public void playSound(final String fileName) {
+        try {
+
+            File soundFile = new File(getClass().getResource(fileName).toURI());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float volume = -10.0f;
+            control.setValue(volume);
+
+            clip.start();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    clip.close();
+                    cancel();
+                }
+            }, clip.getMicrosecondLength() / 1000);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

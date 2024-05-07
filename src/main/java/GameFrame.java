@@ -159,6 +159,7 @@ public class GameFrame extends JFrame {
         keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
         keyListener.pauseTimer();
+        keyListener.playSound("NewLevel.wav");
 
         frame.revalidate();
         frame.repaint();
