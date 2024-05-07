@@ -125,6 +125,7 @@ public class DiedFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() instanceof JButton button) {
+            new ButtonKlick("Button.wav");
             if (button.getText().equalsIgnoreCase("Retry")) {
                 gameFrame.dispose();
                 frame.dispose();

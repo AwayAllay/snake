@@ -81,6 +81,8 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
+            new ButtonKlick("Button.wav");
+
             if (button.getText().equalsIgnoreCase("Difficulty")) {
                 frame.dispose();
                 setDifficulty();

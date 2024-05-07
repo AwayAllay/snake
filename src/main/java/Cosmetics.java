@@ -126,6 +126,8 @@ public class Cosmetics implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
+            new ButtonKlick("Button.wav");
+
             if (button.getText().equalsIgnoreCase("Next")) {
                 nextSkin(settings.getSkin());
             } else if (button.getText().equalsIgnoreCase("Last")) {

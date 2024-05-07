@@ -85,6 +85,8 @@ public class PauseFrame extends JFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
+            new ButtonKlick("Button.wav");
+
             if (button.getText().equalsIgnoreCase("Launcher")) {
                 frame.setVisible(false);
                 gameFrame.setVisible(false);
@@ -107,6 +109,7 @@ public class PauseFrame extends JFrame implements ActionListener {
                 gameFrame.setVisible(false);
                 int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to retry?", "Sure?", JOptionPane.YES_NO_OPTION);
                 if (answer == 0) {
+                    new ButtonKlick("Button.wav");
                     frame.dispose();
                     gameFrame.dispose();
                     gameStuff.setTimeElapsed(1);
@@ -116,6 +119,7 @@ public class PauseFrame extends JFrame implements ActionListener {
                     gameStuff.setLives(5);
                     new GameFrame(settings, gameStuff);
                 }else {
+                    new ButtonKlick("Button.wav");
                     frame.setVisible(true);
                     gameFrame.setVisible(true);
                 }

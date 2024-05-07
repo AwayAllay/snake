@@ -229,6 +229,8 @@ public class LaunchFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton klickedButton) {
 
+            new ButtonKlick("Button.wav");
+
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 frame.dispose();
                 new GameFrame(settings, gameStuff);

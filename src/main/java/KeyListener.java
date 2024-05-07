@@ -685,6 +685,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         if (gameStuff.getObstacles()[x][y] || snakeHitItself()) {
             pauseTimer();
             startMoving = false;
+            playSound("Died.wav");
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
                 respawn();
