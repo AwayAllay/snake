@@ -16,6 +16,7 @@ public class LaunchFrame implements ActionListener {
     private final GameStuff gameStuff;
     private final Settings settings;
     private final Playsound playsound;
+    private final Playsound playLauncherBackgroundMusic;
 
     public LaunchFrame(final Settings settings, final GameStuff gameStuff) {
 
@@ -60,6 +61,10 @@ public class LaunchFrame implements ActionListener {
 
         frame.add(head);
         frame.add(panel);
+
+        playLauncherBackgroundMusic = new Playsound("Launcher.wav");
+
+        playLauncherBackgroundMusic.playSound();
 
         prepareLaunchFrame();
         playIntroAnimation();
@@ -235,6 +240,7 @@ public class LaunchFrame implements ActionListener {
             playsound.playSound();
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
+                playLauncherBackgroundMusic.stop();
                 frame.dispose();
                 new GameFrame(settings, gameStuff);
 
