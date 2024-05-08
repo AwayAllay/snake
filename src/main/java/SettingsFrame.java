@@ -118,13 +118,17 @@ public class SettingsFrame extends JFrame implements ActionListener {
                     || choice.equalsIgnoreCase("Master")
                     || choice.equalsIgnoreCase("God")) {
                 mode = choice.toUpperCase();
+                playsound.playSound();
                 settings.setMode(Modes.valueOf(mode));
                 System.out.println(settings.getMode());
                 new SettingsManager().save(settings);
             } else {
+                playsound.playSound();
                 JOptionPane.showMessageDialog(null, "That is NOT a selectable difficulty!", "Not a difficulty!", JOptionPane.WARNING_MESSAGE);
+                playsound.playSound();
             }
         }
+        playsound.playSound();
         new SettingsFrame(settings, gameStuff);
     }
 }
