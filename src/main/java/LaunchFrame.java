@@ -15,6 +15,7 @@ public class LaunchFrame implements ActionListener {
     private final List<SnakeTail> tails = new ArrayList<>();
     private final GameStuff gameStuff;
     private final Settings settings;
+    private final Playsound playsound;
 
     public LaunchFrame(final Settings settings, final GameStuff gameStuff) {
 
@@ -51,6 +52,8 @@ public class LaunchFrame implements ActionListener {
         panel.add(button);
         panel.add(settingsButton);
         panel.add(letter);
+
+        playsound = new Playsound("Button.wav");
 
         head = new SnakeHead(-10, 300, 10, 10);
         head.setBackground(settings.getSkin().getHeadColor());
@@ -229,7 +232,7 @@ public class LaunchFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton klickedButton) {
 
-            new ButtonKlick("Button.wav");
+            playsound.playSound();
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 frame.dispose();

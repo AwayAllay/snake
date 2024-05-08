@@ -1,7 +1,10 @@
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.*;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class Cosmetics implements ActionListener {
     private final GameStuff gameStuff;
     private Skins selectedSkin;
     private final Settings settings;
+    private final Playsound playsound;
 
     public Cosmetics(final Settings settings, final GameStuff gameStuff) {
 
@@ -64,6 +68,8 @@ public class Cosmetics implements ActionListener {
         label.setBounds(130, 60, 250, 20);
         label.setFont(new Font("Ariral", Font.ITALIC, 20));
         panel.add(label);
+
+        playsound = new Playsound("Button.wav");
 
 
         for (int i = 190; i < 281; i += 20) {
@@ -126,7 +132,20 @@ public class Cosmetics implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
-            new ButtonKlick("Button.wav");
+            //soundManager.playSound("Button");
+
+            /*try {
+                File sound = new File(getClass().getResource("Button.wav").toURI());
+                Clip c = AudioSystem.getClip();
+                c.open(AudioSystem.getAudioInputStream(sound));
+                c.start();
+            }catch (Exception exception) {
+                exception.printStackTrace();
+            }*/
+
+            playsound.playSound();
+
+
 
             if (button.getText().equalsIgnoreCase("Next")) {
                 nextSkin(settings.getSkin());

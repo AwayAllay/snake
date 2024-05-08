@@ -28,6 +28,8 @@ public class Popup {
         String titel = "<html><h1 style='font-size: 12px; font-family: Arial; color: #F0F0F0;'>" + text + "</h1>"
                 + "<p style='font-size: 10px; font-family: Arial;'>" + untertitel + "</p></html>";
 
+        Playsound playSwoosh = new Playsound("Swoosh.wav");
+
         textLabel = new JLabel(titel, SwingConstants.LEFT);
         textLabel.setBorder(border);
         textLabel.setBackground(backgroundColor);
@@ -47,39 +49,11 @@ public class Popup {
         panel.add(textLabel);
         panel.setComponentZOrder(textLabel, 0);
 
-        playSound("Swoosh.wav");
-
+        playSwoosh.playSound();
 
         act(textLabel);
 
         //TODO if 2 at same time one of them y++ u know:)
-    }
-
-    public void playSound(final String fileName) {
-        try {
-
-            File soundFile = new File(getClass().getResource(fileName).toURI());
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float volume = -10.0f;
-            control.setValue(volume);
-
-            clip.start();
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    clip.close();
-                    cancel();
-                }
-            }, clip.getMicrosecondLength() / 1000);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void act(final JLabel popupGiven) {

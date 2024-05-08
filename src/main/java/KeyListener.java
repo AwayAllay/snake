@@ -1,14 +1,9 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.*;
 import java.util.List;
 import java.util.Timer;
+import java.util.*;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
@@ -76,6 +71,8 @@ public class KeyListener implements java.awt.event.KeyListener {
      * The list of the tails of the snake
      */
     private final List<SnakeTail> tails = new LinkedList<>();
+    private final Playsound playBoostSound;
+    private final Playsound playDiedSound;
     /**
      * The list of pressed directions in which the first object will be taken for the direction whenever the
      * snake is moving
@@ -112,7 +109,8 @@ public class KeyListener implements java.awt.event.KeyListener {
     /**
      * Constructor
      */
-    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points, JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
+    public KeyListener(JLabel head, JPanel panel, Settings settings, JFrame gameFrame, GameStuff gameStuff, JLabel points,
+                       JLabel lives, JLabel keys, PlaytimeManager playtimeManager) {
         this.gameStuff = gameStuff;
         this.settings = settings;
         this.gameFrame = gameFrame;
@@ -123,6 +121,8 @@ public class KeyListener implements java.awt.event.KeyListener {
         this.keys = keys;
         this.playtimeManager = playtimeManager;
         boost = new JLabel();
+        playBoostSound = new Playsound("BoostCollect.wav");
+        playDiedSound = new Playsound("Died.wav");
         boost.setBounds(600, 1000, GameFrame.FIELD_WIDTH_PX, GameFrame.FIELD_HEIGHT_PX);
         pressedDirections.add(MovingDirections.RIGHT);
         update();
@@ -318,25 +318,6 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     }
 
-    /*private Icon getBoostIcon() {
-
-        ImageIcon image = null;
-        String directory = "";
-
-        switch (currentBoost){
-            case HEALTH_BOOST -> directory = "Heart.png";
-            case GOOD_BOOST -> directory = "Good.png";
-        }
-
-
-        try {
-            image = new ImageIcon(Objects.requireNonNull(getClass().getResource(directory)));
-        } catch (NullPointerException e) {
-            System.out.println("Image not found");
-        }
-        return image;
-    }*/
-
     /**
      * Sets a radom Location for the boost and looks if it would be on the snake or on one of
      * the obstacles. If so it will create a new Location for the boost by recursion.
@@ -390,7 +371,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.revalidate();
         panel.repaint();
 
-        playSound("BoostCollect.wav");
+        playBoostSound.playSound();
 
         //Checks for YUMMY achievement
         if (!settings.isYUMMYcollected()){
@@ -426,31 +407,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
     }
 
-    public void playSound(final String fileName) {
-        try {
-
-            File soundFile = new File(getClass().getResource(fileName).toURI());
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float volume = -10.0f;
-            control.setValue(volume);
-
-            clip.start();
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    clip.close();
-                    cancel();
-                }
-            }, clip.getMicrosecondLength() / 1000);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void lookForPointsAchievement(long points) {
         //Checks for COLLECTOR achievement
@@ -685,7 +641,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         if (gameStuff.getObstacles()[x][y] || snakeHitItself()) {
             pauseTimer();
             startMoving = false;
-            playSound("Died.wav");
+            playDiedSound.playSound();
             gameStuff.setLives(gameStuff.getLives() - 1);
             if (gameStuff.getLives() > 0) {
                 respawn();

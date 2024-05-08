@@ -12,7 +12,7 @@ public class PauseFrame extends JFrame implements ActionListener {
     private final JFrame frame;
 
     private final Settings settings;
-
+private final Playsound playsound;
     private final KeyListener keyListener;
     private final GameStuff gameStuff;
     private final JFrame gameFrame;
@@ -23,6 +23,8 @@ public class PauseFrame extends JFrame implements ActionListener {
         this.settings = settings;
         this.keyListener = keyListener;
         this.gameFrame = gameFrame;
+
+        playsound = new Playsound("Button.wav");
 
         frame = new JFrame("Pause menu");
         prepareLaunchFrame();
@@ -55,7 +57,6 @@ public class PauseFrame extends JFrame implements ActionListener {
         backToLauncher.addActionListener(this);
         panel.add(backToLauncher);
 
-
         frame.add(panel);
 
     }
@@ -85,7 +86,7 @@ public class PauseFrame extends JFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
-            new ButtonKlick("Button.wav");
+            playsound.playSound();
 
             if (button.getText().equalsIgnoreCase("Launcher")) {
                 frame.setVisible(false);
@@ -109,7 +110,7 @@ public class PauseFrame extends JFrame implements ActionListener {
                 gameFrame.setVisible(false);
                 int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to retry?", "Sure?", JOptionPane.YES_NO_OPTION);
                 if (answer == 0) {
-                    new ButtonKlick("Button.wav");
+                    playsound.playSound();
                     frame.dispose();
                     gameFrame.dispose();
                     gameStuff.setTimeElapsed(1);
@@ -119,7 +120,7 @@ public class PauseFrame extends JFrame implements ActionListener {
                     gameStuff.setLives(5);
                     new GameFrame(settings, gameStuff);
                 }else {
-                    new ButtonKlick("Button.wav");
+                    playsound.playSound();
                     frame.setVisible(true);
                     gameFrame.setVisible(true);
                 }

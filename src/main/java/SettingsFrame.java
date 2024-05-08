@@ -12,11 +12,14 @@ public class SettingsFrame extends JFrame implements ActionListener {
     private final JFrame frame;
     private final GameStuff gameStuff;
     private final Settings settings;
+    private final Playsound playsound;
 
     public SettingsFrame(final Settings settings, final GameStuff gameStuff) {
 
         this.settings = settings;
         this.gameStuff = gameStuff;
+
+        playsound = new Playsound("Button.wav");
 
         frame = new JFrame("Settings");
         prepareFrame();
@@ -81,7 +84,7 @@ public class SettingsFrame extends JFrame implements ActionListener {
 
         if (e.getSource() instanceof JButton button) {
 
-            new ButtonKlick("Button.wav");
+            playsound.playSound();
 
             if (button.getText().equalsIgnoreCase("Difficulty")) {
                 frame.dispose();

@@ -11,11 +11,14 @@ public class DiedFrame implements ActionListener {
     private final JFrame gameFrame;
     private final JFrame frame;
     private final JPanel panel;
+    private final Playsound playsound;
 
     public DiedFrame(Settings settings, GameStuff gameStuff, JFrame gameFrame) {
         this.settings = settings;
         this.gameStuff = gameStuff;
         this.gameFrame = gameFrame;
+
+        playsound = new Playsound("Button.wav");
 
         frame = new JFrame("You died");
         panel = new JPanel();
@@ -125,7 +128,9 @@ public class DiedFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() instanceof JButton button) {
-            new ButtonKlick("Button.wav");
+
+            playsound.playSound();
+
             if (button.getText().equalsIgnoreCase("Retry")) {
                 gameFrame.dispose();
                 frame.dispose();
