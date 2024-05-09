@@ -2,8 +2,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class Playsound {
    private final String file;
@@ -15,9 +15,10 @@ public class Playsound {
 
     public void playSound(){
 
+
         try (
                 InputStream inputStream = getClass().getClassLoader().getResourceAsStream(file);
-                BufferedInputStream bis = new BufferedInputStream(inputStream)
+                BufferedInputStream bis = new BufferedInputStream(Objects.requireNonNull(inputStream))
         )
         {
             c = AudioSystem.getClip();
@@ -41,9 +42,12 @@ public class Playsound {
     }
 
     public void stop(){
-
-        if (c != null && c.isActive()){
+        try {
+            c.close();
             c.stop();
+
+        }catch (NullPointerException e){
+            System.out.println("Sth went wrong in line 44 PLaysound");
         }
 
     }

@@ -1,11 +1,6 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,7 +64,7 @@ public class Popup {
                     textLabel.setLocation(textLabel.getX() - 2, textLabel.getY());
                 } else if (counter < time) {
                     //Do nothing
-                } else if (counter >= time && counter < time + 100) {
+                } else if (counter < time + 100) {
                     textLabel.setLocation(textLabel.getX() + 3, textLabel.getY());
                 } else if (counter >= time + 100) {
                     panel.remove(textLabel);

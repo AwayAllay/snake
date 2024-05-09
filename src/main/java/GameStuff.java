@@ -11,6 +11,7 @@ public class GameStuff {
     private boolean[][] obstacles;
     private boolean sendUnlockMessage = false;
     private List<Popup> popups;
+    private boolean isLauncherMusicPlaying = false;
 
     public GameStuff() {
         timeElapsed = 1;
@@ -20,6 +21,15 @@ public class GameStuff {
         points = 0;
         obstacles = null;
         popups  = new ArrayList<>();
+    }
+
+
+    public boolean isLauncherMusicPlaying() {
+        return isLauncherMusicPlaying;
+    }
+
+    public void setLauncherMusicPlaying(boolean launcherMusicPlaying) {
+        isLauncherMusicPlaying = launcherMusicPlaying;
     }
 
     public List<Popup> getPopups() {

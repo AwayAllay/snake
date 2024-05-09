@@ -64,7 +64,10 @@ public class LaunchFrame implements ActionListener {
 
         playLauncherBackgroundMusic = new Playsound("Launcher.wav");
 
-        playLauncherBackgroundMusic.playSound();
+        if (!gameStuff.isLauncherMusicPlaying()) {
+            playLauncherBackgroundMusic.playSound();
+            gameStuff.setLauncherMusicPlaying(true);
+        }
 
         prepareLaunchFrame();
         playIntroAnimation();
@@ -241,6 +244,7 @@ public class LaunchFrame implements ActionListener {
 
             if (klickedButton.getText().equalsIgnoreCase("Play game!")) {
                 playLauncherBackgroundMusic.stop();
+                gameStuff.setLauncherMusicPlaying(false);
                 frame.dispose();
                 new GameFrame(settings, gameStuff);
 

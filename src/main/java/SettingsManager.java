@@ -54,27 +54,27 @@ public class SettingsManager {
             settings.setUnlockedLevel(unlockedLevel);
 
         //Achievements
-        boolean NOOBcollected = Boolean.valueOf(properties.getProperty("NOOBcollected"));
-        boolean WHATS_WINDING_THEREcollected = Boolean.valueOf(properties.getProperty("WHATS_WINDING_THEREcollected"));
-        boolean BEGINNERcollected = Boolean.valueOf(properties.getProperty("BEGINNERcollected"));
-        boolean GOT_THEM_ALLcollected = Boolean.valueOf(properties.getProperty("GOT_THEM_ALLcollected"));
-        boolean SMELLS_FAMILIARcollected = Boolean.valueOf(properties.getProperty("SMELLS_FAMILIARcollected"));
-        boolean SKIN_ENTHUSIASTcollected = Boolean.valueOf(properties.getProperty("SKIN_ENTHUSIASTcollected"));
-        boolean YUMMYcollected = Boolean.valueOf(properties.getProperty("YUMMYcollected"));
-        boolean IAM_GROWING_UPcollected = Boolean.valueOf(properties.getProperty("IAM_GROWING_UPcollected"));
-        boolean PARENTcollected = Boolean.valueOf(properties.getProperty("PARENTcollected"));
-        boolean MASTERcollected = Boolean.valueOf(properties.getProperty("MASTERcollected"));
-        boolean DEMIGODcollected = Boolean.valueOf(properties.getProperty("DEMIGODcollected"));
-        boolean SERPENT_GODcollected = Boolean.valueOf(properties.getProperty("SERPENT_GODcollected"));
-        boolean DIVINITYcollected = Boolean.valueOf(properties.getProperty("DIVINITYcollected"));
-        boolean THE_LONGEST_OF_THEM_ALLcollected = Boolean.valueOf(properties.getProperty("THE_LONGEST_OF_THEM_ALLcollected"));
-        boolean COLLECTORcollected = Boolean.valueOf(properties.getProperty("COLLECTORcollected"));
-        boolean COLLECTING_MASTERcollected = Boolean.valueOf(properties.getProperty("COLLECTING_MASTERcollected"));
-        boolean COLLECTING_GODcollected = Boolean.valueOf(properties.getProperty("COLLECTING_GODcollected"));
-        boolean COLLECTING_ADDICTcollected = Boolean.valueOf(properties.getProperty("COLLECTING_ADDICTcollected"));
-        boolean I_HAVE_NO_LIFEcollected = Boolean.valueOf(properties.getProperty("I_HAVE_NO_LIFEcollected"));
-        boolean GETTING_BETTERcollected = Boolean.valueOf(properties.getProperty("GETTING_BETTERcollected"));
-        boolean EXPLOITcollected = Boolean.valueOf(properties.getProperty("EXPLOITcollected"));
+        boolean NOOBcollected = Boolean.parseBoolean(properties.getProperty("NOOBcollected"));
+        boolean WHATS_WINDING_THEREcollected = Boolean.parseBoolean(properties.getProperty("WHATS_WINDING_THEREcollected"));
+        boolean BEGINNERcollected = Boolean.parseBoolean(properties.getProperty("BEGINNERcollected"));
+        boolean GOT_THEM_ALLcollected = Boolean.parseBoolean(properties.getProperty("GOT_THEM_ALLcollected"));
+        boolean SMELLS_FAMILIARcollected = Boolean.parseBoolean(properties.getProperty("SMELLS_FAMILIARcollected"));
+        boolean SKIN_ENTHUSIASTcollected = Boolean.parseBoolean(properties.getProperty("SKIN_ENTHUSIASTcollected"));
+        boolean YUMMYcollected = Boolean.parseBoolean(properties.getProperty("YUMMYcollected"));
+        boolean IAM_GROWING_UPcollected = Boolean.parseBoolean(properties.getProperty("IAM_GROWING_UPcollected"));
+        boolean PARENTcollected = Boolean.parseBoolean(properties.getProperty("PARENTcollected"));
+        boolean MASTERcollected = Boolean.parseBoolean(properties.getProperty("MASTERcollected"));
+        boolean DEMIGODcollected = Boolean.parseBoolean(properties.getProperty("DEMIGODcollected"));
+        boolean SERPENT_GODcollected = Boolean.parseBoolean(properties.getProperty("SERPENT_GODcollected"));
+        boolean DIVINITYcollected = Boolean.parseBoolean(properties.getProperty("DIVINITYcollected"));
+        boolean THE_LONGEST_OF_THEM_ALLcollected = Boolean.parseBoolean(properties.getProperty("THE_LONGEST_OF_THEM_ALLcollected"));
+        boolean COLLECTORcollected = Boolean.parseBoolean(properties.getProperty("COLLECTORcollected"));
+        boolean COLLECTING_MASTERcollected = Boolean.parseBoolean(properties.getProperty("COLLECTING_MASTERcollected"));
+        boolean COLLECTING_GODcollected = Boolean.parseBoolean(properties.getProperty("COLLECTING_GODcollected"));
+        boolean COLLECTING_ADDICTcollected = Boolean.parseBoolean(properties.getProperty("COLLECTING_ADDICTcollected"));
+        boolean I_HAVE_NO_LIFEcollected = Boolean.parseBoolean(properties.getProperty("I_HAVE_NO_LIFEcollected"));
+        boolean GETTING_BETTERcollected = Boolean.parseBoolean(properties.getProperty("GETTING_BETTERcollected"));
+        boolean EXPLOITcollected = Boolean.parseBoolean(properties.getProperty("EXPLOITcollected"));
 
         settings.setNOOBcollected(NOOBcollected);
         settings.setWHATS_WINDING_THEREcollected(WHATS_WINDING_THEREcollected);
