@@ -414,7 +414,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void lookForPointsAchievement(long points) {
         //Checks for COLLECTOR achievement
-        if (!settings.isCOLLECTORcollected() && points == 3000) {
+        if (!settings.isCOLLECTORcollected() && points >= 3000) {
             new Popup(Achievement.COLLECTOR.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTOR.getDescription());
@@ -422,7 +422,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_MASTER achievement
-        if (!settings.isCOLLECTING_MASTERcollected() && points == 10000) {
+        if (!settings.isCOLLECTING_MASTERcollected() && points >= 10000) {
             new Popup(Achievement.COLLECTING_MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_MASTER.getDescription());
@@ -430,7 +430,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_GOD achievement
-        if (!settings.isCOLLECTING_GODcollected() && points == 20000) {
+        if (!settings.isCOLLECTING_GODcollected() && points >= 20000) {
             new Popup(Achievement.COLLECTING_GOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_GOD.getDescription());
@@ -438,7 +438,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_ADDICT achievement
-        if (!settings.isCOLLECTING_ADDICTcollected() && points == 50000) {
+        if (!settings.isCOLLECTING_ADDICTcollected() && points >= 50000) {
             new Popup(Achievement.COLLECTING_ADDICT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_ADDICT.getDescription());
@@ -446,7 +446,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for I_HAVE_NO_LIFE achievement
-        if (!settings.isI_HAVE_NO_LIFEcollected() && points == 100000) {
+        if (!settings.isI_HAVE_NO_LIFEcollected() && points >= 100000) {
             new Popup(Achievement.I_HAVE_NO_LIFE.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.I_HAVE_NO_LIFE.getDescription());
@@ -454,7 +454,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for EXPLOIT achievement
-        if (!settings.isEXPLOITcollected() && points == 200000) {
+        if (!settings.isEXPLOITcollected() && points >= 200000) {
             new Popup(Achievement.EXPLOIT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.EXPLOIT.getDescription());
