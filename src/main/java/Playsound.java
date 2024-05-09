@@ -1,7 +1,9 @@
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.InputStream;
 
 public class Playsound {
    private final String file;
@@ -12,10 +14,14 @@ public class Playsound {
     }
 
     public void playSound(){
-        try {
-            File sound = new File(getClass().getResource(file).toURI());
+
+        try (
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream(file);
+                BufferedInputStream bis = new BufferedInputStream(inputStream)
+        )
+        {
             c = AudioSystem.getClip();
-            c.open(AudioSystem.getAudioInputStream(sound));
+            c.open(AudioSystem.getAudioInputStream(bis));
 
             if (file.equalsIgnoreCase("Launcher.wav")){
 
