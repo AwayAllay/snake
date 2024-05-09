@@ -19,7 +19,6 @@ public class GameFrame extends JFrame {
     private final KeyListener keyListener;
     private final PlaytimeManager playtimeManager;
     private final GameStuff gameStuff;
-    private final Playsound playLevelSound;
     private Levels currentLevel;
     public static final int FRAME_WIDTH_PX = 2096;
     public static final int FRAME_HEIGHT_PX = 1198;
@@ -36,8 +35,6 @@ public class GameFrame extends JFrame {
         this.gameStuff = gameStuff;
         this.settings = settings;
         currentLevel = gameStuff.getCurrentLevel();
-
-        playLevelSound = new Playsound("NewLevel.wav");
 
         panel = new JPanel();
         panel.setBackground(new Color(139, 90, 43));
@@ -125,6 +122,11 @@ public class GameFrame extends JFrame {
 
         initializeFrame();
 
+        if (!gameStuff.isGameMusicPLaying()) {
+            gameStuff.getPlayGameBackgroundMusic().playSound();
+            gameStuff.setGameMusicPLaying(true);
+        }
+
         setLevel("LEVEL " + gameStuff.getCurrentLevel().getLevelNumber());
         startTimer();
         checkForNewLevel();
@@ -162,6 +164,8 @@ public class GameFrame extends JFrame {
         keys.setText("keys: " + gameStuff.getKeyAmount() + "/1");
 
         keyListener.pauseTimer();
+
+        Playsound playLevelSound = new Playsound("NewLevel.wav");
         playLevelSound.playSound();
 
         frame.revalidate();

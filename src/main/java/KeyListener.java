@@ -99,11 +99,16 @@ public class KeyListener implements java.awt.event.KeyListener {
      */
     public static final Color ACHIEVEMENT_BORDER_COLOR = new Color(150, 0, 150);
     /**
-     * The background-color for the achievement box which will be shown if the player reached an achievement*/
+     * The background-color for the achievement box which will be shown if the player reached an achievement
+     */
     public static final Color ACHIEVEMENT_BACKGROUND_COLOR = new Color(96, 96, 96);
-    /**List of collected boost types throughout the round. Is used to look if the player managed to collect every boost type in one round*/
-    private final List<IngameBoost> boostsCollected = new ArrayList<>();
-    /**Time a displayed achievement stays in milliseconds*/
+    /**
+     * List of collected boost types throughout the round. Is used to look if the player managed to collect every boost type in one round
+     */
+    private final Set<IngameBoost> boostsCollected = new TreeSet<>();
+    /**
+     * Time a displayed achievement stays in milliseconds
+     */
     public static final int ACHIEVEMENT_DISPLAYTIME = 4500;
 
     /**
@@ -151,7 +156,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             panel.add(tailToAdd);
             tails.add(tailToAdd);
         }
-        if (tails.size() >= 100 && !settings.isTHE_LONGEST_OF_THEM_ALLcollected()){
+        if (tails.size() >= 100 && !settings.isTHE_LONGEST_OF_THEM_ALLcollected()) {
             new Popup(Achievement.THE_LONGEST_OF_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                     ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.THE_LONGEST_OF_THEM_ALL.getDescription());
@@ -339,7 +344,6 @@ public class KeyListener implements java.awt.event.KeyListener {
         }
 
 
-
     }
 
     /**
@@ -372,29 +376,29 @@ public class KeyListener implements java.awt.event.KeyListener {
         panel.repaint();
 
         playBoostSound.playSound();
+        boostsCollected.add(currentBoost);
 
         //Checks for YUMMY achievement
-        if (!settings.isYUMMYcollected()){
+        if (!settings.isYUMMYcollected()) {
             new Popup(Achievement.YUMMY.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.YUMMY.getDescription());
             settings.setYUMMYcollected(true);
             new SettingsManager().save(settings);
         }
-        
+
         lookForPointsAchievement(gameStuff.getPoints());
 
         //Checks for GOT_THEM_ALL achievement
-        if (!boostsCollected.contains(currentBoost)) {
-            boostsCollected.add(currentBoost);
-            if (boostsCollected.size() >= 9 && !settings.isGOT_THEM_ALLcollected()){
-                new Popup(Achievement.GOT_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
-                        ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
-                        Achievement.GOT_THEM_ALL.getDescription());
-                settings.setGOT_THEM_ALLcollected(true);
-                new SettingsManager().save(settings);
-            }
+
+        if (boostsCollected.containsAll(Set.of(IngameBoost.values())) && !settings.isGOT_THEM_ALLcollected()) {
+            new Popup(Achievement.GOT_THEM_ALL.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
+                    ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
+                    Achievement.GOT_THEM_ALL.getDescription());
+            settings.setGOT_THEM_ALLcollected(true);
+            new SettingsManager().save(settings);
         }
+
 
         if (gameStuff.getKeyAmount() >= 1) {
             allKeysCollected = true;
@@ -410,7 +414,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
     private void lookForPointsAchievement(long points) {
         //Checks for COLLECTOR achievement
-        if (!settings.isCOLLECTORcollected() && points == 3000){
+        if (!settings.isCOLLECTORcollected() && points == 3000) {
             new Popup(Achievement.COLLECTOR.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTOR.getDescription());
@@ -418,15 +422,15 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_MASTER achievement
-        if (!settings.isCOLLECTING_MASTERcollected() && points == 10000){
+        if (!settings.isCOLLECTING_MASTERcollected() && points == 10000) {
             new Popup(Achievement.COLLECTING_MASTER.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_MASTER.getDescription());
             settings.setCOLLECTING_MASTERcollected(true);
             new SettingsManager().save(settings);
-        } 
+        }
         //Checks for COLLECTING_GOD achievement
-        if (!settings.isCOLLECTING_GODcollected() && points == 20000){
+        if (!settings.isCOLLECTING_GODcollected() && points == 20000) {
             new Popup(Achievement.COLLECTING_GOD.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_GOD.getDescription());
@@ -434,7 +438,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for COLLECTING_ADDICT achievement
-        if (!settings.isCOLLECTING_ADDICTcollected() && points == 50000){
+        if (!settings.isCOLLECTING_ADDICTcollected() && points == 50000) {
             new Popup(Achievement.COLLECTING_ADDICT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.COLLECTING_ADDICT.getDescription());
@@ -442,15 +446,15 @@ public class KeyListener implements java.awt.event.KeyListener {
             new SettingsManager().save(settings);
         }
         //Checks for I_HAVE_NO_LIFE achievement
-        if (!settings.isI_HAVE_NO_LIFEcollected() && points == 100000){
+        if (!settings.isI_HAVE_NO_LIFEcollected() && points == 100000) {
             new Popup(Achievement.I_HAVE_NO_LIFE.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.I_HAVE_NO_LIFE.getDescription());
             settings.setI_HAVE_NO_LIFEcollected(true);
             new SettingsManager().save(settings);
-        } 
+        }
         //Checks for EXPLOIT achievement
-        if (!settings.isEXPLOITcollected() && points == 200000){
+        if (!settings.isEXPLOITcollected() && points == 200000) {
             new Popup(Achievement.EXPLOIT.getName(), panel, ACHIEVEMENT_TEXT_COLOR, ACHIEVEMENT_BACKGROUND_COLOR,
                     ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                     Achievement.EXPLOIT.getDescription());
@@ -490,7 +494,8 @@ public class KeyListener implements java.awt.event.KeyListener {
             pressedDirections.remove(0);
         }
 
-        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX)) && allKeysCollected) {
+        if (head.getLocation().equals(new Point(103 * GameFrame.FIELD_WIDTH_PX, (27 + 3) * GameFrame.FIELD_HEIGHT_PX))
+                && allKeysCollected && !enteringNewLevel) {
             enteringNewLevel = true;
             System.out.println("WON");
             newLevel();
@@ -558,7 +563,7 @@ public class KeyListener implements java.awt.event.KeyListener {
             if (reachedLevel == skin.getUnlockNumber()) {
                 new Popup("New skin unlocked!", panel,
                         skin.getTailColor(), ACHIEVEMENT_BACKGROUND_COLOR, skin.getHeadColor(), 3500, gameStuff,
-                          "Skin: " + skin + " unlocked!");
+                        "Skin: " + skin + " unlocked!");
                 new SettingsManager().save(settings);
             }
         }
@@ -663,7 +668,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 
             if (head.getLocation().equals(tail.getLocation())) {
 
-                if (!settings.isSMELLS_FAMILIARcollected()){
+                if (!settings.isSMELLS_FAMILIARcollected()) {
                     new Popup(Achievement.SMELLS_FAMILIAR.getName(), panel, ACHIEVEMENT_TEXT_COLOR,
                             ACHIEVEMENT_BACKGROUND_COLOR, ACHIEVEMENT_BORDER_COLOR, ACHIEVEMENT_DISPLAYTIME, gameStuff,
                             Achievement.SMELLS_FAMILIAR.getDescription());

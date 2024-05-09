@@ -12,6 +12,9 @@ public class GameStuff {
     private boolean sendUnlockMessage = false;
     private List<Popup> popups;
     private boolean isLauncherMusicPlaying = false;
+    private final Playsound playLauncherBackgroundMusic = new Playsound("Launcher.wav");
+    private boolean isGameMusicPLaying = false;
+    private final Playsound playGameBackgroundMusic = new Playsound("GameBackground.wav");
 
     public GameStuff() {
         timeElapsed = 1;
@@ -23,6 +26,22 @@ public class GameStuff {
         popups  = new ArrayList<>();
     }
 
+
+    public boolean isGameMusicPLaying() {
+        return isGameMusicPLaying;
+    }
+
+    public void setGameMusicPLaying(boolean gameMusicPLaying) {
+        isGameMusicPLaying = gameMusicPLaying;
+    }
+
+    public Playsound getPlayGameBackgroundMusic() {
+        return playGameBackgroundMusic;
+    }
+
+    public Playsound getPlayLauncherBackgroundMusic() {
+        return playLauncherBackgroundMusic;
+    }
 
     public boolean isLauncherMusicPlaying() {
         return isLauncherMusicPlaying;

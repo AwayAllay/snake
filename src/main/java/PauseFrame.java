@@ -100,6 +100,10 @@ private final Playsound playsound;
                     gameStuff.setPoints(0);
                     gameStuff.setCurrentLevel(Levels.LEVEL1);
                     gameStuff.setLives(5);
+
+                    gameStuff.setGameMusicPLaying(false);
+                    gameStuff.getPlayGameBackgroundMusic().stop();
+
                     new LaunchFrame(settings, gameStuff);
                 }else {
                     frame.setVisible(true);
@@ -118,6 +122,10 @@ private final Playsound playsound;
                     gameStuff.setPoints(0);
                     gameStuff.setCurrentLevel(Levels.LEVEL1);
                     gameStuff.setLives(5);
+
+                    gameStuff.setGameMusicPLaying(false);
+                    gameStuff.getPlayGameBackgroundMusic().stop();
+
                     new GameFrame(settings, gameStuff);
                 }else {
                     playsound.playSound();

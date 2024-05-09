@@ -130,6 +130,9 @@ public class DiedFrame implements ActionListener {
         if (e.getSource() instanceof JButton button) {
 
             playsound.playSound();
+            gameStuff.setGameMusicPLaying(false);
+            gameStuff.getPlayGameBackgroundMusic().stop();
+
 
             if (button.getText().equalsIgnoreCase("Retry")) {
                 gameFrame.dispose();
